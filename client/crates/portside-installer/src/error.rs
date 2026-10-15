@@ -44,6 +44,8 @@ pub enum InstallError {
     ChecksumMissing(String),
     #[error("{0} archives are not supported on this system yet")]
     UnsupportedArchive(String),
+    #[error("the archive has {count} files matching {pattern}; expected one")]
+    NestedArchive { pattern: String, count: usize },
     #[error("the archive is damaged: {0}")]
     BadArchive(String),
     #[error("the archive contains an unsafe path: {0}")]

@@ -603,6 +603,8 @@ export type ManifestBuild_Deserialize = {
 	/**  Glob matched against release asset names. */
 	asset: string,
 	archive: ArchiveKind,
+	/**  An archive inside the asset; unpacked in its place. */
+	nested?: NestedArchive | null,
 	strip_root?: boolean | null,
 	launch?: LaunchSpec_Deserialize | null,
 	checksum?: ChecksumSource | null,
@@ -616,6 +618,8 @@ export type ManifestBuild_Serialize = {
 	/**  Glob matched against release asset names. */
 	asset: string,
 	archive: ArchiveKind,
+	/**  An archive inside the asset; unpacked in its place. */
+	nested?: NestedArchive | null,
 	strip_root?: boolean | null,
 	launch?: LaunchSpec_Serialize | null,
 	checksum?: ChecksumSource | null,
@@ -711,6 +715,13 @@ export type MessagePage = {
 };
 
 export type Multiplayer = "none" | "local" | "online_coop" | "online_pvp";
+
+/**  The archive inside a build's asset (manifest-format.md, "Archives"). */
+export type NestedArchive = {
+	/**  Glob matched against paths inside the asset; exactly one must match. */
+	file: string,
+	archive: ArchiveKind,
+};
 
 export type Online = Online_Serialize | Online_Deserialize;
 

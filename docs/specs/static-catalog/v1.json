@@ -853,6 +853,57 @@
                                       }
                                     ]
                                   },
+                                  "nested": {
+                                    "additionalProperties": false,
+                                    "type": "object",
+                                    "required": [
+                                      "file",
+                                      "archive"
+                                    ],
+                                    "properties": {
+                                      "file": {
+                                        "maxLength": 200,
+                                        "minLength": 1,
+                                        "type": "string"
+                                      },
+                                      "archive": {
+                                        "anyOf": [
+                                          {
+                                            "const": "zip",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "tar.gz",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "tar.xz",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "7z",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "none",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "apk",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "dmg",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "appimage",
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
                                   "strip_root": {
                                     "type": "boolean"
                                   },

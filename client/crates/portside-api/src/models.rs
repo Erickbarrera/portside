@@ -192,6 +192,9 @@ model! {
         /// Glob matched against release asset names.
         pub asset: String,
         pub archive: ArchiveKind,
+        /// An archive inside the asset; unpacked in its place.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub nested: Option<NestedArchive>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub strip_root: Option<bool>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -202,6 +205,15 @@ model! {
         pub unsigned: Option<bool>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub android_package: Option<String>,
+    }
+}
+
+model! {
+    /// The archive inside a build's asset (manifest-format.md, "Archives").
+    pub struct NestedArchive {
+        /// Glob matched against paths inside the asset; exactly one must match.
+        pub file: String,
+        pub archive: ArchiveKind,
     }
 }
 

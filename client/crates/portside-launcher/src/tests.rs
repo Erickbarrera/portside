@@ -27,6 +27,7 @@ fn installed(dir: &Path, os: Os, launch: LaunchSpec) -> Installed {
             arch: Arch::X86_64,
             asset: "example.zip".to_owned(),
             archive: ArchiveKind::Zip,
+            nested: None,
             strip_root: None,
             launch: Some(launch),
             checksum: None,

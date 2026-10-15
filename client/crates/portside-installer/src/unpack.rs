@@ -14,13 +14,13 @@ use crate::error::{InstallError, IoContext, Result};
 /// Files some tools add to archives that are never part of the app.
 const JUNK: &[&str] = &["__MACOSX", ".DS_Store"];
 
-/// Unpacks `file` (the release file named `asset_name`) into `out`, which must not exist yet.
-/// Returns the folder holding the app: `out` itself, or with `strip_root` its single
-/// top-level folder.
+/// Unpacks `file` into `out`, which must not exist yet. `save_as` names the result when
+/// `kind` is `none` or `appimage` (the file is used as is). Returns the folder holding the
+/// app: `out` itself, or with `strip_root` its single top-level folder.
 pub fn unpack(
     kind: ArchiveKind,
     file: &Path,
-    asset_name: &str,
+    save_as: &str,
     out: &Path,
     strip_root: bool,
 ) -> Result<PathBuf> {
@@ -31,8 +31,7 @@ pub fn unpack(
         ArchiveKind::TarXz => untar(liblzma::read::XzDecoder::new(open(file)?), out)?,
         ArchiveKind::Dmg => undmg(file, out)?,
         ArchiveKind::None | ArchiveKind::AppImage => {
-            let name = safe_relative(asset_name)?;
-            let dest = out.join(name);
+            let dest = prepare(out, &safe_relative(save_as)?)?;
             fs::copy(file, &dest).at(&dest)?;
             if kind == ArchiveKind::AppImage {
                 make_executable(&dest)?;
@@ -62,6 +61,45 @@ pub fn unpack(
         }
     }
     Ok(out.to_path_buf())
+}
+
+/// The one regular file below `root` whose relative path (with `/` separators) matches
+/// `pattern`, for a `nested` archive. Symlinks are not followed.
+pub fn find_nested(root: &Path, pattern: &str) -> Result<PathBuf> {
+    let glob = globset::Glob::new(pattern)
+        .map_err(|e| InstallError::BadPattern {
+            pattern: pattern.to_owned(),
+            reason: e.kind().to_string(),
+        })?
+        .compile_matcher();
+    let mut hits = Vec::new();
+    let mut dirs = vec![root.to_path_buf()];
+    while let Some(dir) = dirs.pop() {
+        for entry in fs::read_dir(&dir).at(&dir)? {
+            let entry = entry.at(&dir)?;
+            let kind = entry.file_type().at(entry.path())?;
+            if kind.is_dir() {
+                dirs.push(entry.path());
+            } else if kind.is_file() {
+                let path = entry.path();
+                let rel = path.strip_prefix(root).unwrap_or(&path);
+                let rel: Vec<_> = rel
+                    .components()
+                    .map(|c| c.as_os_str().to_string_lossy())
+                    .collect();
+                if glob.is_match(rel.join("/")) {
+                    hits.push(path);
+                }
+            }
+        }
+    }
+    match <[PathBuf; 1]>::try_from(hits) {
+        Ok([one]) => Ok(one),
+        Err(hits) => Err(InstallError::NestedArchive {
+            pattern: pattern.to_owned(),
+            count: hits.len(),
+        }),
+    }
 }
 
 /// Sets the executable bits on a file (no-op off Unix).
