@@ -59,12 +59,14 @@ jobs:
           id="$(gh api "repos/$GITHUB_REPOSITORY/releases" --paginate \
             --jq ".[] | select(.tag_name == \"$TAG\") | .id" | head -n1)"
           if [ -z "$id" ]; then
-            gh release create "$TAG" --draft --target "$GITHUB_SHA" \
-              --title "Portside ${TAG#client-v}" \
-              --notes-file .github/client-release-notes.md
-            id="$(gh api "repos/$GITHUB_REPOSITORY/releases" --paginate \
-              --jq ".[] | select(.tag_name == \"$TAG\") | .id" | head -n1)"
+            # The id comes from the create call itself: the release list lags behind and
+            # can miss a release created a moment ago (the builds then upload nowhere).
+            id="$(gh api -X POST "repos/$GITHUB_REPOSITORY/releases" \
+              -f tag_name="$TAG" -f target_commitish="$GITHUB_SHA" \
+              -f name="Portside ${TAG#client-v}" -F draft=true \
+              -f body="$(cat .github/client-release-notes.md)" --jq .id)"
           fi
+          test -n "$id"
           echo "id=$id" >> "$GITHUB_OUTPUT"
 
   build:
