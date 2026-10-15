@@ -13,7 +13,9 @@ Rust stable (pinned), Node 22, pnpm 9+, Tauri CLI 2.x. Android: SDK, NDK, Java 1
 ## Publishing a release
 1. Bump the version in `src-tauri/tauri.conf.json` **and** `[workspace.package]` in
    `Cargo.toml` (they must match), merge to `main`.
-2. Fill in "What's new" in `.github/client-release-notes.md`. Tag that commit and push the tag: `git tag client-v0.1.0 && git push origin client-v0.1.0`.
+2. Fill in "What's new" in `.github/client-release-notes.md`. Tag that commit and push the tag
+   (or run the workflow from the Actions tab with the `tag` input, which releases the current
+   commit of `main` and creates the tag when the release is published): `git tag client-v0.1.0 && git push origin client-v0.1.0`.
 3. The workflow checks the tag matches the version, creates a **draft** GitHub release
    (notes from `.github/client-release-notes.md`) and builds in parallel:
    - macOS universal (arm64 + x86_64): `.dmg` (macos-latest)

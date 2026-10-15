@@ -4,6 +4,8 @@ name: client-release
 # - Tag `client-vX.Y.Z` (matching the app version): attaches the builds to a draft GitHub
 #   release, then publishes it once every build succeeded. 0.x versions are published as
 #   pre-releases (alpha). See client/docs/build-release.md.
+# - Manual run with a `tag` input (`client-vX.Y.Z`): the same, for the current commit of the
+#   chosen branch; the tag is created when the release is published.
 # - Pull requests that touch this file, or a manual run: builds only, uploads the files as
 #   workflow artifacts, creates no release.
 
@@ -13,6 +15,11 @@ on:
   pull_request:
     paths: [".github/workflows/client-release.yml"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (client-vX.Y.Z). Empty: build only."
+        required: false
+        default: ""
 
 concurrency:
   group: client-release-${{ github.ref }}
@@ -24,34 +31,36 @@ permissions:
 jobs:
   release:
     name: draft release
-    if: startsWith(github.ref, 'refs/tags/client-v')
+    if: startsWith(github.ref, 'refs/tags/client-v') || startsWith(inputs.tag, 'client-v')
     runs-on: ubuntu-24.04
     permissions:
       contents: write
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
     outputs:
       id: ${{ steps.draft.outputs.id }}
+      tag: ${{ env.TAG }}
     steps:
       - uses: actions/checkout@v4
       - name: Tag matches the app version
         run: |
-          tag="${GITHUB_REF_NAME#client-v}"
+          tag="${TAG#client-v}"
           conf="$(jq -r .version client/src-tauri/tauri.conf.json)"
           cargo="$(sed -n '/^\[workspace.package\]/,/^\[/s/^version = "\(.*\)"/\1/p' client/Cargo.toml)"
           echo "tag=$tag tauri.conf.json=$conf Cargo.toml=$cargo"
           if [ "$tag" != "$conf" ] || [ "$tag" != "$cargo" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match the app version. Bump client/src-tauri/tauri.conf.json and client/Cargo.toml first."
+            echo "::error::Tag $TAG does not match the app version. Bump client/src-tauri/tauri.conf.json and client/Cargo.toml first."
             exit 1
           fi
       - name: Create the draft release (or reuse it on a re-run)
         id: draft
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
         run: |
           id="$(gh api "repos/$GITHUB_REPOSITORY/releases" --paginate \
             --jq ".[] | select(.tag_name == \"$TAG\") | .id" | head -n1)"
           if [ -z "$id" ]; then
-            gh release create "$TAG" --draft --verify-tag \
+            gh release create "$TAG" --draft --target "$GITHUB_SHA" \
               --title "Portside ${TAG#client-v}" \
               --notes-file .github/client-release-notes.md
             id="$(gh api "repos/$GITHUB_REPOSITORY/releases" --paginate \
@@ -149,14 +158,14 @@ jobs:
     name: publish release
     needs: [release, build]
     # Only when every platform built: a failed build leaves the draft for a re-run.
-    if: startsWith(github.ref, 'refs/tags/client-v') && needs.build.result == 'success'
+    if: needs.release.outputs.id != '' && needs.build.result == 'success'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ needs.release.outputs.tag }}
         run: |
           version="${TAG#client-v}"
           prerelease=false
