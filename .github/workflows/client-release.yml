@@ -39,7 +39,6 @@ jobs:
       TAG: ${{ inputs.tag || github.ref_name }}
     outputs:
       id: ${{ steps.draft.outputs.id }}
-      tag: ${{ env.TAG }}
     steps:
       - uses: actions/checkout@v4
       - name: Tag matches the app version
@@ -157,15 +156,17 @@ jobs:
   publish:
     name: publish release
     needs: [release, build]
-    # Only when every platform built: a failed build leaves the draft for a re-run.
-    if: needs.release.outputs.id != '' && needs.build.result == 'success'
+    # Only when every platform built: a failed build leaves the draft for a re-run. The status
+    # check is spelled out: without it the implicit success() skipped this job after the
+    # build job's own !cancelled() condition.
+    if: ${{ !cancelled() && needs.release.result == 'success' && needs.build.result == 'success' }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
       - env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ needs.release.outputs.tag }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           version="${TAG#client-v}"
           prerelease=false
