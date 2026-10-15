@@ -3,7 +3,7 @@ resolver = "3"
 members = ["crates/*", "src-tauri"]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 # Keep in step with rust-toolchain.toml; gives a clear error on an older rustc.
 rust-version = "1.97"
@@ -38,7 +38,9 @@ regex = { version = "1", default-features = false, features = ["std", "unicode-p
 zip = { version = "9", default-features = false, features = ["deflate", "deflate64"] }
 tar = { version = "0.4", default-features = false }
 flate2 = "1"
-liblzma = "0.4"
+# Compiled in (static): a system liblzma would tie the macOS build to Homebrew on the build
+# machine, and the app would not start anywhere else.
+liblzma = { version = "0.4", features = ["static"] }
 tempfile = "3"
 
 [workspace.lints.rust]

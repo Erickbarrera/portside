@@ -3393,7 +3393,7 @@ dependencies = [
 
 [[package]]
 name = "portside-api"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "portside-core",
  "reqwest",
@@ -3408,7 +3408,7 @@ dependencies = [
 
 [[package]]
 name = "portside-atproto"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "base64 0.22.1",
  "getrandom 0.3.4",
@@ -3426,7 +3426,7 @@ dependencies = [
 
 [[package]]
 name = "portside-catalog"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "portside-api",
  "portside-core",
@@ -3440,7 +3440,7 @@ dependencies = [
 
 [[package]]
 name = "portside-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "directories",
  "serde",
@@ -3451,7 +3451,7 @@ dependencies = [
 
 [[package]]
 name = "portside-desktop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "gethostname",
@@ -3480,7 +3480,7 @@ dependencies = [
 
 [[package]]
 name = "portside-installer"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "flate2",
  "futures-util",
@@ -3508,7 +3508,7 @@ dependencies = [
 
 [[package]]
 name = "portside-launcher"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "plist",
  "portside-api",
@@ -3523,7 +3523,7 @@ dependencies = [
 
 [[package]]
 name = "portside-social"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "hex",
  "portside-atproto",
@@ -3541,7 +3541,7 @@ dependencies = [
 
 [[package]]
 name = "portside-sync"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "blake3",
  "globset",

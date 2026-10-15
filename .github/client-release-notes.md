@@ -3,9 +3,11 @@
 
 ## What's new
 
-The first public alpha of Portside: browse the catalog of community game ports, install and
-update ports that have an install manifest, launch them, and sign in with Bluesky for
-friends, chat and discussion boards. Expect rough edges; please report bugs as issues.
+Fixes the Mac app not starting on Apple Silicon Macs ("Portside cannot be opened because of
+a problem"): 0.1.0 depended on a library that only exists on Macs with Homebrew. Portside is
+in alpha: browse the catalog of community game ports, install and update ports that have an
+install manifest, launch them, and sign in with Bluesky for friends, chat and discussion
+boards. Expect rough edges; please report bugs as issues.
 
 ## Downloads
 

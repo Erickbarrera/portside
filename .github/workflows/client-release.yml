@@ -138,6 +138,23 @@ jobs:
           args: ${{ matrix.args }}
           # Empty on pull requests and manual runs: build only, no upload.
           releaseId: ${{ needs.release.outputs.id }}
+      # A Mac app may only link system libraries: anything from Homebrew (/opt/homebrew,
+      # /usr/local) exists on the build machine but not on players' Macs, and the app then
+      # fails to start ("cannot be opened because of a problem").
+      - name: Only system libraries linked (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          bin="$(ls target/universal-apple-darwin/release/bundle/macos/*.app/Contents/MacOS/*)"
+          bad=0
+          for arch in arm64 x86_64; do
+            echo "== $arch"
+            otool -L -arch "$arch" "$bin" | tee /tmp/libs.txt
+            if grep -E '^\s+/(opt|usr/local)/' /tmp/libs.txt; then bad=1; fi
+          done
+          if [ "$bad" = 1 ]; then
+            echo "::error::The app links libraries outside macOS (listed above). Link them statically."
+            exit 1
+          fi
       - name: Keep the build as a workflow artifact
         if: needs.release.result == 'skipped'
         uses: actions/upload-artifact@v4
