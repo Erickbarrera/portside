@@ -1,0 +1,44 @@
+# Dependencies, builds, local env
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+client/target/
+client/src-tauri/target/
+client/src-tauri/gen/
+.env
+.env.*
+!.env.example
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/*
+*.swp
+
+# Never commit game files (docs/legal/policy.md). ROM, disc and BIOS image extensions:
+*.z64
+*.n64
+*.v64
+*.sfc
+*.smc
+*.nes
+*.gb
+*.gbc
+*.gba
+*.nds
+*.3ds
+*.cia
+*.iso
+*.cue
+*.bin
+*.chd
+*.cso
+*.gcm
+*.rvz
+*.wbfs
+*.wad
+*.xci
+*.nsp
+*.pbp
+*.xex

@@ -1,0 +1,30 @@
+[package]
+name = "portside-sync"
+description = "Cloud saves in the player's own storage (docs/specs/save-sync-protocol.md)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+specta = ["dep:specta", "portside-core/specta"]
+
+[dependencies]
+portside-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+rusqlite.workspace = true
+refinery.workspace = true
+globset.workspace = true
+blake3 = "1"
+unicode-normalization = "0.1"
+ulid = { version = "1", default-features = false, features = ["std"] }
+specta = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

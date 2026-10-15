@@ -1,0 +1,48 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "src-tauri"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+# Keep in step with rust-toolchain.toml; gives a clear error on an older rustc.
+rust-version = "1.97"
+license = "GPL-3.0-only"
+publish = false
+
+[workspace.dependencies]
+portside-core = { path = "crates/portside-core" }
+portside-api = { path = "crates/portside-api" }
+portside-catalog = { path = "crates/portside-catalog" }
+portside-installer = { path = "crates/portside-installer" }
+portside-launcher = { path = "crates/portside-launcher" }
+portside-atproto = { path = "crates/portside-atproto" }
+portside-social = { path = "crates/portside-social" }
+portside-sync = { path = "crates/portside-sync" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "query", "gzip", "rustls"] }
+url = "2"
+directories = "6"
+specta = { version = "=2.0.0-rc.25", features = ["derive"] }
+wiremock = "0.6"
+rusqlite = { version = "0.40", features = ["bundled"] }
+refinery = { version = "0.10", default-features = false, features = ["rusqlite"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+sha2 = "0.11"
+hex = "0.4"
+globset = { version = "0.4", default-features = false }
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
+zip = { version = "9", default-features = false, features = ["deflate", "deflate64"] }
+tar = { version = "0.4", default-features = false }
+flate2 = "1"
+liblzma = "0.4"
+tempfile = "3"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"

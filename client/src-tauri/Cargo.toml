@@ -1,0 +1,42 @@
+[package]
+name = "portside-desktop"
+description = "Portside desktop app (Tauri shell)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+name = "portside_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+portside-core = { workspace = true, features = ["specta"] }
+portside-api = { workspace = true, features = ["specta"] }
+portside-catalog.workspace = true
+portside-installer = { workspace = true, features = ["specta"] }
+portside-launcher.workspace = true
+portside-atproto.workspace = true
+portside-social = { workspace = true, features = ["specta"] }
+portside-sync = { workspace = true, features = ["specta"] }
+reqwest.workspace = true
+keyring = { version = "3.6", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+anyhow = "1"
+tauri = { version = "2.12", features = [] }
+tauri-plugin-opener = "2.7"
+tauri-plugin-dialog = "2"
+gethostname = "1"
+specta.workspace = true
+tauri-specta = { version = "=2.0.0-rc.25", features = ["derive", "typescript"] }
+specta-typescript = "0.0.12"
+
+[lints]
+workspace = true

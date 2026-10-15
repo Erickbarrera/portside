@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Portside",
+  "version": "0.1.0",
+  "identifier": "gg.portside.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @portside/ui dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "pnpm --filter @portside/ui build",
+    "frontendDist": "../ui/build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Portside",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 960,
+        "minHeight": 600
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Game",
+    "shortDescription": "Launcher for community game ports",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "signingIdentity": "-"
+    }
+  }
+}

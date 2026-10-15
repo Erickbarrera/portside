@@ -1,0 +1,28 @@
+[package]
+name = "portside-launcher"
+description = "Starts an installed port, follows it until it exits and stops it on request"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+specta = ["dep:specta"]
+
+[dependencies]
+portside-core.workspace = true
+portside-api.workspace = true
+portside-installer.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["process"] }
+plist = { version = "1.10", default-features = false }
+specta = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["process", "rt", "macros", "time"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+{
+  "name": "portside-client",
+  "version": "0.1.0",
+  "license": "GPL-3.0-only",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "ui": "pnpm --filter @portside/ui dev",
+    "check": "pnpm --filter @portside/ui check",
+    "test": "pnpm --filter @portside/ui test",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@tauri-apps/cli": "^2.12.2"
+  }
+}

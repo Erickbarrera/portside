@@ -1,0 +1,41 @@
+[package]
+name = "portside-installer"
+description = "Picks a port's build, downloads it from upstream releases, verifies and unpacks it"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+specta = ["dep:specta", "portside-core/specta", "portside-api/specta"]
+
+[dependencies]
+portside-core.workspace = true
+portside-api.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["fs", "io-util"] }
+reqwest = { workspace = true, features = ["stream"] }
+url.workspace = true
+futures-util.workspace = true
+sha2.workspace = true
+hex.workspace = true
+globset.workspace = true
+regex.workspace = true
+zip.workspace = true
+tar.workspace = true
+flate2.workspace = true
+liblzma.workspace = true
+rusqlite.workspace = true
+refinery.workspace = true
+specta = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+zip = { workspace = true, features = ["deflate"] }
+wiremock.workspace = true
+
+[lints]
+workspace = true

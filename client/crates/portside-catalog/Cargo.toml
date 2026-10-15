@@ -1,0 +1,23 @@
+[package]
+name = "portside-catalog"
+description = "Local SQLite copy of the Portside catalog, kept current from the static catalog"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+portside-core.workspace = true
+portside-api.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+rusqlite.workspace = true
+refinery.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+wiremock.workspace = true
+
+[lints]
+workspace = true
