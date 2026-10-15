@@ -173,6 +173,7 @@ impl From<InstallError> for CommandError {
             E::ChecksumMissing(_) => ErrorCode::ChecksumMissing,
             E::UnsupportedArchive(_)
             | E::BadArchive(_)
+            | E::NestedArchive { .. }
             | E::UnsafePath(_)
             | E::LaunchTargetMissing(_)
             | E::Tool { .. } => ErrorCode::Unpack,

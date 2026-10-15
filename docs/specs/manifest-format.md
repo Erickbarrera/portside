@@ -41,13 +41,16 @@ builds:                            # required, 1+
     checksum: upstream             # upstream (sha256sums asset) | attestation | none
   - os: linux
     arch: x86_64
-    asset: "SoH-*-Linux.zip"
-    archive: zip
-    launch: { exe: "soh.appimage", chmod_x: true }
+    asset: "SoH-*.appimage"
+    archive: appimage
+    launch: { exe: "soh.appimage" } # appimage/none: the downloaded file is saved under this name
   - os: macos
     arch: universal
     asset: "SoH-*-Mac.zip"
     archive: zip
+    nested:                        # optional: the asset holds another archive to unpack
+      file: "*.dmg"                # glob matched against paths inside the asset, exactly 1 match
+      archive: dmg                 # how to unpack that inner file
     launch: { app_bundle: "soh.app" }
     unsigned: true                 # client shows warning + requires confirm before removing quarantine
   - os: android
@@ -96,10 +99,16 @@ changelog:
 - `dmg`: the client mounts the image read-only, copies the volume's contents (except the
   `Applications` symlink) into `{install}`, then unmounts. Launch paths are relative to the
   volume root, so a volume `DevilutionX/devilutionX.app` is `app_bundle: "devilutionX.app"`.
-- `apk`, `appimage` and `none`: the asset itself is the result; nothing is unpacked.
-- Some ports ship an archive inside an archive (a `.dmg` or `.zip` inside a `.zip`). Schema
-  1 cannot describe that yet, so those builds are left out of manifests for now [TBD: a
-  `nested` field, needs the client model changed in the same PR].
+- `apk`, `appimage` and `none`: the asset itself is the result; nothing is unpacked. For
+  `appimage` and `none` the file is saved as `launch.exe` (the asset name when there is
+  none), so a versioned file name like `Port-v1.2.AppImage` keeps one launch path across
+  releases. `appimage` files are made executable.
+- `nested`: some ports ship an archive inside an archive (a `.dmg`, `.zip` or `.tar.gz`
+  inside a `.zip`). The client unpacks the asset with `archive`, finds the one file whose
+  path inside it matches `nested.file` (a glob, so `SpaceCadetPinball-*.dmg` survives a
+  version bump), unpacks that with `nested.archive`, and throws the outer files away.
+  `strip_root` and the launch paths apply to the inner archive. The outer `archive` must be
+  `zip`, `tar.gz`, `tar.xz` or `7z`; `nested.archive` can't be `apk`.
 
 ## Path placeholders
 | Placeholder | Windows | macOS | Linux | Android |
@@ -124,6 +133,7 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
   non-upstream entries; the catalog build skips manifests whose id is not in the catalog).
 - Each build's `asset` glob must match exactly one asset in the latest release. The catalog
   build warns when one doesn't, and leaves that build out of the release's assets.
+- `nested` only inside `zip`, `tar.gz`, `tar.xz` or `7z`, and never `apk`.
 - At least one build; no two builds with the same `os`/`arch`. (So `perfect|playable` always
   has a build.)
 - Each build needs `launch.exe` or `launch.app_bundle`, except `apk` builds, which need
@@ -148,3 +158,7 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
   "Archives" section: how `dmg` is unpacked and where launch paths start. No schema change.
 - 2026-10-14 — Validated and published by `catalog/` (ADR-0015); asset globs checked against
   the latest release at build time. No schema change.
+- 2026-10-15 — `nested` build field for an archive inside the release asset; `appimage` and
+  `none` files are saved as `launch.exe`. Clients before this ignore `nested` and save
+  AppImages under the asset name, so those builds fail their install with "launch target
+  missing" until the app is updated.

@@ -453,10 +453,7 @@ async fn reports_github_rate_limits() -> TestResult {
 #[tokio::test]
 async fn no_build_for_this_platform() -> TestResult {
     let env = Env::new().await?;
-    let installer = env.installer(Platform {
-        os: Os::Linux,
-        arch: Arch::X86_64,
-    })?;
+    let installer = env.installer(LINUX)?;
     let planned = installer.plan(&port(windows_zip_build(), json!([]))?).await;
     assert!(matches!(planned, Err(InstallError::NoBuild { .. })));
     Ok(())
@@ -584,10 +581,7 @@ async fn installs_a_tarball_and_marks_the_exe_executable() -> TestResult {
         "os": "linux", "arch": "x86_64", "asset": "example-linux.tar.gz", "archive": "tar.gz",
         "strip_root": true, "launch": { "exe": "Example.AppImage", "chmod_x": true }
     }]);
-    let installer = env.installer(Platform {
-        os: Os::Linux,
-        arch: Arch::X86_64,
-    })?;
+    let installer = env.installer(LINUX)?;
     let plan = installer.plan(&port(builds, json!([]))?).await?;
     let installed = run(&installer, &plan, false).await?;
     let dir = Path::new(&installed.dir);
@@ -603,6 +597,85 @@ async fn installs_a_tarball_and_marks_the_exe_executable() -> TestResult {
         std::fs::read_link(dir.join("latest"))?,
         Path::new("Example.AppImage")
     );
+    Ok(())
+}
+
+const LINUX: Platform = Platform {
+    os: Os::Linux,
+    arch: Arch::X86_64,
+};
+
+#[tokio::test]
+async fn installs_an_archive_inside_an_archive() -> TestResult {
+    let env = Env::new().await?;
+    let inner = example_zip()?;
+    let outer = zip(&[
+        ("readme.txt", Some(b"synthetic readme"), 0o644),
+        ("Example-1.0.zip", Some(&inner), 0o644),
+    ])?;
+    env.release(&[("Example-1.0-Win64.zip", &outer, true)])
+        .await;
+    let builds = json!([{
+        "os": "windows", "arch": "x86_64", "asset": "Example-*-Win64.zip", "archive": "zip",
+        "nested": { "file": "Example-*.zip", "archive": "zip" },
+        "strip_root": true, "launch": { "exe": "example.exe" }
+    }]);
+    let installer = env.installer(WINDOWS)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    let installed = run(&installer, &plan, false).await?;
+    let dir = Path::new(&installed.dir);
+    assert_eq!(std::fs::read(dir.join("example.exe"))?, b"synthetic exe");
+    assert!(dir.join("data/readme.txt").is_file());
+    // Only the inner archive's files are kept.
+    assert!(!dir.join("readme.txt").exists());
+    assert!(!dir.join("Example-1.0.zip").exists());
+    Ok(())
+}
+
+#[tokio::test]
+async fn a_nested_glob_must_match_one_file() -> TestResult {
+    let env = Env::new().await?;
+    let outer = zip(&[
+        ("a/Example.zip", Some(b"x"), 0o644),
+        ("b/Example.zip", Some(b"y"), 0o644),
+    ])?;
+    env.release(&[("Example-1.0-Win64.zip", &outer, true)])
+        .await;
+    let builds = json!([{
+        "os": "windows", "arch": "x86_64", "asset": "Example-*-Win64.zip", "archive": "zip",
+        "nested": { "file": "*.zip", "archive": "zip" }, "launch": { "exe": "example.exe" }
+    }]);
+    let installer = env.installer(WINDOWS)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    assert!(matches!(
+        run(&installer, &plan, false).await,
+        Err(InstallError::NestedArchive { count: 2, .. })
+    ));
+    Ok(())
+}
+
+#[tokio::test]
+async fn saves_an_appimage_under_its_launch_name() -> TestResult {
+    let env = Env::new().await?;
+    env.release(&[("Example-v1.0-x86_64.AppImage", b"synthetic appimage", true)])
+        .await;
+    let builds = json!([{
+        "os": "linux", "arch": "x86_64", "asset": "Example-*-x86_64.AppImage",
+        "archive": "appimage", "launch": { "exe": "Example.AppImage" }
+    }]);
+    let installer = env.installer(LINUX)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    let installed = run(&installer, &plan, false).await?;
+    let file = Path::new(&installed.dir).join("Example.AppImage");
+    assert_eq!(std::fs::read(&file)?, b"synthetic appimage");
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        assert_eq!(
+            std::fs::metadata(&file)?.permissions().mode() & 0o111,
+            0o111
+        );
+    }
     Ok(())
 }
 

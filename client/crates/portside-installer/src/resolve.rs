@@ -115,6 +115,7 @@ mod tests {
             arch,
             asset: format!("{}-{}.zip", os.as_str(), arch.as_str()),
             archive: ArchiveKind::Zip,
+            nested: None,
             strip_root: None,
             launch: None,
             checksum: None,

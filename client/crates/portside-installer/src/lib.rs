@@ -333,14 +333,38 @@ struct Unpack {
 impl Unpack {
     fn run(self) -> Result<()> {
         let _ = std::fs::remove_dir_all(&self.staging);
-        let root = unpack::unpack(
-            self.build.archive,
-            &self.part,
-            &self.asset,
-            &self.staging.join("files"),
-            self.build.strip_root == Some(true),
-        )?;
         let launch = self.build.launch.as_ref();
+        // A file used as is (AppImage) takes the launch name, so versioned asset names
+        // keep one launch path.
+        let save_as = |name: &str| {
+            launch
+                .and_then(|l| l.exe.clone())
+                .unwrap_or(name.to_owned())
+        };
+        let files = self.staging.join("files");
+        let strip_root = self.build.strip_root == Some(true);
+        let root = match &self.build.nested {
+            None => unpack::unpack(
+                self.build.archive,
+                &self.part,
+                &save_as(&self.asset),
+                &files,
+                strip_root,
+            )?,
+            Some(nested) => {
+                let outer = self.staging.join("outer");
+                unpack::unpack(self.build.archive, &self.part, &self.asset, &outer, false)?;
+                let inner = unpack::find_nested(&outer, &nested.file)?;
+                let name = inner
+                    .file_name()
+                    .map(|n| n.to_string_lossy().into_owned())
+                    .unwrap_or_default();
+                let root =
+                    unpack::unpack(nested.archive, &inner, &save_as(&name), &files, strip_root)?;
+                std::fs::remove_dir_all(&outer).at(&outer)?;
+                root
+            }
+        };
         if let Some(bundle) = launch.and_then(|l| l.app_bundle.as_deref()) {
             let path = root.join(bundle);
             if !path.is_dir() {
