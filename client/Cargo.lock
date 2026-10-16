@@ -3543,7 +3543,7 @@ dependencies = [
 
 [[package]]
 name = "portside-api"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "portside-core",
  "reqwest",
@@ -3558,7 +3558,7 @@ dependencies = [
 
 [[package]]
 name = "portside-atproto"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "base64 0.22.1",
  "getrandom 0.3.4",
@@ -3576,7 +3576,7 @@ dependencies = [
 
 [[package]]
 name = "portside-catalog"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "portside-api",
  "portside-core",
@@ -3590,7 +3590,7 @@ dependencies = [
 
 [[package]]
 name = "portside-core"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "directories",
  "serde",
@@ -3601,7 +3601,7 @@ dependencies = [
 
 [[package]]
 name = "portside-desktop"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "gethostname",
@@ -3633,7 +3633,7 @@ dependencies = [
 
 [[package]]
 name = "portside-installer"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "flate2",
  "futures-util",
@@ -3662,7 +3662,7 @@ dependencies = [
 
 [[package]]
 name = "portside-launcher"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "plist",
  "portside-api",
@@ -3677,7 +3677,7 @@ dependencies = [
 
 [[package]]
 name = "portside-social"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "hex",
  "portside-atproto",
@@ -3695,7 +3695,7 @@ dependencies = [
 
 [[package]]
 name = "portside-steam"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "crc32fast",
  "image",
@@ -3707,7 +3707,7 @@ dependencies = [
 
 [[package]]
 name = "portside-sync"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "blake3",
  "globset",
