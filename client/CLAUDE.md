@@ -58,7 +58,8 @@ never depend on Tauri; they must be testable without a window.
   (`?mock-steam=running`, `launched` as if Steam started Portside, `none`), and
   `?mock-play=<port>` starts as if a Steam shortcut asked for that game; `?mock-couch` starts as
   if on Steam's Game Mode screen (couch mode on Auto turns on); `?mock-sd` is a Steam Deck with
-  an SD card in (installs ask where to go). `PORTSIDE_SD_CARD=<folder>` makes the real app
+  an SD card in (installs ask where to go); `?mock-deck` is a Steam Deck (A on a text field asks for Steam's
+  keyboard). `PORTSIDE_SD_CARD=<folder>` makes the real app
   treat a folder as the Deck's SD card
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")

@@ -38,6 +38,10 @@ export function steamCommand(cmd: string, a: Record<string, unknown>): unknown {
         added.add(String(a.portId));
         return null;
       })();
+    case "steam_keyboard":
+      // No Steam keyboard in a browser; say Steam is closed with `?mock-steam=none`.
+      console.info("[mock] Steam's keyboard opened");
+      return mode !== "none";
     case "play_request": {
       const id = playRequest;
       playRequest = null;

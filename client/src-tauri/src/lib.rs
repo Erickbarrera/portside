@@ -79,6 +79,7 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             commands::steam::steam_status,
             commands::steam::steam_add,
             commands::steam::play_request,
+            commands::steam::steam_keyboard,
         ])
         .events(collect_events![
             catalog_sync::CatalogSynced,

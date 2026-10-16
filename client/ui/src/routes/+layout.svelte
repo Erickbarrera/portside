@@ -50,7 +50,9 @@
     })();
   });
   // Controller and arrow keys; the bumpers step through the sections above.
-  $effect(() => startController(nav.map((item) => item.href)));
+  $effect(() =>
+    startController({ sections: nav.map((item) => item.href), steamDeck: data.app.steam_deck }),
+  );
   // Unread counts for the sidebar once signed in; forget them on sign-out.
   $effect(() => {
     if (auth.account?.can_chat) void chat.start(auth.account.did);

@@ -15,13 +15,11 @@
   open behind Portside's window.
 
 ## Linux / Steam Deck
-- Distribute: AppImage + Flatpak (Flathub) + .deb. Flatpak needs filesystem permission for
-  the library dir and `--talk-name=org.freedesktop.Flatpak` to spawn host processes via
-  `flatpak-spawn --host` [verify]; document limits.
+- Distribute: AppImage + .deb. No Flatpak or Flathub package (Erick, 2026-10-16).
 - Steam Deck: controllers work everywhere (ui.md, "Controller"); in Game Mode Steam Input
   hands Portside a virtual controller. "Add to Steam" (below) and couch mode (ui.md, on by
-  itself in Game Mode) work on every OS. Deck only: install to the SD card (below); planned:
-  Steam's on-screen keyboard for text fields. Building needs `libudev-dev` (gilrs).
+  itself in Game Mode) work on every OS. Deck only: install to the SD card (below), and
+  Steam's on-screen keyboard for text fields (ui.md, "Couch mode"). Building needs `libudev-dev` (gilrs).
 - Prefer AppImage ports; mark builds needing glibc ≥ X.
 
 ## SD card (Steam Deck only, 2026-10-16)

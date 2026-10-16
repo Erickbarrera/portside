@@ -22,6 +22,14 @@ pub async fn steam_add(
     steam::add(&app, &port_id, restart_steam).await
 }
 
+/// Shows Steam's on-screen keyboard over Portside (Steam Deck), typing into the focused
+/// field. False when Steam isn't running, so the UI uses its own keyboard instead.
+#[tauri::command]
+#[specta::specta]
+pub async fn steam_keyboard(app: AppHandle) -> bool {
+    steam::show_keyboard(&app).await
+}
+
 /// The game Steam asked Portside to start (`--play <port>`), once; None afterwards.
 #[tauri::command]
 #[specta::specta]

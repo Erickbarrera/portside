@@ -1,7 +1,7 @@
 // Moving around the app with a controller or the arrow keys (docs/ui.md, "Controller").
 // Controllers are read in Rust (any OS) and arrive as `gamepad-input` events.
 import { goto } from "$app/navigation";
-import { events, type PadAction } from "./ipc";
+import { events, type PadAction, commands } from "./ipc";
 import { type Direction, focusables, pickNext, usesArrowKeys } from "./spatial-nav";
 
 /** How far one step of the right stick, or an arrow with nothing to move to, scrolls. */
@@ -16,7 +16,14 @@ function scope(): ParentNode {
   return dialogs[dialogs.length - 1] ?? document;
 }
 
-/** A field couch mode's on-screen keyboard types into. */
+export interface ControllerOptions {
+  /** The sidebar's pages, in order (L1 and R1 move between them). */
+  sections: string[];
+  /** On a Steam Deck, text fields open Steam's keyboard (docs/ui.md, "Controller"). */
+  steamDeck: boolean;
+}
+
+/** A field an on-screen keyboard types into. */
 function textField(el: Element | null): el is HTMLInputElement | HTMLTextAreaElement {
   return (
     el instanceof HTMLTextAreaElement ||
@@ -89,8 +96,21 @@ function section(sections: string[], step: number) {
   void goto(sections[at < 0 && step < 0 ? sections.length - 1 : next]);
 }
 
-/** Runs one controller action. `sections` are the sidebar's pages, in order. */
-export function act(action: PadAction, sections: string[]) {
+/** Opens a keyboard for a text field: Steam's on a Steam Deck, else Portside's in couch
+ * mode, else nothing (the field just takes focus). */
+async function keyboard(field: HTMLInputElement | HTMLTextAreaElement, steamDeck: boolean) {
+  const couchMode = "couch" in document.documentElement.dataset;
+  if (steamDeck) {
+    field.focus();
+    if (await commands.steamKeyboard()) return;
+  }
+  // Portside's own keyboard (components/OnScreenKeyboard.svelte).
+  if (couchMode) window.dispatchEvent(new CustomEvent("portside:keyboard", { detail: field }));
+  else field.focus();
+}
+
+/** Runs one controller action. */
+export function act(action: PadAction, { sections, steamDeck }: ControllerOptions) {
   usingPad();
   switch (action) {
     case "up":
@@ -101,9 +121,8 @@ export function act(action: PadAction, sections: string[]) {
       break;
     case "accept": {
       const el = document.activeElement;
-      if (textField(el) && "couch" in document.documentElement.dataset) {
-        // Couch mode: type with Portside's keyboard (components/OnScreenKeyboard.svelte).
-        window.dispatchEvent(new CustomEvent("portside:keyboard", { detail: el }));
+      if (textField(el) && (steamDeck || "couch" in document.documentElement.dataset)) {
+        void keyboard(el, steamDeck);
       } else if (el instanceof HTMLElement && el !== document.body) el.click();
       else move("down");
       break;
@@ -134,10 +153,10 @@ const ARROWS: Record<string, Direction> = {
 };
 
 /** Follows controllers and arrow keys until the returned function is called. */
-export function startController(sections: string[]): () => void {
+export function startController(options: ControllerOptions): () => void {
   const unlisten = events.gamepadInput.listen(({ payload }) => {
     // Controllers are read even while a game has the screen; only act when we have it.
-    if (document.hasFocus()) act(payload.action, sections);
+    if (document.hasFocus()) act(payload.action, options);
   });
   const onKey = (e: KeyboardEvent) => {
     const dir = ARROWS[e.key];
