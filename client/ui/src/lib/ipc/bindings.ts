@@ -170,6 +170,11 @@ export const commands = {
 	steamAdd: (portId: string, restartSteam: boolean) => typedError<null, CommandError>(__TAURI_INVOKE("steam_add", { portId, restartSteam })),
 	/**  The game Steam asked Portside to start (`--play <port>`), once; None afterwards. */
 	playRequest: () => __TAURI_INVOKE<string | null>("play_request"),
+	/**
+	 *  Shows Steam's on-screen keyboard over Portside (Steam Deck), typing into the focused
+	 *  field. False when Steam isn't running, so the UI uses its own keyboard instead.
+	 */
+	steamKeyboard: () => __TAURI_INVOKE<boolean>("steam_keyboard"),
 };
 
 /** Events */
@@ -202,6 +207,8 @@ export type AppInfo = {
 	catalog_url: string,
 	/**  Running on a Steam-run TV-style screen (Game Mode, Big Picture): couch mode starts on. */
 	big_screen: boolean,
+	/**  A Steam Deck: text fields open Steam's keyboard when a controller selects them. */
+	steam_deck: boolean,
 };
 
 /**  CPU architecture a build targets. */

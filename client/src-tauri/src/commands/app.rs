@@ -14,6 +14,8 @@ pub struct AppInfo {
     pub catalog_url: String,
     /// Running on a Steam-run TV-style screen (Game Mode, Big Picture): couch mode starts on.
     pub big_screen: bool,
+    /// A Steam Deck: text fields open Steam's keyboard when a controller selects them.
+    pub steam_deck: bool,
 }
 
 /// Version, platform and catalog address, for the UI and Settings.
@@ -26,5 +28,6 @@ pub fn app_info(state: State<'_, AppState>) -> AppInfo {
         arch: state.platform.arch,
         catalog_url: state.api.base_url().to_owned(),
         big_screen: crate::steam::big_screen(),
+        steam_deck: portside_core::paths::is_steam_deck(),
     }
 }

@@ -97,6 +97,20 @@ pub fn big_screen() -> bool {
         || std::env::var("XDG_CURRENT_DESKTOP").is_ok_and(|d| d.eq_ignore_ascii_case("gamescope"))
 }
 
+/// Asks Steam to show its on-screen keyboard; it types into whatever has focus.
+pub async fn show_keyboard(app: &AppHandle) -> bool {
+    if !blocking(portside_steam::running).await {
+        return false;
+    }
+    match app.opener().open_url("steam://open/keyboard", None::<&str>) {
+        Ok(()) => true,
+        Err(e) => {
+            eprintln!("could not open Steam's keyboard: {e}");
+            false
+        }
+    }
+}
+
 /// The program a shortcut should start: the AppImage itself rather than its temporary
 /// mount, else this executable.
 fn portside_exe() -> Result<PathBuf, CommandError> {

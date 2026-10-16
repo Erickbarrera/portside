@@ -210,6 +210,8 @@ export function installMockIpc() {
             catalog_url: "mock://synthetic-fixtures/",
             // `?mock-couch` starts as if on a Steam Deck in Game Mode.
             big_screen: params.has("mock-couch"),
+            // `?mock-deck` is a Steam Deck (text fields ask for Steam's keyboard).
+            steam_deck: params.has("mock-deck"),
           } satisfies AppInfo;
         case "catalog_search":
           return search(a.query as CatalogQuery);

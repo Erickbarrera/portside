@@ -67,7 +67,10 @@ turns it on when Rust says the screen is Steam's (`AppInfo.big_screen`: `SteamGa
   preview of the text. Letters, digits, `@ . - _`, Shift, Space, Delete, Enter (submits the
   field's form, when it has one) and Done. A controller stays inside it until Done or B.
   It types into the field as typing would (an `input` event), so search filters follow.
-  The Steam Deck can also use Steam's keyboard (planned).
+- On a Steam Deck (`AppInfo.steam_deck`), in couch mode or not, pressing A on a text field
+  opens Steam's own keyboard instead (`steam_keyboard` opens `steam://open/keyboard`; it
+  types into the focused field). Portside's keyboard is the fallback when Steam isn't
+  running, in couch mode. Deck only, by Erick's choice.
 
 ## Brand
 Purple accent and the green pirate-parrot icon (chosen by Erick 2026-10-13, shared with the
