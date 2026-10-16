@@ -1,6 +1,6 @@
 [package]
 name = "portside-steam"
-description = "Adds installed ports to Steam as non-Steam games, with artwork"
+description = "Adds installed ports to Steam as non-Steam games, with artwork; finds Proton"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

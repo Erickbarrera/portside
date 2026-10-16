@@ -17,7 +17,7 @@
   const os = $derived(data.app.os);
   const view = $derived(data.result.status === "ok" ? data.result.data : null);
   const port = $derived(view?.port ?? null);
-  const action = $derived(port ? primaryAction(port, os) : null);
+  const action = $derived(port ? primaryAction(port, os, data.app.arch) : null);
   const release = $derived(port?.latest_releases.find((r) => !r.revoked) ?? null);
   // Installed games keep their panel offline too, when the saved summary has no manifest.
   const showInstall = $derived(

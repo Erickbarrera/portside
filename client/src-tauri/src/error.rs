@@ -127,6 +127,9 @@ pub enum ErrorCode {
     /// The game is on storage that isn't there: the Steam Deck's SD card was taken out.
     #[serde(rename = "E_STORAGE_MISSING")]
     StorageMissing,
+    /// The game only has a Windows build, and Proton isn't installed in Steam to run it.
+    #[serde(rename = "E_NO_PROTON")]
+    NoProton,
 }
 
 /// What a failed command returns to the UI.

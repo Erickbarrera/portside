@@ -103,6 +103,39 @@ pub fn command_for(install: &Installed) -> Result<LaunchCommand> {
     })
 }
 
+/// Where to find Proton for a Windows build run on Linux (`BuildFit::Proton`).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ProtonSetup {
+    /// Proton's `proton` script.
+    pub script: PathBuf,
+    /// The Steam folder Proton belongs to.
+    pub steam_dir: PathBuf,
+    /// This game's own prefix, where Proton keeps its Windows files.
+    pub prefix: PathBuf,
+}
+
+/// The command for a Windows build run through Proton: `proton run <exe> <args>`, with the
+/// prefix and Steam folder Proton needs in its environment. The prefix is made if missing.
+pub fn proton_command_for(install: &Installed, proton: &ProtonSetup) -> Result<LaunchCommand> {
+    let mut cmd = command_for(install)?;
+    std::fs::create_dir_all(&proton.prefix).map_err(|source| LaunchError::Io {
+        path: proton.prefix.clone(),
+        source,
+    })?;
+    let exe = std::mem::replace(&mut cmd.program, proton.script.clone());
+    cmd.args
+        .splice(0..0, ["run".to_owned(), exe.to_string_lossy().into_owned()]);
+    cmd.env.insert(
+        "STEAM_COMPAT_DATA_PATH".into(),
+        proton.prefix.to_string_lossy().into_owned(),
+    );
+    cmd.env.insert(
+        "STEAM_COMPAT_CLIENT_INSTALL_PATH".into(),
+        proton.steam_dir.to_string_lossy().into_owned(),
+    );
+    Ok(cmd)
+}
+
 fn args_of(launch: &LaunchSpec) -> &[String] {
     launch.args.as_deref().unwrap_or_default()
 }

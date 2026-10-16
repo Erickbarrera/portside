@@ -137,6 +137,12 @@
           {os === "macos" ? "through Rosetta" : "under emulation"}. It may be slower.
         </p>
       {/if}
+      {#if plan.fit === "proton"}
+        <p class="note">
+          There's no Linux build, so this Windows build runs through Proton, Steam's compatibility
+          layer. Most games work this way; some don't.
+        </p>
+      {/if}
       {#if plan.verification === "none"}
         <p class="note">This release publishes no checksum, so Portside can't verify the download.</p>
       {/if}
@@ -181,7 +187,7 @@
         </p>
         <p class="muted small">
           {#if playedLine}{playedLine}{/if}
-          {osLabel[installed.os]} · {archLabel[installed.arch]} · {formatBytes(installed.size)} download
+          {osLabel[installed.os]}{installed.fit === "proton" ? " (through Proton)" : ""} · {archLabel[installed.arch]} · {formatBytes(installed.size)} download
           · installed {formatDate(new Date(installed.installed_at * 1000).toISOString())}{onCard ? " on the SD card" : ""}.
         </p>
       </div>

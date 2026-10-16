@@ -19,7 +19,8 @@
 - Steam Deck: controllers work everywhere (ui.md, "Controller"); in Game Mode Steam Input
   hands Portside a virtual controller. "Add to Steam" (below) and couch mode (ui.md, on by
   itself in Game Mode) work on every OS. Deck only: install to the SD card (below), and
-  Steam's on-screen keyboard for text fields (ui.md, "Couch mode"). Building needs `libudev-dev` (gilrs).
+  Steam's on-screen keyboard for text fields (ui.md, "Couch mode"). Windows-only ports run
+  through Proton on any x86_64 Linux (below). Building needs `libudev-dev` (gilrs).
 - Prefer AppImage ports; mark builds needing glibc ≥ X.
 
 ## SD card (Steam Deck only, 2026-10-16)
@@ -32,6 +33,21 @@ on the card too. Updates stay where the game is. With the card out, Play and upd
 put it back in (`E_STORAGE_MISSING`), and Uninstall only forgets the game. Not on other
 computers, by Erick's choice. `PORTSIDE_SD_CARD=<folder>` stands in for a card when testing
 elsewhere. Not yet: moving an installed game between internal storage and the card.
+
+## Proton (x86_64 Linux, 2026-10-16)
+A port with no Linux build but a Windows x86_64 (or universal) build installs that build
+and runs it through Proton, Steam's compatibility layer (`BuildFit::Proton`). The install
+step says so. Portside doesn't download Proton: it uses one the player installed through
+Steam (`portside_steam::find_proton`), looking in every Steam library's `steamapps/common`
+(from `steamapps/libraryfolders.vdf`) and in `compatibilitytools.d`. It prefers Valve's
+newest numbered release, then Proton Experimental, then community builds such as
+GE-Proton; `PORTSIDE_PROTON=<folder>` picks one. Without any, the install step fails with
+`E_NO_PROTON` and says how to install it in Steam.
+Each game gets its own prefix in `{app_data}/proton/<port>`, kept on uninstall (it may hold
+saves). Launch: `proton run <exe>` with `STEAM_COMPAT_DATA_PATH` and
+`STEAM_COMPAT_CLIENT_INSTALL_PATH`; Stop ends the whole process group, wineserver included.
+Cloud saves use the manifest's Windows save folder inside the prefix (save-sync.md).
+[verify on a Deck: Proton 9 outside Steam's runtime container]
 
 ## Add to Steam (every OS, 2026-10-16)
 The game page of an installed game offers "Add to Steam" when Steam is installed and has

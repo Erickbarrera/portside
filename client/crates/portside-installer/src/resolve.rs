@@ -19,10 +19,13 @@ pub enum BuildFit {
     Universal,
     /// An x86_64 build run through translation (Rosetta on macOS, emulation on Windows).
     Translated,
+    /// A Windows build run on x86_64 Linux through Proton, when there's no Linux build
+    /// (client/docs/platforms.md, "Proton").
+    Proton,
 }
 
 /// The best build for `platform`: exact match, then universal, then x86_64 under
-/// translation on arm64 macOS or Windows.
+/// translation on arm64 macOS or Windows, then on x86_64 Linux a Windows build for Proton.
 pub fn pick_build(
     builds: &[ManifestBuild],
     platform: Platform,
@@ -37,6 +40,15 @@ pub fn pick_build(
     let translates = platform.arch == Arch::Arm64 && matches!(platform.os, Os::Macos | Os::Windows);
     if translates && let Some(b) = for_os().find(|b| b.arch == Arch::X86_64) {
         return Some((b, BuildFit::Translated));
+    }
+    if platform.os == Os::Linux && platform.arch == Arch::X86_64 {
+        let windows = || builds.iter().filter(|b| b.os == Os::Windows);
+        let pick = windows()
+            .find(|b| b.arch == Arch::X86_64)
+            .or_else(|| windows().find(|b| b.arch == Arch::Universal));
+        if let Some(b) = pick {
+            return Some((b, BuildFit::Proton));
+        }
     }
     None
 }
@@ -151,6 +163,31 @@ mod tests {
             pick_build(&all[..1], MAC_ARM).map(|(b, f)| (b.arch, f)),
             Some((Arch::X86_64, BuildFit::Translated))
         );
+    }
+
+    #[test]
+    fn linux_falls_back_to_a_windows_build_for_proton() {
+        let linux = Platform {
+            os: Os::Linux,
+            arch: Arch::X86_64,
+        };
+        let windows = [
+            build(Os::Windows, Arch::Arm64),
+            build(Os::Windows, Arch::X86_64),
+        ];
+        assert_eq!(
+            pick_build(&windows, linux).map(|(b, f)| (b.os, b.arch, f)),
+            Some((Os::Windows, Arch::X86_64, BuildFit::Proton))
+        );
+        let both = [
+            build(Os::Windows, Arch::X86_64),
+            build(Os::Linux, Arch::X86_64),
+        ];
+        assert_eq!(
+            pick_build(&both, linux).map(|(b, f)| (b.os, f)),
+            Some((Os::Linux, BuildFit::Native))
+        );
+        assert!(pick_build(&windows[..1], linux).is_none());
     }
 
     #[test]

@@ -7,6 +7,7 @@ mod gamepad;
 mod games;
 mod installs;
 mod keychain;
+mod proton;
 mod saves;
 mod social;
 mod state;

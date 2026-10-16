@@ -16,6 +16,11 @@ pub async fn install_plan(
 ) -> Result<PlanSummary, CommandError> {
     let port = state.api.port(&port_id).await?;
     let plan = state.installs.installer().plan(&port).await?;
+    if plan.summary.fit == portside_installer::BuildFit::Proton
+        && portside_steam::find_proton().is_none()
+    {
+        return Err(crate::proton::missing());
+    }
     let summary = plan.summary.clone();
     state.installs.remember_plan(plan);
     Ok(summary)
