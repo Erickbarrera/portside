@@ -1,6 +1,7 @@
 //! Runs installs in the background and reports them to the UI as `install-changed` events.
 
 use std::collections::HashMap;
+use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::time::{Duration, Instant};
@@ -155,6 +156,7 @@ pub async fn start(
     app: &AppHandle,
     port_id: String,
     accept_unsigned: bool,
+    to: Option<PathBuf>,
 ) -> Result<(), CommandError> {
     let state = app.state::<AppState>();
     state.games.check_not_running(&port_id)?;
@@ -209,7 +211,7 @@ pub async fn start(
             emit(&app, &plan.summary.port_id, state);
         };
         let outcome = installer
-            .install(&plan, accept_unsigned, &cancel, &report)
+            .install(&plan, to.as_deref(), accept_unsigned, &cancel, &report)
             .await;
         let port_id = plan.summary.port_id.clone();
         let installs = &app.state::<AppState>().installs;

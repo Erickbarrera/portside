@@ -124,6 +124,9 @@ pub enum ErrorCode {
     /// Adding to Steam failed (its files couldn't be read or written).
     #[serde(rename = "E_STEAM")]
     Steam,
+    /// The game is on storage that isn't there: the Steam Deck's SD card was taken out.
+    #[serde(rename = "E_STORAGE_MISSING")]
+    StorageMissing,
 }
 
 /// What a failed command returns to the UI.
@@ -189,9 +192,14 @@ impl From<InstallError> for CommandError {
             E::NeedsConsent => ErrorCode::NeedsConsent,
             E::Cancelled => ErrorCode::Cancelled,
             E::NotInstalled(_) => ErrorCode::NotInstalled,
+            E::StorageMissing(_) => ErrorCode::StorageMissing,
             E::Io { .. } | E::Db(_) | E::Migration(_) | E::Json(_) => ErrorCode::Library,
         };
         let message = match &e {
+            E::StorageMissing(_) => {
+                "This game is on the SD card, and it isn't in. Put it back in, then try again."
+                    .to_owned()
+            }
             E::Network(_) => {
                 "Can't reach GitHub to download this. Check your connection and try again."
                     .to_owned()

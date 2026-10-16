@@ -115,6 +115,11 @@ impl Installer {
         &self.library
     }
 
+    /// Where new installs go unless told otherwise.
+    pub fn library_dir(&self) -> &Path {
+        &self.library_dir
+    }
+
     /// Works out what installing `port` means on this machine, without downloading it.
     pub async fn plan(&self, port: &PortDetail) -> Result<InstallPlan> {
         let manifest = port.manifest.as_ref().ok_or(InstallError::NoManifest)?;
@@ -192,10 +197,13 @@ impl Installer {
     }
 
     /// Downloads, checks and unpacks `plan`, then records it as the current version.
+    /// `to` is the library folder for a new install (default: the configured one, e.g.
+    /// another for the SD card); an installed game is updated where it is.
     /// `accept_unsigned` is the user's OK for an app Apple hasn't checked.
     pub async fn install(
         &self,
         plan: &InstallPlan,
+        to: Option<&Path>,
         accept_unsigned: bool,
         cancel: &Arc<AtomicBool>,
         progress: &(dyn Fn(Progress) + Send + Sync),
@@ -204,9 +212,23 @@ impl Installer {
         if s.unsigned && !accept_unsigned {
             return Err(InstallError::NeedsConsent);
         }
-        let port_dir = self.library_dir.join(file_name(&s.port_id, false)?);
+        let root = match self.library.current(&s.port_id)? {
+            Some(installed) => library_root(&installed)
+                .unwrap_or(&self.library_dir)
+                .to_owned(),
+            None => to.unwrap_or(&self.library_dir).to_owned(),
+        };
+        if root != self.library_dir && !root.is_dir() {
+            match root.parent() {
+                // A folder for a new install on a card that's in: made here.
+                Some(card) if card.is_dir() && to == Some(root.as_path()) => {}
+                _ => return Err(InstallError::StorageMissing(root)),
+            }
+        }
+        // Download and unpack on the same drive as the game, so it can be moved into place.
+        let port_dir = root.join(file_name(&s.port_id, false)?);
         let version_dir = port_dir.join(file_name(&s.version, true)?);
-        let part = self.library_dir.join(".partial").join(format!(
+        let part = root.join(".partial").join(format!(
             "{}--{}.part",
             file_name(&s.port_id, false)?,
             file_name(&s.asset, true)?
@@ -247,11 +269,9 @@ impl Installer {
         }
 
         progress(Progress::Unpacking);
-        let staging = self.library_dir.join(".staging").join(format!(
-            "{}-{}",
-            file_name(&s.port_id, false)?,
-            unix_now()
-        ));
+        let staging =
+            root.join(".staging")
+                .join(format!("{}-{}", file_name(&s.port_id, false)?, unix_now()));
         let job = Unpack {
             build: plan.build.clone(),
             asset: plan.file.name.clone(),
@@ -291,10 +311,23 @@ impl Installer {
     }
 
     /// Removes every installed version of `port_id`. Saves kept elsewhere are untouched.
+    /// A game on storage that isn't there (an SD card taken out) is forgotten; its files stay
+    /// on the card.
     pub async fn uninstall(&self, port_id: &str) -> Result<()> {
-        let dir = self.library_dir.join(file_name(port_id, false)?);
-        if tokio::fs::metadata(&dir).await.is_ok() {
-            tokio::fs::remove_dir_all(&dir).await.at(&dir)?;
+        let name = file_name(port_id, false)?;
+        let mut dirs = vec![self.library_dir.join(&name)];
+        if let Some(root) = self
+            .library
+            .current(port_id)?
+            .as_ref()
+            .and_then(library_root)
+        {
+            dirs.push(root.join(&name));
+        }
+        for dir in dirs {
+            if tokio::fs::metadata(&dir).await.is_ok() {
+                tokio::fs::remove_dir_all(&dir).await.at(&dir)?;
+            }
         }
         if self.library.remove(port_id)? == 0 {
             return Err(InstallError::NotInstalled(port_id.to_owned()));
@@ -321,6 +354,11 @@ impl Installer {
         verify::parse_sums(&text?, asset)
             .ok_or_else(|| InstallError::ChecksumMissing(asset.to_owned()))
     }
+}
+
+/// The library folder an install lives in: `<library>/<port>/<version>`.
+pub fn library_root(install: &Installed) -> Option<&Path> {
+    Path::new(&install.dir).parent()?.parent()
 }
 
 /// The newest non-revoked release the Portside API lists that has a file for `pattern`.

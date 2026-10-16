@@ -58,6 +58,9 @@ pub enum InstallError {
     Cancelled,
     #[error("{0} is not installed")]
     NotInstalled(String),
+    /// The game's library folder is on storage that isn't there (an SD card taken out).
+    #[error("the storage at {} isn't there", .0.display())]
+    StorageMissing(PathBuf),
     #[error("{tool} failed: {message}")]
     Tool { tool: &'static str, message: String },
     #[error("file error at {path}: {source}")]

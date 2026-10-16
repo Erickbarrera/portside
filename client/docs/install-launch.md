@@ -16,7 +16,9 @@ background and reports `install-changed` events.
    `checksum: upstream` without one fails; otherwise the plan says it can't be verified.
    `url_list` files always carry a `sha256`; the plan fails without one.
 5. The user confirms. An unsigned macOS build (`unsigned: true`) shows a warning and needs
-   "Install anyway".
+   "Install anyway". On a Steam Deck with an SD card in, a new install also asks where it
+   goes (`install_storage`; platforms.md, "SD card"). `{library}` below is that place's library
+   folder; an update stays in the folder the game is in.
 6. Download to `{library}/.partial/` with Range resume, from GitHub hosts only (checked on
    every redirect); a `url_list` port's files only from its manifest's `source.hosts`. Cancel keeps the partial file, so the next try resumes.
 7. Verify SHA-256, unpack into `{library}/.staging/`, apply `strip_root`; check the launch
@@ -33,7 +35,8 @@ build with `nested` unpacks the asset into `.staging/outer/`, finds the one file
 Not yet: `apk`.
 Entries with absolute paths or `..`, and writes through a symlink the archive created, fail
 the install.
-Uninstall deletes `{library}/{id}/` and its records.
+Uninstall deletes `{library}/{id}/` and its records. A game on an SD card that isn't in is
+forgotten, and its files stay on the card.
 
 ## Launch
 Built in `portside-launcher` (ADR-0017); `src-tauri/src/games.rs` runs it and reports

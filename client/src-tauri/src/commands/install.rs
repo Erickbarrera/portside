@@ -5,6 +5,7 @@ use tauri_plugin_opener::OpenerExt;
 use crate::error::{CommandError, ErrorCode};
 use crate::installs::{self, InstallChanged};
 use crate::state::AppState;
+use crate::storage::{self, Storage, StorageKind};
 
 /// What installing a port would download, for the confirm step.
 #[tauri::command]
@@ -21,15 +22,32 @@ pub async fn install_plan(
 }
 
 /// Starts installing in the background; progress arrives as `install-changed` events.
-/// `accept_unsigned` is the user's OK for a macOS app Apple hasn't checked.
+/// `accept_unsigned` is the user's OK for a macOS app Apple hasn't checked. `to` picks the
+/// storage for a new install (internal when left out); updates stay where the game is.
 #[tauri::command]
 #[specta::specta]
 pub async fn install_start(
     app: AppHandle,
     port_id: String,
     accept_unsigned: bool,
+    to: Option<StorageKind>,
 ) -> Result<(), CommandError> {
-    installs::start(&app, port_id, accept_unsigned).await
+    let to = storage::library_for(to.unwrap_or(StorageKind::Internal))?;
+    installs::start(&app, port_id, accept_unsigned, to).await
+}
+
+/// Where games can be installed: internal storage, plus the SD card on a Steam Deck with one
+/// in.
+#[tauri::command]
+#[specta::specta]
+pub async fn install_storage(state: State<'_, AppState>) -> Result<Vec<Storage>, CommandError> {
+    let internal = state.installs.installer().library_dir().to_path_buf();
+    tokio::task::spawn_blocking(move || storage::list(&internal))
+        .await
+        .map_err(|e| CommandError {
+            code: ErrorCode::Library,
+            message: format!("Couldn't check storage: {e}"),
+        })
 }
 
 /// Stops a running install. Downloaded bytes are kept, so starting again resumes.
