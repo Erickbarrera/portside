@@ -129,6 +129,15 @@ fn sha256(bytes: &[u8]) -> String {
 }
 
 fn port(builds: Value, releases: Value) -> Result<PortDetail, serde_json::Error> {
+    let source = json!({ "type": "github_releases", "repo": "example/game", "channel": "stable" });
+    port_from(source, builds, releases)
+}
+
+fn port_from(
+    source: Value,
+    builds: Value,
+    releases: Value,
+) -> Result<PortDetail, serde_json::Error> {
     serde_json::from_value(json!({
         "id": "example-port",
         "game_key": "examplegame",
@@ -156,7 +165,7 @@ fn port(builds: Value, releases: Value) -> Result<PortDetail, serde_json::Error>
             "id": "example-port",
             "game_key": "examplegame",
             "status": "playable",
-            "source": { "type": "github_releases", "repo": "example/game", "channel": "stable" },
+            "source": source,
             "builds": builds,
         },
         "manifest_rev": "1",
@@ -426,6 +435,99 @@ async fn refuses_downloads_from_other_hosts() -> TestResult {
     Ok(())
 }
 
+/// A `url_list` port whose site is the mock server under the name `localhost`, which the
+/// installer's own (GitHub) host list doesn't include.
+fn listed_port(url: &str, bytes: &[u8]) -> Result<PortDetail, serde_json::Error> {
+    let source = json!({
+        "type": "url_list", "version": "3.1", "released": "2026-09-30",
+        "release_url": "https://downloads.example.invalid/news/3.1", "hosts": ["localhost"],
+    });
+    let builds = json!([{
+        "os": "windows", "arch": "x86_64", "asset": "example-3.1-win64.zip", "archive": "zip",
+        "url": url, "sha256": sha256(bytes), "size": bytes.len(),
+        "strip_root": true, "launch": { "exe": "example.exe" }
+    }]);
+    port_from(source, builds, json!([]))
+}
+
+fn localhost_url(env: &Env, file: &str) -> String {
+    env.url(file).replace("127.0.0.1", "localhost")
+}
+
+#[tokio::test]
+async fn installs_from_a_listed_site() -> TestResult {
+    let env = Env::new().await?;
+    let bytes = example_zip()?;
+    env.serve("example-3.1-win64.zip", bytes.clone()).await;
+    let installer = env.installer(WINDOWS)?;
+    let url = localhost_url(&env, "example-3.1-win64.zip");
+    let plan = installer.plan(&listed_port(&url, &bytes)?).await?;
+    assert_eq!(plan.summary.version, "3.1");
+    assert_eq!(
+        plan.summary.release_url,
+        "https://downloads.example.invalid/news/3.1"
+    );
+    assert_eq!(plan.summary.verification, Verification::Portside);
+    assert_eq!(plan.summary.repo, None);
+    let installed = run(&installer, &plan, false).await?;
+    assert!(Path::new(&installed.dir).join("example.exe").is_file());
+    let api_calls = env
+        .server
+        .received_requests()
+        .await
+        .unwrap_or_default()
+        .iter()
+        .filter(|r| r.url.path().starts_with("/repos/"))
+        .count();
+    assert_eq!(api_calls, 0);
+    Ok(())
+}
+
+#[tokio::test]
+async fn listed_files_stay_on_their_hosts() -> TestResult {
+    let env = Env::new().await?;
+    let bytes = example_zip()?;
+    let installer = env.installer(WINDOWS)?;
+    // The installer's own host (GitHub's place in tests) isn't one of the port's hosts.
+    let elsewhere = env.url("example-3.1-win64.zip");
+    match installer.plan(&listed_port(&elsewhere, &bytes)?).await {
+        Err(InstallError::HostNotAllowed(host)) => assert_eq!(host, "127.0.0.1"),
+        other => panic!("expected HostNotAllowed, got {other:?}"),
+    }
+    // Nor may the site redirect elsewhere.
+    Mock::given(method("GET"))
+        .and(path("/dl/example-3.1-win64.zip"))
+        .respond_with(
+            ResponseTemplate::new(302)
+                .insert_header("location", "http://files.example.invalid/x.zip"),
+        )
+        .mount(&env.server)
+        .await;
+    let url = localhost_url(&env, "example-3.1-win64.zip");
+    let plan = installer.plan(&listed_port(&url, &bytes)?).await?;
+    match run(&installer, &plan, false).await {
+        Err(InstallError::HostNotAllowed(host)) => assert_eq!(host, "files.example.invalid"),
+        other => panic!("expected HostNotAllowed, got {other:?}"),
+    }
+    Ok(())
+}
+
+#[tokio::test]
+async fn listed_files_need_a_checksum() -> TestResult {
+    let env = Env::new().await?;
+    let installer = env.installer(WINDOWS)?;
+    let url = localhost_url(&env, "example-3.1-win64.zip");
+    let mut port = listed_port(&url, b"x")?;
+    if let Some(m) = port.manifest.as_mut() {
+        m.builds[0].sha256 = None;
+    }
+    match installer.plan(&port).await {
+        Err(InstallError::ChecksumMissing(name)) => assert_eq!(name, "example-3.1-win64.zip"),
+        other => panic!("expected ChecksumMissing, got {other:?}"),
+    }
+    Ok(())
+}
+
 #[tokio::test]
 async fn reports_github_rate_limits() -> TestResult {
     let env = Env::new().await?;
@@ -596,6 +698,32 @@ async fn installs_a_tarball_and_marks_the_exe_executable() -> TestResult {
     assert_eq!(
         std::fs::read_link(dir.join("latest"))?,
         Path::new("Example.AppImage")
+    );
+    Ok(())
+}
+
+#[tokio::test]
+async fn installs_a_7z_archive() -> TestResult {
+    let env = Env::new().await?;
+    let src = tempfile::tempdir()?;
+    let game = src.path().join("Example Game");
+    std::fs::create_dir_all(game.join("data"))?;
+    std::fs::write(game.join("example.exe"), b"synthetic exe")?;
+    std::fs::write(game.join("data/readme.txt"), b"synthetic data")?;
+    let bytes = sevenz_rust2::compress(src.path(), std::io::Cursor::new(Vec::new()))?.into_inner();
+    env.release(&[("Example-1.0-Win64.7z", &bytes, true)]).await;
+    let builds = json!([{
+        "os": "windows", "arch": "x86_64", "asset": "Example-*-Win64.7z", "archive": "7z",
+        "strip_root": true, "launch": { "exe": "example.exe" }
+    }]);
+    let installer = env.installer(WINDOWS)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    let installed = run(&installer, &plan, false).await?;
+    let dir = Path::new(&installed.dir);
+    assert_eq!(std::fs::read(dir.join("example.exe"))?, b"synthetic exe");
+    assert_eq!(
+        std::fs::read(dir.join("data/readme.txt"))?,
+        b"synthetic data"
     );
     Ok(())
 }

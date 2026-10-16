@@ -61,6 +61,12 @@ from GitHub's asset `digest` when present, else null. Release `id` is GitHub's r
 `revoked` is always false for now [TBD: revocation list]. When GitHub can't be reached for
 a port, the build keeps that port's published `releases.json`.
 
+For `source.type: url_list` (ADR-0024) the build reads nothing: the manifest's one version
+becomes the port's one release. `id` is `url_list:{version}`, `tag` and `name` are
+`version`, `published_at` is `released` (midnight UTC for a plain date), `prerelease` is
+false, `html_url` is `release_url`, and each build becomes an asset with its `url`, `size`
+and `sha256` and `name` = `asset`.
+
 ## Screenshots
 `screenshot_url` is a link, never a copy (docs/legal/policy.md rule 6, ADR-0019):
 1. The upstream list's `screenshot`: a path in its repo becomes
@@ -94,6 +100,8 @@ build for gets an `os_status` row (`source: "manifest"`). Ports without a manife
 invalid manifest fails the build, so a bad manifest never reaches the published catalog.
 
 ## Changelog
+- 2026-10-16 — Releases for `url_list` manifests come from the manifest (section
+  "Releases"). No shape change.
 - 2026-10-15 — A `manifests/covers.yaml` entry replaces the list screenshot and repo preview
   image too (section "Screenshots"). No shape change.
 - 2026-10-14 — SteamGridDB covers as the third `screenshot_url` source, and the builder's

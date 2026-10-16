@@ -1,4 +1,5 @@
-//! Installs ports from their upstream GitHub releases: picks the build for this machine,
+//! Installs ports from their upstream GitHub releases, or from the files a `url_list`
+//! manifest lists (ADR-0024): picks the build for this machine,
 //! downloads it (resuming), checks it against the published checksum, unpacks it into
 //! `{library}/{port_id}/{version}/` and records it (client/docs/install-launch.md).
 //!
@@ -75,6 +76,8 @@ pub struct InstallPlan {
     file: ReleaseFile,
     sums: Option<ReleaseFile>,
     build: ManifestBuild,
+    /// Download hosts for this plan when they aren't GitHub's (`url_list`).
+    hosts: Option<HostPolicy>,
 }
 
 /// Where an install has got to.
@@ -92,6 +95,7 @@ pub struct Installer {
     platform: Platform,
     github: Github,
     downloader: Downloader,
+    user_agent: String,
     library: Library,
 }
 
@@ -100,6 +104,7 @@ impl Installer {
         Ok(Installer {
             github: Github::new(&config.github_api, &config.user_agent)?,
             downloader: Downloader::new(config.hosts, &config.user_agent)?,
+            user_agent: config.user_agent,
             library_dir: config.library_dir,
             platform: config.platform,
             library,
@@ -116,11 +121,11 @@ impl Installer {
         if manifest.schema != MANIFEST_SCHEMA {
             return Err(InstallError::UnsupportedSchema(manifest.schema));
         }
-        if manifest.source.source_type != SourceType::GithubReleases {
-            return Err(InstallError::UnsupportedSource(
-                manifest.source.source_type.as_str().to_owned(),
-            ));
-        }
+        let url_list = match manifest.source.source_type {
+            SourceType::GithubReleases => false,
+            SourceType::UrlList => true,
+            other => return Err(InstallError::UnsupportedSource(other.as_str().to_owned())),
+        };
         let (build, fit) =
             pick_build(&manifest.builds, self.platform).ok_or_else(|| InstallError::NoBuild {
                 os: self.platform.os.as_str().to_owned(),
@@ -129,9 +134,23 @@ impl Installer {
 
         let (release, from_portside) = match from_portside(port, &build.asset)? {
             Some(r) => (r, true),
+            None if url_list => (listed_release(&manifest.source, build)?, true),
             None => (self.github.latest(&manifest.source).await?, false),
         };
         let file = release.file_matching(&build.asset)?.clone();
+        let hosts = if url_list {
+            let policy = self
+                .downloader
+                .policy()
+                .with_hosts(manifest.source.hosts.as_deref().unwrap_or_default());
+            policy.check(&file.url)?;
+            if file.sha256.is_none() {
+                return Err(InstallError::ChecksumMissing(file.name.clone()));
+            }
+            Some(policy)
+        } else {
+            None
+        };
         let (verification, sums) = match (&file.sha256, build.checksum) {
             (Some(_), _) if from_portside => (Verification::Portside, None),
             (Some(_), _) => (Verification::Github, None),
@@ -168,6 +187,7 @@ impl Installer {
             file,
             sums,
             build: build.clone(),
+            hosts,
         })
     }
 
@@ -193,7 +213,15 @@ impl Installer {
         ));
 
         let report = |done, total| progress(Progress::Downloading { done, total });
-        self.downloader
+        let own;
+        let downloader = match &plan.hosts {
+            Some(hosts) => {
+                own = Downloader::new(hosts.clone(), &self.user_agent)?;
+                &own
+            }
+            None => &self.downloader,
+        };
+        downloader
             .fetch(&plan.file.url, &part, Some(plan.file.size), cancel, &report)
             .await?;
 
@@ -318,6 +346,26 @@ fn from_portside(port: &PortDetail, pattern: &str) -> Result<Option<UpstreamRele
         .filter(|r| tag_re.as_ref().is_none_or(|re| re.is_match(&r.tag)))
         .map(UpstreamRelease::from)
         .find(|r| r.file_matching(pattern).is_ok()))
+}
+
+/// The one release a `url_list` manifest lists, for when the catalog has none. Only the
+/// picked build's file is needed.
+fn listed_release(
+    source: &portside_api::models::ManifestSource,
+    build: &ManifestBuild,
+) -> Result<UpstreamRelease> {
+    let missing =
+        |field: &str| InstallError::UnsupportedSource(format!("url_list without {field}"));
+    Ok(UpstreamRelease {
+        tag: source.version.clone().ok_or_else(|| missing("version"))?,
+        html_url: source.release_url.clone().unwrap_or_default(),
+        files: vec![ReleaseFile {
+            name: build.asset.clone(),
+            url: build.url.clone().ok_or_else(|| missing("url"))?,
+            size: build.size.ok_or_else(|| missing("size"))?,
+            sha256: build.sha256.as_ref().map(|s| s.to_ascii_lowercase()),
+        }],
+    })
 }
 
 /// Unpacking and moving into place; blocking file work.

@@ -759,6 +759,31 @@
                                 "min_version": {
                                   "maxLength": 64,
                                   "type": "string"
+                                },
+                                "version": {
+                                  "maxLength": 64,
+                                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+                                  "type": "string"
+                                },
+                                "released": {
+                                  "maxLength": 40,
+                                  "pattern": "^\\d{4}-\\d{2}-\\d{2}(T[0-9:.]+(Z|[+-]\\d{2}:\\d{2}))?$",
+                                  "type": "string"
+                                },
+                                "release_url": {
+                                  "maxLength": 500,
+                                  "pattern": "^https://",
+                                  "type": "string"
+                                },
+                                "hosts": {
+                                  "minItems": 1,
+                                  "maxItems": 8,
+                                  "type": "array",
+                                  "items": {
+                                    "maxLength": 253,
+                                    "pattern": "^[a-z0-9.-]+$",
+                                    "type": "string"
+                                  }
                                 }
                               }
                             },
@@ -963,6 +988,19 @@
                                   },
                                   "unsigned": {
                                     "type": "boolean"
+                                  },
+                                  "url": {
+                                    "maxLength": 500,
+                                    "pattern": "^https://",
+                                    "type": "string"
+                                  },
+                                  "sha256": {
+                                    "pattern": "^[0-9a-f]{64}$",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "minimum": 1,
+                                    "type": "integer"
                                   },
                                   "android_package": {
                                     "maxLength": 1000,

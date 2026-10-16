@@ -35,6 +35,14 @@ impl HostPolicy {
         }
     }
 
+    /// The same rules for other hosts: a `url_list` manifest's own (ADR-0024).
+    pub fn with_hosts(&self, hosts: &[String]) -> HostPolicy {
+        HostPolicy {
+            hosts: hosts.to_vec(),
+            allow_http: self.allow_http,
+        }
+    }
+
     /// Plain-HTTP local hosts, for tests against a mock server.
     pub fn local_for_tests(hosts: &[&str]) -> HostPolicy {
         HostPolicy {

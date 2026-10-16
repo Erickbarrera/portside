@@ -35,6 +35,7 @@ sha2 = "0.11"
 hex = "0.4"
 globset = { version = "0.4", default-features = false }
 regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
+sevenz-rust2 = { version = "0.24", default-features = false, features = ["deflate", "ppmd"] }
 zip = { version = "9", default-features = false, features = ["deflate", "deflate64"] }
 tar = { version = "0.4", default-features = false }
 flate2 = "1"
