@@ -133,6 +133,12 @@ select {
   white-space: nowrap;
 }
 
+/* Couch mode (lib/couch.svelte.ts): everything a fifth bigger, for a handheld or a TV across
+   the room. The on-screen keyboard is part of it (components/OnScreenKeyboard.svelte). */
+:root[data-couch] body {
+  zoom: 1.2;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;

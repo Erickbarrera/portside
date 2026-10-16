@@ -56,9 +56,18 @@ The arrow keys move focus the same way (not inside fields that use them; up/down
 leave a one-line text field). While a controller or the arrows are in use the focus ring
 is bolder; a click hides it again.
 
-## Couch mode (planned, every OS)
-Large tiles, full screen, for the Steam Deck and TVs, on its own under Gamescope/Game Mode.
-Has Portside's own on-screen keyboard on every OS (the Steam Deck can also use Steam's).
+## Couch mode (every OS, 2026-10-16)
+For a Steam Deck or a TV and a controller (`ui/src/lib/couch.svelte.ts`). Settings → Couch
+mode: Auto (default), On, Off, kept in the webview's localStorage (this device only). Auto
+turns it on when Rust says the screen is Steam's (`AppInfo.big_screen`: `SteamGamepadUI`,
+`GAMESCOPE_WAYLAND_DISPLAY`, or `XDG_CURRENT_DESKTOP=gamescope`).
+- The window goes full screen and everything is 20% bigger (`zoom` on `body`).
+- Portside's own on-screen keyboard (`components/OnScreenKeyboard.svelte`, keys in
+  `lib/osk.ts`): pressing A on a text field opens it at the bottom of the screen with a
+  preview of the text. Letters, digits, `@ . - _`, Shift, Space, Delete, Enter (submits the
+  field's form, when it has one) and Done. A controller stays inside it until Done or B.
+  It types into the field as typing would (an `input` event), so search filters follow.
+  The Steam Deck can also use Steam's keyboard (planned).
 
 ## Brand
 Purple accent and the green pirate-parrot icon (chosen by Erick 2026-10-13, shared with the

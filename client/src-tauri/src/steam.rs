@@ -89,6 +89,14 @@ fn started_by_steam() -> bool {
         .any(|v| std::env::var_os(v).is_some())
 }
 
+/// True on a TV-style screen run by Steam: Game Mode on a Steam Deck (Gamescope), or
+/// started from Big Picture. Couch mode turns on by itself there (docs/ui.md).
+pub fn big_screen() -> bool {
+    std::env::var_os("SteamGamepadUI").is_some()
+        || std::env::var_os("GAMESCOPE_WAYLAND_DISPLAY").is_some()
+        || std::env::var("XDG_CURRENT_DESKTOP").is_ok_and(|d| d.eq_ignore_ascii_case("gamescope"))
+}
+
 /// The program a shortcut should start: the AppImage itself rather than its temporary
 /// mount, else this executable.
 fn portside_exe() -> Result<PathBuf, CommandError> {

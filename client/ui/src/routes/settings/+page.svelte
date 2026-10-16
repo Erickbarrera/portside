@@ -3,6 +3,7 @@
   import { auth } from "$lib/account.svelte";
   import { catalog } from "$lib/catalog.svelte";
   import SavesSetup from "$lib/components/SavesSetup.svelte";
+  import { type CouchSetting, couch } from "$lib/couch.svelte";
   import { archLabel, formatAgo, formatNumber, osLabel } from "$lib/labels";
   import { onMount } from "svelte";
 
@@ -48,6 +49,24 @@
 
 <SavesSetup />
 
+<section aria-labelledby="couch-h">
+  <h2 id="couch-h">Couch mode</h2>
+  <p class="muted">
+    Bigger, full screen, with an on-screen keyboard for text fields: for a Steam Deck or a TV and a
+    controller. Auto turns it on in Steam's Game Mode and Big Picture.
+  </p>
+  <div class="choices" role="radiogroup" aria-labelledby="couch-h">
+    {#each [["auto", "Auto"], ["on", "On"], ["off", "Off"]] as [value, text] (value)}
+      <button
+        class="btn btn-secondary"
+        role="radio"
+        aria-checked={couch.setting === value}
+        onclick={() => couch.set(value as CouchSetting)}>{text}</button
+      >
+    {/each}
+  </div>
+</section>
+
 <section aria-labelledby="about-h">
   <h2 id="about-h">About this app</h2>
   <dl>
@@ -90,6 +109,15 @@
 </section>
 
 <style>
+  .choices {
+    display: flex;
+    gap: 8px;
+  }
+  .choices [aria-checked="true"] {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
   section {
     max-width: 640px;
     margin-top: 16px;

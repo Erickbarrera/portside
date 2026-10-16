@@ -7,10 +7,22 @@ import { type Direction, focusables, pickNext, usesArrowKeys } from "./spatial-n
 /** How far one step of the right stick, or an arrow with nothing to move to, scrolls. */
 const SCROLL_STEP = 120;
 
-/** The open modal dialog, which keeps focus inside it, else the whole page. */
+/** What keeps focus inside it: the on-screen keyboard, else the open modal dialog, else
+ * the whole page. */
 function scope(): ParentNode {
+  const panel = document.querySelector<HTMLElement>("[data-nav-scope]");
+  if (panel) return panel;
   const dialogs = document.querySelectorAll<HTMLDialogElement>("dialog[open]");
   return dialogs[dialogs.length - 1] ?? document;
+}
+
+/** A field couch mode's on-screen keyboard types into. */
+function textField(el: Element | null): el is HTMLInputElement | HTMLTextAreaElement {
+  return (
+    el instanceof HTMLTextAreaElement ||
+    (el instanceof HTMLInputElement &&
+      ["text", "search", "email", "url", "password", "tel"].includes(el.type))
+  );
 }
 
 /** The page's main scrolling area. */
@@ -56,9 +68,10 @@ function scroll(sign: number) {
 
 function back() {
   const root = scope();
-  if (root instanceof HTMLDialogElement) {
-    // Same as Escape: the dialog's own cancel handling runs.
-    if (root.dispatchEvent(new Event("cancel", { cancelable: true }))) root.close();
+  if (root instanceof HTMLElement) {
+    // Same as Escape: the dialog's (or keyboard's) own cancel handling runs.
+    const go = root.dispatchEvent(new Event("cancel", { cancelable: true }));
+    if (go && root instanceof HTMLDialogElement) root.close();
     return;
   }
   const el = document.activeElement;
@@ -88,7 +101,10 @@ export function act(action: PadAction, sections: string[]) {
       break;
     case "accept": {
       const el = document.activeElement;
-      if (el instanceof HTMLElement && el !== document.body) el.click();
+      if (textField(el) && "couch" in document.documentElement.dataset) {
+        // Couch mode: type with Portside's keyboard (components/OnScreenKeyboard.svelte).
+        window.dispatchEvent(new CustomEvent("portside:keyboard", { detail: el }));
+      } else if (el instanceof HTMLElement && el !== document.body) el.click();
       else move("down");
       break;
     }
@@ -129,9 +145,7 @@ export function startController(sections: string[]): () => void {
     const field = document.activeElement;
     // Fields keep the arrows they use; up and down still leave a one-line text field.
     const oneLine =
-      field instanceof HTMLInputElement &&
-      ["text", "search", "email", "url", "password", "tel"].includes(field.type) &&
-      (dir === "up" || dir === "down");
+      field instanceof HTMLInputElement && textField(field) && (dir === "up" || dir === "down");
     if (usesArrowKeys(field) && !oneLine) return;
     e.preventDefault();
     usingPad();

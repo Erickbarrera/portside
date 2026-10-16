@@ -190,6 +190,8 @@ export function installMockIpc() {
             os: mockOs,
             arch: "x86_64",
             catalog_url: "mock://synthetic-fixtures/",
+            // `?mock-couch` starts as if on a Steam Deck in Game Mode.
+            big_screen: params.has("mock-couch"),
           } satisfies AppInfo;
         case "catalog_search":
           return search(a.query as CatalogQuery);

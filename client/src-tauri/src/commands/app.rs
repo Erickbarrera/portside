@@ -12,6 +12,8 @@ pub struct AppInfo {
     pub arch: Arch,
     /// Where the catalog is read from.
     pub catalog_url: String,
+    /// Running on a Steam-run TV-style screen (Game Mode, Big Picture): couch mode starts on.
+    pub big_screen: bool,
 }
 
 /// Version, platform and catalog address, for the UI and Settings.
@@ -23,5 +25,6 @@ pub fn app_info(state: State<'_, AppState>) -> AppInfo {
         os: state.platform.os,
         arch: state.platform.arch,
         catalog_url: state.api.base_url().to_owned(),
+        big_screen: crate::steam::big_screen(),
     }
 }

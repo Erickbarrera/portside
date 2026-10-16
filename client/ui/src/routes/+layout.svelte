@@ -12,10 +12,19 @@
   import { commands } from "$lib/ipc";
   import Avatar from "$lib/components/Avatar.svelte";
   import InstalledList from "$lib/components/InstalledList.svelte";
+  import OnScreenKeyboard from "$lib/components/OnScreenKeyboard.svelte";
+  import { applyCouch, couch } from "$lib/couch.svelte";
   import { startController } from "$lib/controller";
   import type { Snippet } from "svelte";
+  import type { LayoutData } from "./$types";
 
-  let { children }: { children: Snippet } = $props();
+  let { children, data }: { children: Snippet; data: LayoutData } = $props();
+
+  // Couch mode: on by itself in Steam's Game Mode or Big Picture, else as chosen in Settings.
+  $effect(() => couch.detect(data.app.big_screen));
+  $effect(() => {
+    void applyCouch(couch.on);
+  });
 
   // Downloads, Cloud saves and Collections join as their milestones land
   // (docs/ui.md, docs/roadmap.md).
@@ -87,6 +96,7 @@
     {@render children()}
   </main>
 </div>
+<OnScreenKeyboard />
 
 <style>
   .shell {
