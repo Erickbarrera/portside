@@ -3,6 +3,7 @@
 mod catalog_sync;
 mod commands;
 mod error;
+mod gamepad;
 mod games;
 mod installs;
 mod keychain;
@@ -77,6 +78,7 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             catalog_sync::CatalogSynced,
             installs::InstallChanged,
             games::GameChanged,
+            gamepad::GamepadInput,
             social::AuthChanged,
             social::ChatChanged,
             saves::SavesChanged
@@ -114,6 +116,7 @@ pub fn run() {
             social::spawn_restore(app.handle().clone());
             social::spawn_chat_poller(app.handle().clone());
             saves::spawn_open(app.handle().clone());
+            gamepad::spawn(app.handle().clone());
             Ok(())
         })
         .run(tauri::generate_context!());

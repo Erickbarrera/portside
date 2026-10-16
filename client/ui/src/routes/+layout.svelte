@@ -9,6 +9,7 @@
   import { chat, personName } from "$lib/chat.svelte";
   import Avatar from "$lib/components/Avatar.svelte";
   import InstalledList from "$lib/components/InstalledList.svelte";
+  import { startController } from "$lib/controller";
   import type { Snippet } from "svelte";
 
   let { children }: { children: Snippet } = $props();
@@ -25,6 +26,8 @@
   $effect(() => {
     void auth.start();
   });
+  // Controller and arrow keys; the bumpers step through the sections above.
+  $effect(() => startController(nav.map((item) => item.href)));
   // Unread counts for the sidebar once signed in; forget them on sign-out.
   $effect(() => {
     if (auth.account?.can_chat) void chat.start(auth.account.did);

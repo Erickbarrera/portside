@@ -34,6 +34,8 @@ tauri = { version = "2.12", features = [] }
 tauri-plugin-opener = "2.7"
 tauri-plugin-dialog = "2"
 gethostname = "1"
+# Controllers (docs/ui.md, "Controller"); needs libudev-dev to build on Linux.
+gilrs = "0.11"
 specta.workspace = true
 tauri-specta = { version = "=2.0.0-rc.25", features = ["derive", "typescript"] }
 specta-typescript = "0.0.12"

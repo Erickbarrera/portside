@@ -163,6 +163,7 @@ export const events = {
 	catalogSynced: makeEvent<CatalogSynced>("catalog-synced"),
 	chatChanged: makeEvent<ChatChanged>("chat-changed"),
 	gameChanged: makeEvent<GameChanged>("game-changed"),
+	gamepadInput: makeEvent<GamepadInput>("gamepad-input"),
 	installChanged: makeEvent<InstallChanged_Deserialize>("install-changed"),
 	savesChanged: makeEvent<SavesChanged>("saves-changed"),
 };
@@ -488,6 +489,11 @@ export type GameState =
 /**  It ended. `code` is None when it was ended by a signal. */
 { state: "exited"; code: number | null; stopped: boolean; stats: PlayStats };
 
+/**  Sent for each controller action, including repeats while a direction is held. */
+export type GamepadInput = {
+	action: PadAction,
+};
+
 export type ImportMode = "copy" | "extract_with_port" | "pick_folder";
 
 /**  Sent whenever an install moves on, finishes, fails or is removed. */
@@ -741,6 +747,19 @@ export type OsStatus = {
 	status: PlayableStatus,
 	source: StatusSource,
 };
+
+/**  What a controller asked for. */
+export type PadAction = "up" | "down" | "left" | "right" | 
+/**  A (bottom face button): press the focused button or link. */
+"accept" | 
+/**  B (right face button): close a dialog, else go back. */
+"back" | 
+/**  Left bumper: the previous section in the sidebar. */
+"prev_section" | 
+/**  Right bumper: the next section. */
+"next_section" | 
+/**  Right stick: scroll the page. */
+"scroll_up" | "scroll_down";
 
 /**  `{ items, cursor }`; `cursor: null` means the last page. */
 export type Page<T> = {

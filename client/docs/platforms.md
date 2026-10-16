@@ -18,9 +18,10 @@
 - Distribute: AppImage + Flatpak (Flathub) + .deb. Flatpak needs filesystem permission for
   the library dir and `--talk-name=org.freedesktop.Flatpak` to spawn host processes via
   `flatpak-spawn --host` [verify]; document limits.
-- Steam Deck: "Add to Steam" for Game Mode (write a non-Steam shortcut to
-  `shortcuts.vdf`), controller-first "Big Picture" UI mode (`?mode=couch`), gamepad nav via
-  Gamepad API in the webview.
+- Steam Deck: controllers work everywhere (ui.md, "Controller"); in Game Mode Steam Input
+  hands Portside a virtual controller. "Add to Steam" and couch mode work on every OS
+  (ui.md). Deck only (planned): install to the SD card, Steam's on-screen keyboard for
+  text fields. Building needs `libudev-dev` (gilrs).
 - Prefer AppImage ports; mark builds needing glibc ≥ X.
 
 ## Android

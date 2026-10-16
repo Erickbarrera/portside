@@ -63,6 +63,14 @@ p {
   border-radius: 4px;
 }
 
+/* While a controller or the arrow keys are in use (lib/controller.ts), focus is the cursor:
+   always show it, a little bolder. */
+:root[data-input="pad"] :focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 button,
 input,
 select {

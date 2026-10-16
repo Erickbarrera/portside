@@ -40,8 +40,25 @@ Routes: `/library`, `/discover`, `/community`, `/port/:id`, `/port/:id/board`,
 ## Android
 Bottom nav: Library · Discover · Saves · Profile. Same routes, responsive layouts.
 
-## Couch mode (Steam Deck / TV)
-Large tiles, focus rings, D-pad navigation, A/B mapped to select/back.
+## Controller (every OS, 2026-10-16)
+Any controller works on Windows, macOS and Linux. Rust reads them with gilrs
+(`src-tauri/src/gamepad.rs`; WebKitGTK's Gamepad API isn't dependable) and sends
+`gamepad-input` events; `ui/src/lib/controller.ts` acts on them, only while Portside's window
+has focus (a running game doesn't move Portside's focus):
+- D-pad or left stick: move focus to the nearest control that way (`lib/spatial-nav.ts`;
+  controls in line come first, so moving down the page stays out of the sidebar). Holding
+  repeats. With nothing that way, up/down scroll the page.
+- A: press the focused control. B: close the open dialog, leave a text field, else go back.
+- Bumpers: previous/next sidebar section. Right stick: scroll.
+- Focus stays inside an open dialog. Nothing focused yet: the first press lands on the
+  page's first control past any search field.
+The arrow keys move focus the same way (not inside fields that use them; up/down still
+leave a one-line text field). While a controller or the arrows are in use the focus ring
+is bolder; a click hides it again.
+
+## Couch mode (planned, every OS)
+Large tiles, full screen, for the Steam Deck and TVs, on its own under Gamescope/Game Mode.
+Has Portside's own on-screen keyboard on every OS (the Steam Deck can also use Steam's).
 
 ## Brand
 Purple accent and the green pirate-parrot icon (chosen by Erick 2026-10-13, shared with the
