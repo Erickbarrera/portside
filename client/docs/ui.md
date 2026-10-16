@@ -20,6 +20,11 @@ game, Invite to play, message requests); Community (All discussions, Portside he
 page's Discussions section and Invite a friend dialog; `/port/:id/board` (sub-forum tabs,
 search, latest/top, New thread); `/thread/:uri` (first post stitched, replies, reply box).
 Friends shows an unread badge in the sidebar.
+Below the nav the sidebar lists installed games, Steam-style (2026-10-16,
+`InstalledList.svelte`): a count, a search box, one row per game (small cover, title without
+its "(…)" note unless two ports of one game are installed), sorted by title, scrolling on
+its own. Rows link to the game page and say Playing, or show progress while installing or
+updating.
 Other entries appear when their milestone lands.
 
 Covers (`ui/src/lib/components/Cover.svelte`): the catalog's `screenshot_url`, linked from

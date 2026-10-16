@@ -52,7 +52,8 @@ never depend on Tauri; they must be testable without a window.
   URL to preview another system (e.g. the unsigned-app warning); `?mock-crash` makes games
   quit with an error after a moment; the mock is signed in to a synthetic Bluesky account
   (`?mock-signed-out` starts signed out); cloud saves start off (`?mock-saves=on` starts set
-  up, `?mock-saves=conflict` gives games a save conflict on Play)
+  up, `?mock-saves=conflict` gives games a save conflict on Play); `?mock-installed` starts
+  with every game that has a build for that system installed
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")
 - `cargo test --workspace` · `cargo clippy --workspace --all-targets -- -D warnings` ·

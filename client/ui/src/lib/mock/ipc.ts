@@ -80,6 +80,39 @@ function send(port_id: string, state: InstallState) {
   void emit("install-changed", { port_id, state } satisfies InstallChanged);
 }
 
+/** The library entry a finished (fake) install of `id` leaves behind. */
+function installedEntry(id: string, installedAt = Date.now() / 1000): Installed {
+  const p = plan(id);
+  return {
+    port_id: id,
+    title: p.title,
+    version: p.version,
+    dir: `/mock/library/${id}/${p.version}`,
+    os: p.os,
+    arch: p.arch,
+    fit: p.fit,
+    asset: p.asset,
+    release_url: p.release_url,
+    size: p.size,
+    sha256: null,
+    verified: "none",
+    installed_at: installedAt,
+    unsigned: p.unsigned,
+    build: { os: p.os, arch: p.arch, asset: p.asset, archive: "zip" },
+  };
+}
+
+// `?mock-installed` starts with every game that has a build for this system installed.
+if (params.has("mock-installed")) {
+  ports.forEach((port, i) => {
+    try {
+      installed.set(port.id, installedEntry(port.id, Date.now() / 1000 - (i + 1) * 86400));
+    } catch {
+      // No build for this system.
+    }
+  });
+}
+
 /** Pretends to download 48 MB in about four seconds. */
 function fakeInstall(id: string) {
   const p = plan(id);
@@ -90,23 +123,7 @@ function fakeInstall(id: string) {
     if (done >= p.size) {
       clearInterval(timer);
       running.delete(id);
-      const install: Installed = {
-        port_id: id,
-        title: p.title,
-        version: p.version,
-        dir: `/mock/library/${id}/${p.version}`,
-        os: p.os,
-        arch: p.arch,
-        fit: p.fit,
-        asset: p.asset,
-        release_url: p.release_url,
-        size: p.size,
-        sha256: null,
-        verified: "none",
-        installed_at: Date.now() / 1000,
-        unsigned: p.unsigned,
-        build: { os: p.os, arch: p.arch, asset: p.asset, archive: "zip" },
-      };
+      const install = installedEntry(id);
       installed.set(id, install);
       state = { state: "installed", install };
     } else {

@@ -8,7 +8,7 @@
     gameKey,
     title,
     size = "card",
-  }: { url: string | null; gameKey: string; title: string; size?: "card" | "hero" | "thumb" } =
+  }: { url: string | null; gameKey: string; title: string; size?: "card" | "hero" | "thumb" | "icon" } =
     $props();
 
   let broken = $state(false);
@@ -21,7 +21,7 @@
 
 <div class="cover {size}" class:band={size === "hero" && !showImage} style:background={showImage ? undefined : coverBackground(gameKey)}>
   {#if showImage}
-    <img src={url} alt={`Screenshot of ${title}`} loading="lazy" onerror={() => (broken = true)} />
+    <img src={url} alt={size === "icon" ? "" : `Screenshot of ${title}`} loading="lazy" onerror={() => (broken = true)} />
   {:else if size === "card"}
     <span class="name" aria-hidden="true">{coverTitle(title)}</span>
   {/if}
@@ -47,6 +47,13 @@
     width: 96px;
     aspect-ratio: 16 / 9;
     border-radius: var(--radius-s);
+    flex-shrink: 0;
+  }
+  /* The sidebar's installed list: a small square crop. */
+  .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
     flex-shrink: 0;
   }
   img {

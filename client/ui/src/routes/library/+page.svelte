@@ -3,8 +3,8 @@
   import PlayButton from "$lib/components/PlayButton.svelte";
   import { crashed, formatPlaytime, games } from "$lib/games.svelte";
   import { fraction, installs } from "$lib/installs.svelte";
-  import { type PortSummary, commands } from "$lib/ipc";
   import { formatDate } from "$lib/labels";
+  import { summaries as saved } from "$lib/summaries.svelte";
 
   $effect(() => {
     installs.start();
@@ -18,14 +18,9 @@
   const pending = $derived(Object.keys(installs.active).filter((id) => !(id in installs.installed)));
 
   // Saved catalog summaries, for screenshots and game keys (works offline).
-  let summaries = $state<Record<string, PortSummary>>({});
+  const summaries = $derived(saved.byId);
   $effect(() => {
-    const ids = [...list.map((g) => g.port_id), ...pending].filter((id) => !(id in summaries));
-    if (ids.length === 0) return;
-    void commands.catalogSummaries(ids).then((result) => {
-      if (result.status !== "ok") return;
-      for (const s of result.data) summaries[s.id] = s;
-    });
+    saved.want([...list.map((g) => g.port_id), ...pending]);
   });
 
   const percent = (id: string) => {
