@@ -28,6 +28,7 @@ zip.workspace = true
 tar.workspace = true
 flate2.workspace = true
 liblzma.workspace = true
+sevenz-rust2.workspace = true
 rusqlite.workspace = true
 refinery.workspace = true
 specta = { workspace = true, optional = true }
@@ -35,6 +36,7 @@ specta = { workspace = true, optional = true }
 [dev-dependencies]
 tempfile.workspace = true
 zip = { workspace = true, features = ["deflate"] }
+sevenz-rust2 = { workspace = true, features = ["compress", "util"] }
 wiremock.workspace = true
 
 [lints]

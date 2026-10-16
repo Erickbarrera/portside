@@ -26,11 +26,11 @@ background and reports `install-changed` events.
 8. If `assets_required`: import wizard [TBD: step after launch]; launch stays blocked until
    satisfied.
 
-Archives: `zip`, `tar.gz`, `tar.xz`, `dmg` (macOS: `hdiutil` + `ditto`), `appimage` and
+Archives: `zip`, `tar.gz`, `tar.xz`, `7z`, `dmg` (macOS: `hdiutil` + `ditto`), `appimage` and
 `none` (saved under `launch.exe`, so a versioned AppImage name keeps one launch path). A
 build with `nested` unpacks the asset into `.staging/outer/`, finds the one file matching
 `nested.file`, unpacks that instead and drops the rest (manifest-format.md, "Archives").
-Not yet: `7z`, `apk`.
+Not yet: `apk`.
 Entries with absolute paths or `..`, and writes through a symlink the archive created, fail
 the install.
 Uninstall deletes `{library}/{id}/` and its records.

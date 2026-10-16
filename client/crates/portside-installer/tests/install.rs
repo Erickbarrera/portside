@@ -702,6 +702,32 @@ async fn installs_a_tarball_and_marks_the_exe_executable() -> TestResult {
     Ok(())
 }
 
+#[tokio::test]
+async fn installs_a_7z_archive() -> TestResult {
+    let env = Env::new().await?;
+    let src = tempfile::tempdir()?;
+    let game = src.path().join("Example Game");
+    std::fs::create_dir_all(game.join("data"))?;
+    std::fs::write(game.join("example.exe"), b"synthetic exe")?;
+    std::fs::write(game.join("data/readme.txt"), b"synthetic data")?;
+    let bytes = sevenz_rust2::compress(src.path(), std::io::Cursor::new(Vec::new()))?.into_inner();
+    env.release(&[("Example-1.0-Win64.7z", &bytes, true)]).await;
+    let builds = json!([{
+        "os": "windows", "arch": "x86_64", "asset": "Example-*-Win64.7z", "archive": "7z",
+        "strip_root": true, "launch": { "exe": "example.exe" }
+    }]);
+    let installer = env.installer(WINDOWS)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    let installed = run(&installer, &plan, false).await?;
+    let dir = Path::new(&installed.dir);
+    assert_eq!(std::fs::read(dir.join("example.exe"))?, b"synthetic exe");
+    assert_eq!(
+        std::fs::read(dir.join("data/readme.txt"))?,
+        b"synthetic data"
+    );
+    Ok(())
+}
+
 const LINUX: Platform = Platform {
     os: Os::Linux,
     arch: Arch::X86_64,

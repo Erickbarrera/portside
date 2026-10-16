@@ -30,6 +30,7 @@ pub fn unpack(
         ArchiveKind::TarGz => untar(flate2::read::GzDecoder::new(open(file)?), out)?,
         ArchiveKind::TarXz => untar(liblzma::read::XzDecoder::new(open(file)?), out)?,
         ArchiveKind::Dmg => undmg(file, out)?,
+        ArchiveKind::SevenZ => un7z(file, out)?,
         ArchiveKind::None | ArchiveKind::AppImage => {
             let dest = prepare(out, &safe_relative(save_as)?)?;
             fs::copy(file, &dest).at(&dest)?;
@@ -37,7 +38,7 @@ pub fn unpack(
                 make_executable(&dest)?;
             }
         }
-        ArchiveKind::SevenZ | ArchiveKind::Apk => {
+        ArchiveKind::Apk => {
             return Err(InstallError::UnsupportedArchive(kind.as_str().to_owned()));
         }
     }
@@ -213,6 +214,51 @@ fn unzip(file: &Path, out: &Path) -> Result<()> {
             let mode = entry.unix_mode();
             write_file(out, &rel, &mut entry, mode)?;
         }
+    }
+    Ok(())
+}
+
+fn un7z(file: &Path, out: &Path) -> Result<()> {
+    let mut archive =
+        sevenz_rust2::ArchiveReader::new(open(file)?, sevenz_rust2::Password::empty())
+            .map_err(bad)?;
+    let mut failed = None;
+    archive
+        .for_each_entries(|entry, data| match un7z_entry(entry, data, out) {
+            Ok(()) => Ok(true),
+            Err(e) => {
+                failed = Some(e);
+                Ok(false)
+            }
+        })
+        .map_err(bad)?;
+    failed.map_or(Ok(()), Err)
+}
+
+fn un7z_entry(
+    entry: &sevenz_rust2::ArchiveEntry,
+    data: &mut dyn io::Read,
+    out: &Path,
+) -> Result<()> {
+    if entry.is_anti_item() {
+        return Ok(());
+    }
+    // Archives made on Windows may use `\` between folders.
+    let raw = entry.name().replace('\\', "/");
+    let rel = safe_relative(&raw)?;
+    // 7-Zip keeps a Unix mode in the high bits of the attributes when it has one.
+    let attrs = entry.windows_attributes();
+    let mode = (attrs & 0x8000 != 0).then_some(attrs >> 16);
+    if entry.is_directory() {
+        guard_no_links(out, &rel)?;
+        let dest = out.join(&rel);
+        fs::create_dir_all(&dest).at(&dest)?;
+    } else if mode.is_some_and(|m| m & 0o170000 == 0o120000) {
+        let mut target = String::new();
+        data.read_to_string(&mut target).map_err(bad)?;
+        write_link(out, &rel, &target)?;
+    } else {
+        write_file(out, &rel, data, mode)?;
     }
     Ok(())
 }
