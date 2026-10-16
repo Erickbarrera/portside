@@ -19,6 +19,7 @@
 | portside-sync | Built (ADR-0023, save-sync v2): vault of plain files, `Storage` trait with a synced-folder implementation, save folder scan (include/exclude globs), snapshots with parents, conflict detection, restore with a trash copy, `saves.db`. Planned: retention, more storage adapters, chunking | blake3, ulid, globset, rusqlite |
 | portside-atproto | Built (ADR-0022): handle→DID→PDS resolution, OAuth as a localhost client (PAR+PKCE+DPoP, loopback redirect), token renewal, authenticated XRPC with DPoP nonces and `atproto-proxy`; `SessionStore` (keychain impl in src-tauri). Planned: blob upload | reqwest, p256, base64 |
 | portside-social | Built (ADR-0016, ADR-0021): friends (mutual follows), Bluesky direct messages and log polling, game invite links, boards on tagged posts (search, thread stitching, posting chains) | portside-atproto, unicode-segmentation |
+| portside-steam | Built (2026-10-16): Add to Steam on every OS. Finds Steam (`paths::steam_dirs`) and its last-used account, reads and writes the binary `shortcuts.vdf` (keeping entries it doesn't own, one-time `.before-portside` backup), cuts grid artwork (tall, wide, hero) from one picture, tells whether Steam is running | crc32fast, image, sysinfo |
 | portside-api | Typed client for the static catalog's `v1/` files (docs/specs/static-catalog.md) | reqwest, serde |
 
 ## Local data

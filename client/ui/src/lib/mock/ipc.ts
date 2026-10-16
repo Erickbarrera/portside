@@ -21,6 +21,7 @@ import type {
 import { portDetail, ports } from "./fixtures";
 import { mockAfterExit, mockBeforeLaunch, savesCommand } from "./saves";
 import { socialCommand } from "./social";
+import { steamCommand } from "./steam";
 
 // `?mock-os=macos` previews another system (e.g. the unsigned-app warning).
 const params = new URLSearchParams(location.search);
@@ -249,6 +250,8 @@ export function installMockIpc() {
           if (social !== undefined) return social;
           const saved = savesCommand(cmd, a);
           if (saved !== undefined) return saved;
+          const steam = steamCommand(cmd, a);
+          if (steam !== undefined) return steam;
           throw { code: "E_API_STATUS", message: `Mock IPC has no command ${cmd}` };
         }
       }

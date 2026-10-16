@@ -25,6 +25,10 @@ trademark use of game names/art.]
    covers as the app displays them, which copies them into the screenshot files. A cover
    turned off or taken down here is also removed from those screenshots by recapturing them
    (`pnpm screenshots` in `web/`).
+   Exception (Erick, 2026-10-16): the desktop app's "Add to Steam" downloads a game's
+   picture and saves it, cropped to Steam's sizes, as Steam artwork in the player's own Steam
+   folder (client/docs/platforms.md). The copy stays on the player's computer; Portside
+   never hosts it.
    [TBD: covered by the legal review above]
 7. Honor takedown requests from port maintainers who don't want to be listed.
 

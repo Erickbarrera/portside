@@ -476,16 +476,19 @@ pub async fn before_launch(app: &AppHandle, port_id: &str) -> Result<(), Command
 
 /// Syncs after a game exits, in the background.
 pub fn spawn_after_exit(app: &AppHandle, port_id: &str) {
+    let app = app.clone();
+    let port_id = port_id.to_owned();
+    tauri::async_runtime::spawn(async move { after_exit(&app, &port_id).await });
+}
+
+/// Syncs a game's saves after it exits, when cloud saves are on.
+pub async fn after_exit(app: &AppHandle, port_id: &str) {
     if !app.state::<AppState>().saves.enabled() {
         return;
     }
-    let app = app.clone();
-    let port_id = port_id.to_owned();
-    tauri::async_runtime::spawn(async move {
-        if let Err(e) = sync(&app, &port_id).await {
-            eprintln!("could not sync saves for {port_id}: {}", e.message);
-        }
-    });
+    if let Err(e) = sync(app, port_id).await {
+        eprintln!("could not sync saves for {port_id}: {}", e.message);
+    }
 }
 
 /// Opens the vault in the background at start-up, so the first sync is quick.

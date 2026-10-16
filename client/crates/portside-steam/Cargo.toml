@@ -1,0 +1,21 @@
+[package]
+name = "portside-steam"
+description = "Adds installed ports to Steam as non-Steam games, with artwork"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+portside-core.workspace = true
+thiserror.workspace = true
+crc32fast = "1.5"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif"] }
+sysinfo = { version = "0.39", default-features = false, features = ["system"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

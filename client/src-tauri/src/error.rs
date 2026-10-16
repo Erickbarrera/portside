@@ -115,6 +115,15 @@ pub enum ErrorCode {
     /// Syncing saves failed (a file couldn't be read or written, damaged data).
     #[serde(rename = "E_SAVES")]
     Saves,
+    /// Steam isn't installed here, or no one has signed in to it.
+    #[serde(rename = "E_STEAM_NOT_FOUND")]
+    SteamNotFound,
+    /// Steam is open, and has to be closed to add a game.
+    #[serde(rename = "E_STEAM_RUNNING")]
+    SteamRunning,
+    /// Adding to Steam failed (its files couldn't be read or written).
+    #[serde(rename = "E_STEAM")]
+    Steam,
 }
 
 /// What a failed command returns to the UI.

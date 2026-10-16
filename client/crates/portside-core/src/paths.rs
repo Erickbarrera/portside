@@ -77,6 +77,46 @@ pub fn resolve_placeholders(template: &str, os: Os, install: Option<&Path>) -> O
     Some(path)
 }
 
+/// Steam folders that exist on this computer (the ones holding `userdata/`), most likely
+/// first: the usual install, then Flatpak and Snap on Linux. Steam installed elsewhere on
+/// Windows isn't found yet [TBD: read SteamPath from the registry].
+pub fn steam_dirs() -> Vec<PathBuf> {
+    let Some(base) = BaseDirs::new() else {
+        return Vec::new();
+    };
+    let home = base.home_dir();
+    let candidates: Vec<PathBuf> = if cfg!(target_os = "linux") {
+        vec![
+            home.join(".local/share/Steam"),
+            home.join(".steam/steam"),
+            home.join(".var/app/com.valvesoftware.Steam/.local/share/Steam"),
+            home.join("snap/steam/common/.local/share/Steam"),
+        ]
+    } else if cfg!(target_os = "macos") {
+        vec![home.join("Library/Application Support/Steam")]
+    } else if cfg!(target_os = "windows") {
+        ["ProgramFiles(x86)", "ProgramFiles"]
+            .iter()
+            .filter_map(std::env::var_os)
+            .map(|dir| PathBuf::from(dir).join("Steam"))
+            .collect()
+    } else {
+        Vec::new()
+    };
+    let mut found: Vec<PathBuf> = Vec::new();
+    for dir in candidates {
+        if !dir.join("userdata").is_dir() {
+            continue;
+        }
+        // ~/.steam/steam is usually a link to ~/.local/share/Steam.
+        let real = dir.canonicalize().unwrap_or(dir);
+        if !found.contains(&real) {
+            found.push(real);
+        }
+    }
+    found
+}
+
 /// A folder kept in sync by a cloud app, offered when choosing where cloud saves go.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SyncedFolder {

@@ -3,12 +3,14 @@
 mod catalog_sync;
 mod commands;
 mod error;
+mod gamepad;
 mod games;
 mod installs;
 mod keychain;
 mod saves;
 mod social;
 mod state;
+mod steam;
 
 use tauri_specta::{Builder, collect_commands, collect_events};
 
@@ -72,11 +74,15 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             commands::saves::saves_keep,
             commands::saves::saves_set_game_folder,
             commands::saves::saves_reveal,
+            commands::steam::steam_status,
+            commands::steam::steam_add,
+            commands::steam::play_request,
         ])
         .events(collect_events![
             catalog_sync::CatalogSynced,
             installs::InstallChanged,
             games::GameChanged,
+            gamepad::GamepadInput,
             social::AuthChanged,
             social::ChatChanged,
             saves::SavesChanged
@@ -107,6 +113,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .manage(state)
+        .manage(steam::PlayRequest::from_args(std::env::args().skip(1)))
         .invoke_handler(builder.invoke_handler())
         .setup(move |app| {
             builder.mount_events(app);
@@ -114,6 +121,7 @@ pub fn run() {
             social::spawn_restore(app.handle().clone());
             social::spawn_chat_poller(app.handle().clone());
             saves::spawn_open(app.handle().clone());
+            gamepad::spawn(app.handle().clone());
             Ok(())
         })
         .run(tauri::generate_context!());
