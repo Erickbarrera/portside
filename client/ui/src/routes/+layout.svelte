@@ -8,6 +8,7 @@
   import { auth } from "$lib/account.svelte";
   import { chat, personName } from "$lib/chat.svelte";
   import Avatar from "$lib/components/Avatar.svelte";
+  import InstalledList from "$lib/components/InstalledList.svelte";
   import type { Snippet } from "svelte";
 
   let { children }: { children: Snippet } = $props();
@@ -52,6 +53,7 @@
         </li>
       {/each}
     </ul>
+    <InstalledList />
     <div class="bottom">
       {#if auth.account}
         <a class="me" href="/settings#account" title={`Signed in as @${auth.account.handle}`}>
@@ -72,13 +74,14 @@
 <style>
   .shell {
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 248px 1fr;
     height: 100vh;
   }
   .sidebar {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-height: 0;
     padding: 20px 12px;
     background: var(--surface-1);
     border-right: 1px solid var(--border);
@@ -122,6 +125,8 @@
   }
   .bottom {
     margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 2px;
