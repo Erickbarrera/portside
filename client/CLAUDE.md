@@ -56,7 +56,8 @@ never depend on Tauri; they must be testable without a window.
   up, `?mock-saves=conflict` gives games a save conflict on Play); `?mock-installed` starts
   with every game that has a build for that system installed; Steam is found and closed
   (`?mock-steam=running`, `launched` as if Steam started Portside, `none`), and
-  `?mock-play=<port>` starts as if a Steam shortcut asked for that game
+  `?mock-play=<port>` starts as if a Steam shortcut asked for that game; `?mock-couch` starts as
+  if on Steam's Game Mode screen (couch mode on Auto turns on)
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")
 - `cargo test --workspace` · `cargo clippy --workspace --all-targets -- -D warnings` ·

@@ -194,6 +194,8 @@ export type AppInfo = {
 	arch: Arch,
 	/**  Where the catalog is read from. */
 	catalog_url: string,
+	/**  Running on a Steam-run TV-style screen (Game Mode, Big Picture): couch mode starts on. */
+	big_screen: boolean,
 };
 
 /**  CPU architecture a build targets. */
