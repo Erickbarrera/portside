@@ -337,26 +337,27 @@ fn undmg(file: &Path, out: &Path) -> Result<()> {
     copied.and(detached)
 }
 
-/// Copies a mounted volume's contents, without the `Applications` shortcut and Finder
-/// layout files, keeping bundles intact.
+/// Copies a mounted volume's contents, keeping bundles intact. Hidden entries (Finder layout,
+/// Spotlight and Trash folders, which can be unreadable) and shortcuts that point outside the
+/// volume, such as the `Applications` link, are left out.
 #[cfg(target_os = "macos")]
 fn copy_volume(mount: &Path, out: &Path) -> Result<()> {
-    const SKIP: &[&str] = &[
-        "Applications",
-        ".background",
-        ".DS_Store",
-        ".VolumeIcon.icns",
-        ".fseventsd",
-        ".Trashes",
-    ];
     for entry in fs::read_dir(mount).at(mount)? {
         let entry = entry.at(mount)?;
         let name = entry.file_name();
-        if SKIP.iter().any(|s| name == *s) {
+        if name.to_string_lossy().starts_with('.') || name == "Applications" {
             continue;
         }
+        let path = entry.path();
         let dest = out.join(&name);
-        crate::tools::run("ditto", &[entry.path().as_os_str(), dest.as_os_str()], None)?;
+        if entry.file_type().at(&path)?.is_symlink() {
+            let target = fs::read_link(&path).at(&path)?;
+            if target.is_relative() && safe_relative(&target.to_string_lossy()).is_ok() {
+                std::os::unix::fs::symlink(&target, &dest).at(&dest)?;
+            }
+            continue;
+        }
+        crate::tools::run("ditto", &[path.as_os_str(), dest.as_os_str()], None)?;
     }
     Ok(())
 }
