@@ -117,6 +117,79 @@ pub fn steam_dirs() -> Vec<PathBuf> {
     found
 }
 
+/// True on a Steam Deck (Valve's own hardware). Installing to the SD card is offered only
+/// there (docs/platforms.md, "Steam Deck"). `PORTSIDE_SD_CARD` pretends to be one.
+pub fn is_steam_deck() -> bool {
+    if std::env::var_os("PORTSIDE_SD_CARD").is_some() {
+        return true;
+    }
+    cfg!(target_os = "linux")
+        && std::fs::read_to_string("/sys/devices/virtual/dmi/id/board_vendor")
+            .is_ok_and(|v| v.trim() == "Valve")
+}
+
+/// The Steam Deck's SD card, when one is in: where SteamOS mounted it. Elsewhere None.
+/// `PORTSIDE_SD_CARD=<folder>` stands in for a card when testing on another computer.
+pub fn sd_card() -> Option<PathBuf> {
+    if let Some(dir) = std::env::var_os("PORTSIDE_SD_CARD") {
+        return Some(PathBuf::from(dir)).filter(|p| p.is_dir());
+    }
+    if !is_steam_deck() {
+        return None;
+    }
+    let mounts = std::fs::read_to_string("/proc/mounts").ok()?;
+    sd_card_in(&mounts).filter(|p| p.is_dir())
+}
+
+/// Where games go on the SD card: a `Portside` folder at its top, beside Steam's own.
+pub fn sd_card_library(card: &Path) -> PathBuf {
+    card.join("Portside")
+}
+
+/// True when `path` is on a card or drive that can be taken out (SteamOS mounts those under
+/// `/run/media`), so missing files may only mean it isn't in.
+pub fn on_removable_storage(path: &Path) -> bool {
+    cfg!(target_os = "linux") && path.starts_with("/run/media")
+}
+
+/// The SD card's mount point in a `/proc/mounts` listing: the reader's device (`mmcblk`)
+/// mounted under `/run/media` (`/run/media/deck/<label>`, or `/run/media/mmcblk0p1` before
+/// SteamOS 3.5).
+fn sd_card_in(mounts: &str) -> Option<PathBuf> {
+    mounts.lines().find_map(|line| {
+        let mut fields = line.split_whitespace();
+        let device = fields.next()?;
+        let dir = unescape_mount(fields.next()?);
+        (device.starts_with("/dev/mmcblk") && dir.starts_with("/run/media/"))
+            .then(|| PathBuf::from(dir))
+    })
+}
+
+/// `/proc/mounts` writes spaces, tabs, newlines and backslashes as `\040`-style octal.
+fn unescape_mount(field: &str) -> String {
+    let bytes = field.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        let code = bytes
+            .get(i + 1..i + 4)
+            .filter(|_| bytes[i] == b'\\')
+            .and_then(|d| std::str::from_utf8(d).ok())
+            .and_then(|d| u8::from_str_radix(d, 8).ok());
+        match code {
+            Some(c) => {
+                out.push(c);
+                i += 4;
+            }
+            None => {
+                out.push(bytes[i]);
+                i += 1;
+            }
+        }
+    }
+    String::from_utf8_lossy(&out).into_owned()
+}
+
 /// A folder kept in sync by a cloud app, offered when choosing where cloud saves go.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SyncedFolder {
@@ -178,6 +251,23 @@ pub fn synced_folders() -> Vec<SyncedFolder> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn finds_the_sd_card_mount() {
+        let mounts = "/dev/nvme0n1p8 /home ext4 rw 0 0\n\
+            /dev/sda1 /run/media/deck/USB ext4 rw 0 0\n\
+            /dev/mmcblk0p1 /run/media/deck/My\\040Card ext4 rw 0 0\n";
+        assert_eq!(
+            sd_card_in(mounts),
+            Some(PathBuf::from("/run/media/deck/My Card"))
+        );
+        assert_eq!(
+            sd_card_in("/dev/mmcblk0p1 /run/media/mmcblk0p1 ext4 rw 0 0"),
+            Some(PathBuf::from("/run/media/mmcblk0p1"))
+        );
+        assert_eq!(sd_card_in("/dev/mmcblk0p2 /boot vfat rw 0 0"), None);
+        assert_eq!(unescape_mount("a\\134b\\011"), "a\\b\t");
+    }
 
     #[test]
     fn library_lives_under_data_dir() {

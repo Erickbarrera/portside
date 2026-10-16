@@ -11,6 +11,7 @@ mod saves;
 mod social;
 mod state;
 mod steam;
+mod storage;
 
 use tauri_specta::{Builder, collect_commands, collect_events};
 
@@ -30,6 +31,7 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             commands::catalog::catalog_refresh,
             commands::install::install_plan,
             commands::install::install_start,
+            commands::install::install_storage,
             commands::install::install_cancel,
             commands::install::installs_active,
             commands::install::library_list,

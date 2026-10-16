@@ -1,7 +1,7 @@
 <script lang="ts">
   import { crashed, formatPlaytime, games } from "$lib/games.svelte";
-  import { fraction, installs } from "$lib/installs.svelte";
-  import type { CommandError, Os, PlanSummary } from "$lib/ipc";
+  import { fraction, installs, storageOf } from "$lib/installs.svelte";
+  import type { CommandError, Os, PlanSummary, StorageKind } from "$lib/ipc";
   import { archLabel, formatBytes, formatDate, osLabel } from "$lib/labels";
   import AddToSteam from "./AddToSteam.svelte";
   import ErrorNotice from "./ErrorNotice.svelte";
@@ -14,6 +14,8 @@
   let planning = $state(false);
   let confirmRemove = $state(false);
   let busy = $state(false);
+  /** Where a new install goes, when there's a choice (a Steam Deck with an SD card in). */
+  let to = $state<StorageKind>(lastStorage());
 
   const installed = $derived(installs.installed[portId] ?? null);
   const running = $derived(installs.active[portId] ?? null);
@@ -30,6 +32,31 @@
     return `Played ${total.toLowerCase()} · last played ${last}.`;
   });
 
+  const onCard = $derived(installed ? storageOf(installed)?.kind === "sd_card" : false);
+  const storageLabel: Record<StorageKind, string> = {
+    internal: "Internal storage",
+    sd_card: "SD card",
+  };
+
+  const STORAGE_KEY = "portside.installTo";
+  function lastStorage(): StorageKind {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === "sd_card" ? "sd_card" : "internal";
+    } catch {
+      return "internal";
+    }
+  }
+  function choose(kind: StorageKind) {
+    to = kind;
+    try {
+      localStorage.setItem(STORAGE_KEY, kind);
+    } catch {
+      // Just not remembered next time.
+    }
+  }
+  /** The choice offered: only for a new install with an SD card in. */
+  const choices = $derived(plan && !plan.installed_version ? installs.storage : []);
+
   const revealLabel: Record<Os, string> = {
     macos: "Show in Finder",
     windows: "Show in Explorer",
@@ -40,7 +67,7 @@
   async function check() {
     planning = true;
     planError = null;
-    const result = await installs.plan(portId);
+    const [result] = await Promise.all([installs.plan(portId), installs.refreshStorage()]);
     planning = false;
     if (result.status === "ok") plan = result.data;
     else planError = result.error;
@@ -49,8 +76,9 @@
   async function confirm() {
     if (!plan) return;
     const chosen = plan;
+    const where = choices.length > 1 && choices.some((s) => s.kind === to) ? to : null;
     plan = null;
-    await installs.install(chosen, chosen.unsigned);
+    await installs.install(chosen, chosen.unsigned, where);
   }
 
   async function remove() {
@@ -121,6 +149,22 @@
       {#if plan.installed_version}
         <p class="note">Replaces the installed version {plan.installed_version}.</p>
       {/if}
+      {#if choices.length > 1}
+        <p class="note" id="install-to">Install to</p>
+        <div class="choices" role="radiogroup" aria-labelledby="install-to">
+          {#each choices as place (place.kind)}
+            <button
+              class="btn btn-secondary"
+              role="radio"
+              aria-checked={to === place.kind}
+              onclick={() => choose(place.kind)}
+            >
+              {storageLabel[place.kind]}
+              {#if place.free !== null}<span class="free">{formatBytes(place.free)} free</span>{/if}
+            </button>
+          {/each}
+        </div>
+      {/if}
       <div class="buttons">
         <button class="btn btn-primary" onclick={confirm}>
           {plan.unsigned ? "Install anyway" : "Install"}
@@ -138,7 +182,7 @@
         <p class="muted small">
           {#if playedLine}{playedLine}{/if}
           {osLabel[installed.os]} · {archLabel[installed.arch]} · {formatBytes(installed.size)} download
-          · installed {formatDate(new Date(installed.installed_at * 1000).toISOString())}.
+          · installed {formatDate(new Date(installed.installed_at * 1000).toISOString())}{onCard ? " on the SD card" : ""}.
         </p>
       </div>
       <button class="btn btn-secondary" onclick={() => installs.reveal(portId)}>{revealLabel[os]}</button>
@@ -250,6 +294,22 @@
   .buttons {
     display: flex;
     gap: 10px;
+  }
+  .choices {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .choices [aria-checked="true"] {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
+  .free {
+    margin-left: 6px;
+    font-size: 0.85em;
+    opacity: 0.8;
   }
   .link {
     background: none;

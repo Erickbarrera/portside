@@ -20,9 +20,20 @@
   `flatpak-spawn --host` [verify]; document limits.
 - Steam Deck: controllers work everywhere (ui.md, "Controller"); in Game Mode Steam Input
   hands Portside a virtual controller. "Add to Steam" (below) and couch mode (ui.md, on by
-  itself in Game Mode) work on every OS. Deck only (planned): install to the SD card, Steam's on-screen keyboard for
-  text fields. Building needs `libudev-dev` (gilrs).
+  itself in Game Mode) work on every OS. Deck only: install to the SD card (below); planned:
+  Steam's on-screen keyboard for text fields. Building needs `libudev-dev` (gilrs).
 - Prefer AppImage ports; mark builds needing glibc ≥ X.
+
+## SD card (Steam Deck only, 2026-10-16)
+On a Steam Deck (DMI board vendor `Valve`) with an SD card in, the install step offers
+"Internal storage" or "SD card", with the free space on each; the choice is remembered.
+`portside-core::paths::sd_card()` finds the card in `/proc/mounts`: the `mmcblk` device
+mounted under `/run/media` (`/run/media/deck/<label>`, or `/run/media/mmcblk0p1` before
+SteamOS 3.5). Games go in `<card>/Portside/<id>/<version>/`, with the download and unpacking
+on the card too. Updates stay where the game is. With the card out, Play and updates say to
+put it back in (`E_STORAGE_MISSING`), and Uninstall only forgets the game. Not on other
+computers, by Erick's choice. `PORTSIDE_SD_CARD=<folder>` stands in for a card when testing
+elsewhere. Not yet: moving an installed game between internal storage and the card.
 
 ## Add to Steam (every OS, 2026-10-16)
 The game page of an installed game offers "Add to Steam" when Steam is installed and has

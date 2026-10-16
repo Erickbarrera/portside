@@ -27,9 +27,15 @@ export const commands = {
 	installPlan: (portId: string) => typedError<PlanSummary, CommandError>(__TAURI_INVOKE("install_plan", { portId })),
 	/**
 	 *  Starts installing in the background; progress arrives as `install-changed` events.
-	 *  `accept_unsigned` is the user's OK for a macOS app Apple hasn't checked.
+	 *  `accept_unsigned` is the user's OK for a macOS app Apple hasn't checked. `to` picks the
+	 *  storage for a new install (internal when left out); updates stay where the game is.
 	 */
-	installStart: (portId: string, acceptUnsigned: boolean) => typedError<null, CommandError>(__TAURI_INVOKE("install_start", { portId, acceptUnsigned })),
+	installStart: (portId: string, acceptUnsigned: boolean, to: "internal" | "sd_card" | null) => typedError<null, CommandError>(__TAURI_INVOKE("install_start", { portId, acceptUnsigned, to })),
+	/**
+	 *  Where games can be installed: internal storage, plus the SD card on a Steam Deck with one
+	 *  in.
+	 */
+	installStorage: () => typedError<Storage[], CommandError>(__TAURI_INVOKE("install_storage")),
 	/**  Stops a running install. Downloaded bytes are kept, so starting again resumes. */
 	installCancel: (portId: string) => __TAURI_INVOKE<boolean>("install_cancel", { portId }),
 	/**  Installs running now. */
@@ -463,7 +469,9 @@ export type ErrorCode =
 /**  Steam is open, and has to be closed to add a game. */
 "E_STEAM_RUNNING" | 
 /**  Adding to Steam failed (its files couldn't be read or written). */
-"E_STEAM";
+"E_STEAM" | 
+/**  The game is on storage that isn't there: the Steam Deck's SD card was taken out. */
+"E_STORAGE_MISSING";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {
@@ -1054,6 +1062,17 @@ export type SteamStatus = {
 	/**  Steam started Portside, so Portside can't close Steam (it would close too). */
 	started_by_steam: boolean,
 };
+
+/**  A place games can be installed. */
+export type Storage = {
+	kind: StorageKind,
+	/**  The library folder there. */
+	path: string,
+	/**  Free space in bytes, when known. */
+	free: number | null,
+};
+
+export type StorageKind = "internal" | "sd_card";
 
 /**  A record's address and version, as replies and likes need it. */
 export type StrongRef = {

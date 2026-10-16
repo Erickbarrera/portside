@@ -49,7 +49,7 @@ Planned:
 Implemented: `app_info`; `catalog_search` (local copy); `port_get` (`v1/ports/{id}.json`,
 falling back to the saved summary with `offline: true`); `catalog_status`;
 `catalog_refresh`; `catalog_summaries` (saved summaries for a list of ids, so the Library
-shows covers offline); `install_plan`, `install_start`, `install_cancel`, `installs_active`,
+shows covers offline); `install_plan`, `install_start`, `install_storage`, `install_cancel`, `installs_active`,
 `library_list`, `library_get`, `uninstall`, `install_reveal`; `game_launch`, `game_stop`,
 `games_running`, `play_stats`, `game_reveal_log`; `auth_status`, `auth_sign_in`,
 `auth_cancel`, `auth_sign_out`; `friends_list`, `friends_follows_you`, `people_search`,

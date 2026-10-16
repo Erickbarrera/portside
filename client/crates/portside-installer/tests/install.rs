@@ -220,7 +220,7 @@ async fn run(
 ) -> Result<Installed, InstallError> {
     let cancel = Arc::new(AtomicBool::new(false));
     installer
-        .install(plan, accept_unsigned, &cancel, &|_| {})
+        .install(plan, None, accept_unsigned, &cancel, &|_| {})
         .await
 }
 
@@ -272,6 +272,46 @@ async fn installs_a_zip_from_github() -> TestResult {
 
     installer.uninstall("example-port").await?;
     assert!(!env.library_dir().join("example-port").exists());
+    assert!(installer.library().list()?.is_empty());
+    Ok(())
+}
+
+#[tokio::test]
+async fn installs_to_another_library_and_updates_there() -> TestResult {
+    let env = Env::new().await?;
+    let bytes = example_zip()?;
+    env.release(&[("Example-1.0-Win64.zip", &bytes, true)])
+        .await;
+    let card = env.dir.path().join("card");
+    std::fs::create_dir(&card)?;
+    let sd = card.join("Portside");
+    let installer = env.installer(WINDOWS)?;
+    let detail = port(windows_zip_build(), json!([]))?;
+    let never = Arc::new(AtomicBool::new(false));
+
+    let plan = installer.plan(&detail).await?;
+    let installed = installer
+        .install(&plan, Some(&sd), false, &never, &|_| {})
+        .await?;
+    assert_eq!(Path::new(&installed.dir), sd.join("example-port/v1.0"));
+    assert!(!env.library_dir().join("example-port").exists());
+
+    // Installing again (an update) stays on the card, whatever is asked.
+    let plan = installer.plan(&detail).await?;
+    let again = installer
+        .install(&plan, None, false, &never, &|_| {})
+        .await?;
+    assert_eq!(again.dir, installed.dir);
+
+    // With the card out, an update can't land anywhere else.
+    std::fs::rename(&card, env.dir.path().join("card-out"))?;
+    let plan = installer.plan(&detail).await?;
+    let out = installer.install(&plan, None, false, &never, &|_| {}).await;
+    assert!(matches!(out, Err(InstallError::StorageMissing(p)) if p == sd));
+    std::fs::rename(env.dir.path().join("card-out"), &card)?;
+
+    installer.uninstall("example-port").await?;
+    assert!(!sd.join("example-port").exists());
     assert!(installer.library().list()?.is_empty());
     Ok(())
 }

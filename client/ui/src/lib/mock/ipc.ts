@@ -17,6 +17,8 @@ import type {
   PlanSummary,
   PlayStats,
   PortSummary,
+  Storage,
+  StorageKind,
 } from "../ipc";
 import { portDetail, ports } from "./fixtures";
 import { mockAfterExit, mockBeforeLaunch, savesCommand } from "./saves";
@@ -28,6 +30,14 @@ const params = new URLSearchParams(location.search);
 const mockOs = (params.get("mock-os") as Os | null) ?? "linux";
 // `?mock-crash` makes every game quit with an error a moment after it starts.
 const mockCrash = params.has("mock-crash");
+// `?mock-sd` is a Steam Deck with an SD card in (installs can go there).
+const SD_LIBRARY = "/run/media/deck/Example Card/Portside";
+const storage: Storage[] = [
+  { kind: "internal", path: "/mock/library", free: 41_000_000_000 },
+  ...(params.has("mock-sd")
+    ? [{ kind: "sd_card" as const, path: SD_LIBRARY, free: 212_000_000_000 }]
+    : []),
+];
 const installed = new Map<string, Installed>();
 const running = new Map<string, { state: InstallState; timer: ReturnType<typeof setInterval> }>();
 const playing = new Map<string, number>();
@@ -82,13 +92,17 @@ function send(port_id: string, state: InstallState) {
 }
 
 /** The library entry a finished (fake) install of `id` leaves behind. */
-function installedEntry(id: string, installedAt = Date.now() / 1000): Installed {
+function installedEntry(
+  id: string,
+  installedAt = Date.now() / 1000,
+  library = "/mock/library",
+): Installed {
   const p = plan(id);
   return {
     port_id: id,
     title: p.title,
     version: p.version,
-    dir: `/mock/library/${id}/${p.version}`,
+    dir: `${library}/${id}/${p.version}`,
     os: p.os,
     arch: p.arch,
     fit: p.fit,
@@ -115,8 +129,12 @@ if (params.has("mock-installed")) {
 }
 
 /** Pretends to download 48 MB in about four seconds. */
-function fakeInstall(id: string) {
+function fakeInstall(id: string, to: StorageKind | null) {
   const p = plan(id);
+  // Updates stay where the game is.
+  const library =
+    installed.get(id)?.dir.replace(/\/[^/]+\/[^/]+$/, "") ??
+    storage.find((s) => s.kind === (to ?? "internal"))?.path;
   let done = 0;
   const timer = setInterval(() => {
     done = Math.min(p.size, done + p.size / 16);
@@ -124,7 +142,7 @@ function fakeInstall(id: string) {
     if (done >= p.size) {
       clearInterval(timer);
       running.delete(id);
-      const install = installedEntry(id);
+      const install = installedEntry(id, undefined, library);
       installed.set(id, install);
       state = { state: "installed", install };
     } else {
@@ -208,8 +226,10 @@ export function installMockIpc() {
         case "install_plan":
           return plan(String(a.portId));
         case "install_start":
-          fakeInstall(String(a.portId));
+          fakeInstall(String(a.portId), (a.to as StorageKind | null) ?? null);
           return null;
+        case "install_storage":
+          return storage;
         case "install_cancel": {
           const job = running.get(String(a.portId));
           if (!job) return false;
