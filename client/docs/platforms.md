@@ -37,7 +37,8 @@ shortcut to the last-used account's `userdata/<id>/config/shortcuts.vdf`:
 - Artwork: the catalog's `screenshot_url`, downloaded (https, at most 15 MB) and cropped to
   Steam's tall (`<appid>p.png`, 600×900), wide (`<appid>.png`, 920×430) and hero
   (`<appid>_hero.png`, 1920×620) sizes in `config/grid/`. Without a picture Steam shows
-  its own placeholder. No icon yet.
+  its own placeholder. No icon yet. Allowed by docs/legal/policy.md rule 6 (Erick,
+  2026-10-16): the copy stays on the player's computer.
 - Steam reads the file when it starts and may write over it while running, so it is only
   changed with Steam closed. With Steam open the page asks first, then closes Steam
   (`steam://exit`, up to 30 s), writes, and opens it again (`steam://open/games`). When
