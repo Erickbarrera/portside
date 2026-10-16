@@ -4,9 +4,12 @@
   import "@fontsource/ibm-plex-sans/600.css";
   import "@fontsource/ibm-plex-mono/400.css";
   import "../app.css";
+  import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { auth } from "$lib/account.svelte";
   import { chat, personName } from "$lib/chat.svelte";
+  import { games } from "$lib/games.svelte";
+  import { commands } from "$lib/ipc";
   import Avatar from "$lib/components/Avatar.svelte";
   import InstalledList from "$lib/components/InstalledList.svelte";
   import { startController } from "$lib/controller";
@@ -25,6 +28,17 @@
 
   $effect(() => {
     void auth.start();
+  });
+  // Started from a Steam shortcut (`--play <port>`): open the game's page and start it.
+  // Portside quits when it ends; a failure stays on the page.
+  $effect(() => {
+    void (async () => {
+      const id = await commands.playRequest();
+      if (!id) return;
+      await goto(`/port/${encodeURIComponent(id)}`);
+      await games.start();
+      await games.launch(id);
+    })();
   });
   // Controller and arrow keys; the bumpers step through the sections above.
   $effect(() => startController(nav.map((item) => item.href)));

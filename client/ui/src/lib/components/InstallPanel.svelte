@@ -3,6 +3,7 @@
   import { fraction, installs } from "$lib/installs.svelte";
   import type { CommandError, Os, PlanSummary } from "$lib/ipc";
   import { archLabel, formatBytes, formatDate, osLabel } from "$lib/labels";
+  import AddToSteam from "./AddToSteam.svelte";
   import ErrorNotice from "./ErrorNotice.svelte";
   import PlayButton from "./PlayButton.svelte";
 
@@ -150,6 +151,7 @@
         <button class="btn btn-secondary" onclick={() => (confirmRemove = true)}>Uninstall</button>
       {/if}
     </div>
+    <AddToSteam {portId} title={installed.title} />
   {:else}
     <div class="row">
       <p class="grow muted">Downloads the latest release from GitHub into your library.</p>

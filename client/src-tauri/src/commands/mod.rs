@@ -4,3 +4,4 @@ pub mod game;
 pub mod install;
 pub mod saves;
 pub mod social;
+pub mod steam;

@@ -155,6 +155,15 @@ export const commands = {
 	savesSetGameFolder: (portId: string, path: string | null) => typedError<GameSaves, CommandError>(__TAURI_INVOKE("saves_set_game_folder", { portId, path })),
 	/**  Shows a game's save folder in Finder, Explorer or the file manager. */
 	savesReveal: (portId: string) => typedError<null, CommandError>(__TAURI_INVOKE("saves_reveal", { portId })),
+	/**  Whether Steam is here and has this game, for the game page's "Add to Steam". */
+	steamStatus: (portId: string) => __TAURI_INVOKE<SteamStatus>("steam_status", { portId }),
+	/**
+	 *  Adds an installed game to Steam's library. Fails with `E_STEAM_RUNNING` while Steam is
+	 *  open unless `restart_steam` (Steam closes, the game is added, Steam opens again).
+	 */
+	steamAdd: (portId: string, restartSteam: boolean) => typedError<null, CommandError>(__TAURI_INVOKE("steam_add", { portId, restartSteam })),
+	/**  The game Steam asked Portside to start (`--play <port>`), once; None afterwards. */
+	playRequest: () => __TAURI_INVOKE<string | null>("play_request"),
 };
 
 /** Events */
@@ -446,7 +455,13 @@ export type ErrorCode =
 /**  Two devices have different saves for this game; the player has to keep one. */
 "E_SAVES_CONFLICT" | 
 /**  Syncing saves failed (a file couldn't be read or written, damaged data). */
-"E_SAVES";
+"E_SAVES" | 
+/**  Steam isn't installed here, or no one has signed in to it. */
+"E_STEAM_NOT_FOUND" | 
+/**  Steam is open, and has to be closed to add a game. */
+"E_STEAM_RUNNING" | 
+/**  Adding to Steam failed (its files couldn't be read or written). */
+"E_STEAM";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {
@@ -1001,6 +1016,18 @@ export type SourceType = "github_releases" | "github_actions_artifact" | "url_li
 
 /**  Where a per-OS status came from. */
 export type StatusSource = "curator" | "manifest" | "seed";
+
+/**  The game page's view of Steam. */
+export type SteamStatus = {
+	/**  Steam is installed and has been signed in to here. */
+	found: boolean,
+	/**  This game is in Steam's library already. */
+	added: boolean,
+	/**  Steam is open; adding means closing it for a moment. */
+	running: boolean,
+	/**  Steam started Portside, so Portside can't close Steam (it would close too). */
+	started_by_steam: boolean,
+};
 
 /**  A record's address and version, as replies and likes need it. */
 export type StrongRef = {

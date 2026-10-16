@@ -19,6 +19,7 @@ portside-launcher = { path = "crates/portside-launcher" }
 portside-atproto = { path = "crates/portside-atproto" }
 portside-social = { path = "crates/portside-social" }
 portside-sync = { path = "crates/portside-sync" }
+portside-steam = { path = "crates/portside-steam" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"

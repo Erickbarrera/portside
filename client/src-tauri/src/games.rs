@@ -15,6 +15,7 @@ use tokio::sync::Notify;
 
 use crate::error::{CommandError, ErrorCode};
 use crate::state::AppState;
+use crate::steam::PlayRequest;
 
 /// How often a running game's play time is saved, so a crash loses at most this much.
 const HEARTBEAT: Duration = Duration::from_secs(60);
@@ -236,7 +237,14 @@ pub fn launch(app: &AppHandle, port_id: String) -> Result<(), CommandError> {
                 stats,
             },
         );
-        crate::saves::spawn_after_exit(&app, &port_id);
+        if app.state::<PlayRequest>().quits_after(&port_id) && !stopped && code == Some(0) {
+            // Started from Steam: hand the screen back once its saves are synced. A crash
+            // keeps Portside open on the game page, which points at the log.
+            crate::saves::after_exit(&app, &port_id).await;
+            app.exit(0);
+        } else {
+            crate::saves::spawn_after_exit(&app, &port_id);
+        }
     });
     Ok(())
 }

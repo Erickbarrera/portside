@@ -18,7 +18,7 @@ Read the root `CLAUDE.md` first, then this file, then `docs/README.md`.
 Built so far: `Cargo.toml`, `rust-toolchain.toml`, `crates/portside-core`,
 `crates/portside-api` (catalog endpoints only), `crates/portside-catalog`,
 `crates/portside-installer`, `crates/portside-launcher`, `crates/portside-atproto`,
-`crates/portside-social`, `crates/portside-sync`, `src-tauri`, `ui`.
+`crates/portside-social`, `crates/portside-sync`, `crates/portside-steam`, `src-tauri`, `ui`.
 The rest is planned. `rust-version` in `Cargo.toml` must match `rust-toolchain.toml`.
 ```
 client/
@@ -33,6 +33,7 @@ client/
     portside-sync/           # cloud saves: plain-file vault in a synced folder (ADR-0023)
     portside-atproto/        # OAuth client (DPoP/PKCE/PAR), session, authenticated XRPC
     portside-social/         # friends, Bluesky DMs, game invites, boards (ADR-0021)
+    portside-steam/          # Add to Steam: shortcuts.vdf, grid artwork (docs/platforms.md)
     portside-api/            # typed client for the static catalog (docs/specs/static-catalog.md)
   src-tauri/                 # Tauri app: commands, events, plugins, capabilities, updater
   ui/                        # Svelte app
@@ -53,7 +54,9 @@ never depend on Tauri; they must be testable without a window.
   quit with an error after a moment; the mock is signed in to a synthetic Bluesky account
   (`?mock-signed-out` starts signed out); cloud saves start off (`?mock-saves=on` starts set
   up, `?mock-saves=conflict` gives games a save conflict on Play); `?mock-installed` starts
-  with every game that has a build for that system installed
+  with every game that has a build for that system installed; Steam is found and closed
+  (`?mock-steam=running`, `launched` as if Steam started Portside, `none`), and
+  `?mock-play=<port>` starts as if a Steam shortcut asked for that game
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")
 - `cargo test --workspace` · `cargo clippy --workspace --all-targets -- -D warnings` ·

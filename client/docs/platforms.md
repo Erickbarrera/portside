@@ -19,10 +19,36 @@
   the library dir and `--talk-name=org.freedesktop.Flatpak` to spawn host processes via
   `flatpak-spawn --host` [verify]; document limits.
 - Steam Deck: controllers work everywhere (ui.md, "Controller"); in Game Mode Steam Input
-  hands Portside a virtual controller. "Add to Steam" and couch mode work on every OS
-  (ui.md). Deck only (planned): install to the SD card, Steam's on-screen keyboard for
+  hands Portside a virtual controller. "Add to Steam" (below) and couch mode (ui.md) work
+  on every OS. Deck only (planned): install to the SD card, Steam's on-screen keyboard for
   text fields. Building needs `libudev-dev` (gilrs).
 - Prefer AppImage ports; mark builds needing glibc ≥ X.
+
+## Add to Steam (every OS, 2026-10-16)
+The game page of an installed game offers "Add to Steam" when Steam is installed and has
+been signed in to (crate `portside-steam`, src-tauri `steam.rs`). It adds a non-Steam
+shortcut to the last-used account's `userdata/<id>/config/shortcuts.vdf`:
+- Program: Portside itself (`$APPIMAGE` for the AppImage, else its executable), launch
+  options `--play <port_id>`, tag "Portside". Updates move games to new folders, so the
+  shortcut never points at the game. Started that way, Portside opens the game page, starts
+  the game (cloud saves sync as usual) and quits after it exits with code 0 and its saves
+  have synced. A crash, or a launch that fails (a save conflict), keeps Portside open on the
+  game page. Uninstalled later, the shortcut opens the page with Install.
+- Artwork: the catalog's `screenshot_url`, downloaded (https, at most 15 MB) and cropped to
+  Steam's tall (`<appid>p.png`, 600×900), wide (`<appid>.png`, 920×430) and hero
+  (`<appid>_hero.png`, 1920×620) sizes in `config/grid/`. Without a picture Steam shows
+  its own placeholder. No icon yet.
+- Steam reads the file when it starts and may write over it while running, so it is only
+  changed with Steam closed. With Steam open the page asks first, then closes Steam
+  (`steam://exit`, up to 30 s), writes, and opens it again (`steam://open/games`). When
+  Steam started Portside (Game Mode, Big Picture: `SteamGameId`, `SteamAppId` or
+  `SteamGamepadUI` set) Portside can't close it; the page says to open Portside on its own
+  (Desktop Mode on a Steam Deck).
+- Steam folders: Linux `~/.local/share/Steam`, `~/.steam/steam`, Flatpak and Snap; macOS
+  `~/Library/Application Support/Steam`; Windows `Program Files (x86)\Steam`
+  [TBD: Steam installed elsewhere on Windows, from the registry].
+- Not yet: a second Portside started by Steam while one is open runs alongside it (no
+  single-instance lock); "Remove from Steam".
 
 ## Android
 - Distribution: direct APK from website, F-Droid, Obtainium. Not Google Play (installing

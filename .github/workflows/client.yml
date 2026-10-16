@@ -49,7 +49,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: client
-      - run: cargo test -p portside-installer -p portside-launcher
+      - run: cargo test -p portside-installer -p portside-launcher -p portside-steam
 
   ui:
     runs-on: ubuntu-24.04
