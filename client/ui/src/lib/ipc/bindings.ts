@@ -610,6 +610,10 @@ export type ManifestBuild_Deserialize = {
 	checksum?: ChecksumSource | null,
 	unsigned?: boolean | null,
 	android_package?: string | null,
+	/**  `url_list` only: where the file is, its SHA-256 and size. */
+	url?: string | null,
+	sha256?: string | null,
+	size?: number | null,
 };
 
 export type ManifestBuild_Serialize = {
@@ -625,6 +629,10 @@ export type ManifestBuild_Serialize = {
 	checksum?: ChecksumSource | null,
 	unsigned?: boolean | null,
 	android_package?: string | null,
+	/**  `url_list` only: where the file is, its SHA-256 and size. */
+	url?: string | null,
+	sha256?: string | null,
+	size?: number | null,
 };
 
 export type ManifestSaves = ManifestSaves_Serialize | ManifestSaves_Deserialize;
@@ -656,6 +664,14 @@ export type ManifestSource_Deserialize = {
 	/**  Optional and nullable: absent, `null` and a pattern are all valid. */
 	tag_pattern?: string | null,
 	min_version?: string | null,
+	/**  `url_list` only (ADR-0024): the one version the manifest lists. */
+	version?: string | null,
+	/**  `url_list` only: release date, `YYYY-MM-DD` or RFC 3339. */
+	released?: string | null,
+	/**  `url_list` only: the release notes page. */
+	release_url?: string | null,
+	/**  `url_list` only: hosts downloads may start at or be redirected to. */
+	hosts?: string[] | null,
 };
 
 export type ManifestSource_Serialize = {
@@ -665,6 +681,14 @@ export type ManifestSource_Serialize = {
 	/**  Optional and nullable: absent, `null` and a pattern are all valid. */
 	tag_pattern?: string | null,
 	min_version?: string | null,
+	/**  `url_list` only (ADR-0024): the one version the manifest lists. */
+	version?: string | null,
+	/**  `url_list` only: release date, `YYYY-MM-DD` or RFC 3339. */
+	released?: string | null,
+	/**  `url_list` only: the release notes page. */
+	release_url?: string | null,
+	/**  `url_list` only: hosts downloads may start at or be redirected to. */
+	hosts?: string[] | null,
 };
 
 export type Manifest_Deserialize = {

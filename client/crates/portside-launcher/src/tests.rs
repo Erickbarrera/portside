@@ -33,6 +33,9 @@ fn installed(dir: &Path, os: Os, launch: LaunchSpec) -> Installed {
             checksum: None,
             unsigned: None,
             android_package: None,
+            url: None,
+            sha256: None,
+            size: None,
         },
     }
 }

@@ -81,7 +81,9 @@ never depend on Tauri; they must be testable without a window.
   hardcode OS paths elsewhere.
 - Downloads only from GitHub release hosts (github.com, objects.githubusercontent.com,
   release-assets.githubusercontent.com; `HostPolicy::github()` in `portside-installer`,
-  ADR-0014). Every redirect is checked too.
+  ADR-0014). Every redirect is checked too. Exception: a `url_list` manifest (ADR-0024)
+  downloads only from its own `source.hosts` (`HostPolicy::with_hosts`), which the catalog
+  builder accepts only from a reviewed list, and always with a sha256.
 - Never upload or log contents/paths of imported game assets.
 - Secrets (OAuth tokens) only via `keyring` crate / Android Keystore.
 - Social features talk to Bluesky through `portside-social`; no Portside server

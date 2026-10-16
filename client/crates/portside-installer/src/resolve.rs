@@ -121,6 +121,9 @@ mod tests {
             checksum: None,
             unsigned: None,
             android_package: None,
+            url: None,
+            sha256: None,
+            size: None,
         }
     }
 

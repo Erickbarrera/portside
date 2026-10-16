@@ -22,7 +22,7 @@ display_name: "Ship of Harkinian"  # optional override of upstream title
 status: playable                   # required: perfect|playable|in_progress|boots|not_playable
 status_notes: "Randomizer requires ..."   # optional, markdown, short
 source:
-  type: github_releases            # github_releases | github_actions_artifact (later) | url_list (later)
+  type: github_releases            # github_releases | url_list | github_actions_artifact (later)
   repo: HarbourMasters/Shipwright  # required for github_*
   channel: stable                  # stable (latest non-prerelease) | prerelease | tag_pattern
   tag_pattern: null                # regex when channel=tag_pattern
@@ -93,7 +93,32 @@ changelog:
   - "2026-10-13: initial"
 ```
 
-## Archives
+### `url_list`: builds on the port's own site
+For ports whose builds aren't GitHub release files (ADR-0024). The manifest names one version
+and its files; there is no `repo`, `channel` or `tag_pattern`.
+
+```yaml
+source:
+  type: url_list
+  version: "15.3"                  # required; shown as the release tag
+  released: "2026-04-04"           # required, date (or RFC 3339 date-time)
+  release_url: "https://www.openttd.org/news/2026/04/04/openttd-15-3"   # required, https
+  hosts: [cdn.openttd.org]         # required; every download and redirect must stay on these
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openttd-15.3-windows-win64.zip"   # = the url's file name
+    url: "https://cdn.openttd.org/openttd-releases/15.3/openttd-15.3-windows-win64.zip"
+    sha256: "61c0a6a4..."          # required, from the site's published checksums
+    size: 11250350                 # required, bytes
+    archive: zip
+    strip_root: true
+    launch: { exe: "openttd.exe" }
+```
+
+A new version is a manifest change. `url`, `sha256` and `size` are only allowed on
+`url_list` builds, where they are required.
+
 - `archive` says how to unpack the downloaded asset. `strip_root` unwraps a single top-level
   directory.
 - `dmg`: the client mounts the image read-only, copies the volume's contents (except the
@@ -131,7 +156,7 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
 - Unknown fields are errors (every object is closed).
 - `id` unique and equal to the file name; must exist upstream (warn, not error, for
   non-upstream entries; the catalog build skips manifests whose id is not in the catalog).
-- Each build's `asset` glob must match exactly one asset in the latest release. The catalog
+- For `github_releases`, each build's `asset` glob must match exactly one asset in the latest release. The catalog
   build warns when one doesn't, and leaves that build out of the release's assets.
 - `nested` only inside `zip`, `tar.gz`, `tar.xz` or `7z`, and never `apk`.
 - At least one build; no two builds with the same `os`/`arch`. (So `perfect|playable` always
@@ -139,6 +164,12 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
 - Each build needs `launch.exe` or `launch.app_bundle`, except `apk` builds, which need
   `android_package` instead.
 - `source.repo` is required for `github_*` sources; `tag_pattern` when `channel: tag_pattern`.
+- `url_list`: `version`, `released`, `release_url` and `hosts` are required, and `repo`,
+  `channel`, `tag_pattern` and `min_version` are not allowed. Each `hosts` entry must be in
+  the reviewed list `URL_LIST_HOSTS` in `catalog/src/schema/manifest.ts`. Every build needs
+  `url` (https, host in `hosts`, file name = `asset`), `sha256` (64 lowercase hex) and
+  `size`. `version`, `released`, `release_url` and `hosts` are not allowed on other sources,
+  nor `url`, `sha256` and `size` on their builds.
 - `accept` entries need `sha1` or `sha256`, as lowercase hex of the correct length
   (`[TBD]` placeholders fail on purpose).
 - No URLs to asset/ROM hosts: any URL ending in a ROM, disc or BIOS image extension is an
@@ -162,3 +193,6 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
   `none` files are saved as `launch.exe`. Clients before this ignore `nested` and save
   AppImages under the asset name, so those builds fail their install with "launch target
   missing" until the app is updated.
+- 2026-10-16 — `url_list` source (ADR-0024): `source.version`, `released`, `release_url`,
+  `hosts`; build `url`, `sha256`, `size`. Clients before this refuse `url_list` ports
+  ("unsupported source").

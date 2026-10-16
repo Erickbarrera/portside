@@ -9,13 +9,16 @@ background and reports `install-changed` events.
    emulation; the plan says so) → none ("not available for your platform").
 3. Resolve the release: a non-revoked release from the catalog with a file matching the
    build's `asset` glob; else the GitHub REST API (`/releases/latest`, or the release list for
-   `prerelease` and `tag_pattern`). The glob must match exactly one file.
+   `prerelease` and `tag_pattern`). The glob must match exactly one file. A `url_list`
+   manifest (ADR-0024) lists its one version's files itself, so without a catalog release the
+   plan is made from the manifest, with no network.
 4. Checksum: catalog `sha256` → GitHub `digest` → a checksum file in the release.
    `checksum: upstream` without one fails; otherwise the plan says it can't be verified.
+   `url_list` files always carry a `sha256`; the plan fails without one.
 5. The user confirms. An unsigned macOS build (`unsigned: true`) shows a warning and needs
    "Install anyway".
 6. Download to `{library}/.partial/` with Range resume, from GitHub hosts only (checked on
-   every redirect). Cancel keeps the partial file, so the next try resumes.
+   every redirect); a `url_list` port's files only from its manifest's `source.hosts`. Cancel keeps the partial file, so the next try resumes.
 7. Verify SHA-256, unpack into `{library}/.staging/`, apply `strip_root`; check the launch
    target (`exe` or `app_bundle`) exists; `chmod_x`; clear `com.apple.quarantine` on an
    unsigned bundle the user agreed to. Then move it to `{library}/{id}/{version}/`, write

@@ -182,6 +182,18 @@ model! {
         pub tag_pattern: Option<Option<String>>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub min_version: Option<String>,
+        /// `url_list` only (ADR-0024): the one version the manifest lists.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub version: Option<String>,
+        /// `url_list` only: release date, `YYYY-MM-DD` or RFC 3339.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub released: Option<String>,
+        /// `url_list` only: the release notes page.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub release_url: Option<String>,
+        /// `url_list` only: hosts downloads may start at or be redirected to.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub hosts: Option<Vec<String>>,
     }
 }
 
@@ -205,6 +217,13 @@ model! {
         pub unsigned: Option<bool>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub android_package: Option<String>,
+        /// `url_list` only: where the file is, its SHA-256 and size.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub url: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub sha256: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub size: Option<u64>,
     }
 }
 
