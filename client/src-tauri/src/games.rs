@@ -173,7 +173,7 @@ pub fn launch(app: &AppHandle, port_id: String) -> Result<(), CommandError> {
         if !dir.is_dir() && portside_core::paths::on_removable_storage(dir) {
             return Err(portside_installer::InstallError::StorageMissing(dir.to_path_buf()).into());
         }
-        let command = portside_launcher::command_for(&install)?;
+        let command = crate::proton::command_for(&state, &install)?;
         let game = portside_launcher::spawn(&command, Some(&state.games.log_for(&port_id)))?;
         Ok::<_, CommandError>((install, game))
     })();

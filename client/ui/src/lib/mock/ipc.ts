@@ -63,10 +63,22 @@ function search(query: CatalogQuery): Page<PortSummary> {
   return { items, cursor: null };
 }
 
+// `?mock-proton` (with the default Linux) installs Windows builds to run through Proton, as
+// if there were no Linux build; `?mock-proton=none` as if Steam had no Proton installed.
+const mockProton = mockOs === "linux" ? params.get("mock-proton") : null;
+
 function plan(id: string): PlanSummary {
   const port = portDetail(id);
-  const build = port?.manifest?.builds.find((b) => b.os === mockOs);
-  const asset = port?.latest_releases[0]?.assets.find((a) => a.os === mockOs);
+  const buildOs = mockProton !== null ? "windows" : mockOs;
+  const build = port?.manifest?.builds.find((b) => b.os === buildOs);
+  const asset = port?.latest_releases[0]?.assets.find((a) => a.os === buildOs);
+  if (build && mockProton === "none") {
+    throw {
+      code: "E_NO_PROTON",
+      message:
+        "This game only has a Windows build, which needs Proton to run here. In Steam's library, search for Proton, install the newest version, then try again.",
+    } satisfies CommandError;
+  }
   if (!port || !build || !asset) {
     throw { code: "E_NO_BUILD", message: `Not available for ${mockOs}.` } satisfies CommandError;
   }
@@ -80,7 +92,7 @@ function plan(id: string): PlanSummary {
     size: asset.size,
     os: build.os,
     arch: build.arch,
-    fit: build.arch === "universal" ? "universal" : "native",
+    fit: mockProton !== null ? "proton" : build.arch === "universal" ? "universal" : "native",
     unsigned: mockOs === "macos",
     verification: "none",
     installed_version: installed.get(id)?.version ?? null,

@@ -595,9 +595,23 @@ async fn reports_github_rate_limits() -> TestResult {
 #[tokio::test]
 async fn no_build_for_this_platform() -> TestResult {
     let env = Env::new().await?;
-    let installer = env.installer(LINUX)?;
+    let installer = env.installer(MAC_ARM)?;
     let planned = installer.plan(&port(windows_zip_build(), json!([]))?).await;
     assert!(matches!(planned, Err(InstallError::NoBuild { .. })));
+    Ok(())
+}
+
+#[tokio::test]
+async fn linux_plans_a_windows_build_for_proton() -> TestResult {
+    let env = Env::new().await?;
+    env.release(&[("Example-1.0-Win64.zip", &example_zip()?, true)])
+        .await;
+    let installer = env.installer(LINUX)?;
+    let plan = installer
+        .plan(&port(windows_zip_build(), json!([]))?)
+        .await?;
+    assert_eq!(plan.summary.os, Os::Windows);
+    assert_eq!(plan.summary.fit, BuildFit::Proton);
     Ok(())
 }
 

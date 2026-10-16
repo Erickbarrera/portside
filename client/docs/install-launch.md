@@ -6,7 +6,9 @@ background and reports `install-changed` events.
 1. The game page asks for a plan (`install_plan`): Rust fetches `v1/ports/{id}.json` and reads its
    manifest. Unknown `schema` → "needs a newer Portside".
 2. Pick build: exact OS+arch → `universal` → x86_64 on arm64 macOS or Windows (Rosetta or
-   emulation; the plan says so) → none ("not available for your platform").
+   emulation; the plan says so) → on x86_64 Linux, a Windows x86_64 or universal build run
+   through Proton (`fit: proton`; refused with `E_NO_PROTON` when Steam has no Proton,
+   platforms.md, "Proton") → none ("not available for your platform").
 3. Resolve the release: a non-revoked release from the catalog with a file matching the
    build's `asset` glob; else the GitHub REST API (`/releases/latest`, or the release list for
    `prerelease` and `tag_pattern`). The glob must match exactly one file. A `url_list`
@@ -49,7 +51,9 @@ Built in `portside-launcher` (ADR-0017); `src-tauri/src/games.rs` runs it and re
    the install folder, or for a macOS `app_bundle` the bundle's
    `Contents/MacOS/<CFBundleExecutable>`. `args`, `cwd` (default: the install folder) and
    `env` come from the manifest, with `{install}` replaced by the install folder. Paths that
-   leave the install folder are refused.
+   leave the install folder are refused. A `fit: proton` install runs as
+   `proton run <exe> <args>` with `STEAM_COMPAT_DATA_PATH` (the game's prefix) and
+   `STEAM_COMPAT_CLIENT_INSTALL_PATH` (Steam's folder) set.
 4. macOS unsigned build: consent was given at install (ADR-0014) and the bundle's
    quarantine flag is already cleared; nothing to ask here. An Intel-only build on Apple
    silicon without Rosetta fails with `E_NEEDS_ROSETTA` and says how to install it.

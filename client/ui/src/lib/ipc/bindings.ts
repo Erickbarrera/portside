@@ -314,7 +314,12 @@ export type BuildFit =
 /**  One build for every architecture of this OS. */
 "universal" | 
 /**  An x86_64 build run through translation (Rosetta on macOS, emulation on Windows). */
-"translated";
+"translated" | 
+/**
+ *  A Windows build run on x86_64 Linux through Proton, when there's no Linux build
+ *  (client/docs/platforms.md, "Proton").
+ */
+"proton";
 
 /**  Catalog filters from the Discover screen. */
 export type CatalogQuery = {
@@ -478,7 +483,9 @@ export type ErrorCode =
 /**  Adding to Steam failed (its files couldn't be read or written). */
 "E_STEAM" | 
 /**  The game is on storage that isn't there: the Steam Deck's SD card was taken out. */
-"E_STORAGE_MISSING";
+"E_STORAGE_MISSING" | 
+/**  The game only has a Windows build, and Proton isn't installed in Steam to run it. */
+"E_NO_PROTON";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {

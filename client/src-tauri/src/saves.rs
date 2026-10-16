@@ -7,8 +7,11 @@ use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::time::Duration;
 
 use anyhow::Context;
-use portside_core::paths::{AppPaths, resolve_placeholders, synced_folders};
+use portside_core::paths::{
+    AppPaths, proton_prefix, resolve_placeholders, resolve_placeholders_in_prefix, synced_folders,
+};
 use portside_core::{Os, Platform};
+use portside_installer::BuildFit;
 use portside_sync::{
     Device, FolderStorage, LocalState, SaveRules, SaveTemplate, SnapshotInfo, SyncError,
     SyncOutcome, SyncState, Syncer, Vault,
@@ -264,7 +267,16 @@ async fn rules_for(
             version,
         ));
     }
-    let os = state.platform.os;
+    // A Windows build run through Proton keeps Windows saves, inside its prefix.
+    let prefix = installed
+        .as_ref()
+        .filter(|i| i.fit == BuildFit::Proton)
+        .and_then(|i| proton_prefix(&state.paths, &i.port_id));
+    let os = if prefix.is_some() {
+        Os::Windows
+    } else {
+        state.platform.os
+    };
     // The listing may have gained a save folder since last time; offline, use the copy.
     let template = match state.api.port(port_id).await {
         Ok(port) => {
@@ -290,7 +302,12 @@ async fn rules_for(
     let rules = template.and_then(|t| {
         let install = installed.as_ref().map(|i| PathBuf::from(&i.dir));
         Some(SaveRules {
-            root: resolve_placeholders(&t.root, os, install.as_deref())?,
+            root: match &prefix {
+                Some(prefix) => {
+                    resolve_placeholders_in_prefix(&t.root, prefix, install.as_deref())?
+                }
+                None => resolve_placeholders(&t.root, os, install.as_deref())?,
+            },
             include: t.include,
             exclude: t.exclude,
         })

@@ -22,6 +22,8 @@ pub const DEFAULT_CATALOG_URL: &str = match option_env!("PORTSIDE_DEFAULT_CATALO
 
 pub struct AppState {
     pub api: portside_api::Client,
+    /// Portside's own folders.
+    pub paths: AppPaths,
     pub platform: Platform,
     pub catalog: Arc<Catalog>,
     pub installs: Installs,
@@ -81,6 +83,7 @@ impl AppState {
             saves,
             sync_lock: tokio::sync::Mutex::new(()),
             last_sync_error: Mutex::new(None),
+            paths,
         })
     }
 

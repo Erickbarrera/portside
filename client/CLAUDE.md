@@ -33,7 +33,7 @@ client/
     portside-sync/           # cloud saves: plain-file vault in a synced folder (ADR-0023)
     portside-atproto/        # OAuth client (DPoP/PKCE/PAR), session, authenticated XRPC
     portside-social/         # friends, Bluesky DMs, game invites, boards (ADR-0021)
-    portside-steam/          # Add to Steam: shortcuts.vdf, grid artwork (docs/platforms.md)
+    portside-steam/          # Add to Steam (shortcuts.vdf, grid artwork), finding Proton (docs/platforms.md)
     portside-api/            # typed client for the static catalog (docs/specs/static-catalog.md)
   src-tauri/                 # Tauri app: commands, events, plugins, capabilities, updater
   ui/                        # Svelte app
@@ -59,7 +59,8 @@ never depend on Tauri; they must be testable without a window.
   `?mock-play=<port>` starts as if a Steam shortcut asked for that game; `?mock-couch` starts as
   if on Steam's Game Mode screen (couch mode on Auto turns on); `?mock-sd` is a Steam Deck with
   an SD card in (installs ask where to go); `?mock-deck` is a Steam Deck (A on a text field asks for Steam's
-  keyboard). `PORTSIDE_SD_CARD=<folder>` makes the real app
+  keyboard); `?mock-proton` installs Windows builds as if through Proton (`=none`: Proton
+  missing). `PORTSIDE_PROTON=<folder>` picks which Proton the real app uses. `PORTSIDE_SD_CARD=<folder>` makes the real app
   treat a folder as the Deck's SD card
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")

@@ -28,7 +28,9 @@ first, plain files, no recovery phrase). This page covers the client side.
 1. A folder the player chose for the game on this device (everything in it syncs).
 2. Else the manifest's `saves.root` for this OS, placeholders resolved by
    `portside_core::paths::resolve_placeholders` (`{install}` is the current install
-   folder), filtered by `saves.include` / `saves.exclude`. The `saves` section is fetched
+   folder), filtered by `saves.include` / `saves.exclude`. A Windows build run through
+   Proton (platforms.md, "Proton") uses the Windows `saves.root`, resolved inside its prefix
+   (`resolve_placeholders_in_prefix`), so it shares saves with Windows PCs. The `saves` section is fetched
    with the port page and kept in `saves.db` so sync works offline.
 3. Else the game page offers "Choose save folder".
 

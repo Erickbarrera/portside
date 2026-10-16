@@ -265,3 +265,42 @@ mod process {
         Ok(())
     }
 }
+
+#[test]
+fn windows_builds_run_through_proton() -> Result<(), Box<dyn std::error::Error>> {
+    let dir = tempfile::tempdir()?;
+    fs::write(dir.path().join("Example.exe"), "")?;
+    let mut spec = exe("Example.exe");
+    spec.args = Some(vec!["-windowed".to_owned()]);
+    let mut install = installed(dir.path(), Os::Windows, spec);
+    install.fit = BuildFit::Proton;
+    let data = tempfile::tempdir()?;
+    let setup = ProtonSetup {
+        script: PathBuf::from("/steam/steamapps/common/Proton 9.0/proton"),
+        steam_dir: PathBuf::from("/steam"),
+        prefix: data.path().join("proton/example"),
+    };
+    let cmd = proton_command_for(&install, &setup)?;
+    assert_eq!(cmd.program, setup.script);
+    assert_eq!(
+        cmd.args,
+        vec![
+            "run".to_owned(),
+            dir.path().join("Example.exe").display().to_string(),
+            "-windowed".to_owned()
+        ]
+    );
+    assert_eq!(cmd.cwd, dir.path());
+    assert_eq!(
+        cmd.env.get("STEAM_COMPAT_DATA_PATH"),
+        Some(&setup.prefix.display().to_string())
+    );
+    assert_eq!(
+        cmd.env
+            .get("STEAM_COMPAT_CLIENT_INSTALL_PATH")
+            .map(String::as_str),
+        Some("/steam")
+    );
+    assert!(setup.prefix.is_dir());
+    Ok(())
+}

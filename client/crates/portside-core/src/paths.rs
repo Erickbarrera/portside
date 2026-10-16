@@ -43,6 +43,56 @@ impl AppPaths {
 pub fn resolve_placeholders(template: &str, os: Os, install: Option<&Path>) -> Option<PathBuf> {
     let base = BaseDirs::new()?;
     let user = UserDirs::new();
+    resolve_with(template, |name| match (name, os) {
+        (None, _) => Some(PathBuf::from(template)).filter(|p| p.is_absolute()),
+        (Some("install"), _) => install.map(Path::to_path_buf),
+        (Some("home"), Os::Windows | Os::Macos | Os::Linux) => Some(base.home_dir().to_path_buf()),
+        (Some("appdata"), Os::Windows) => Some(base.config_dir().to_path_buf()),
+        (Some("localappdata"), Os::Windows) => Some(base.data_local_dir().to_path_buf()),
+        (Some("documents"), Os::Windows | Os::Macos | Os::Linux) => {
+            Some(user.as_ref()?.document_dir()?.to_path_buf())
+        }
+        (Some("app_support"), Os::Macos) => Some(base.data_dir().to_path_buf()),
+        (Some("xdg_data"), Os::Linux) => Some(base.data_dir().to_path_buf()),
+        (Some("xdg_config"), Os::Linux) => Some(base.config_dir().to_path_buf()),
+        _ => None,
+    })
+}
+
+/// Resolves a Windows manifest path for a game run through Proton: Windows folders are
+/// inside its prefix, where the user is `steamuser`.
+pub fn resolve_placeholders_in_prefix(
+    template: &str,
+    prefix: &Path,
+    install: Option<&Path>,
+) -> Option<PathBuf> {
+    let user = prefix.join("pfx/drive_c/users/steamuser");
+    resolve_with(template, |name| match name {
+        Some("install") => install.map(Path::to_path_buf),
+        Some("home") => Some(user.clone()),
+        Some("appdata") => Some(user.join("AppData/Roaming")),
+        Some("localappdata") => Some(user.join("AppData/Local")),
+        Some("documents") => Some(user.join("Documents")),
+        _ => None,
+    })
+}
+
+/// Where Proton keeps a game's Windows files (its "prefix"): `{app_data}/proton/<port>`.
+pub fn proton_prefix(paths: &AppPaths, port_id: &str) -> Option<PathBuf> {
+    let safe = !port_id.is_empty()
+        && !port_id.starts_with('.')
+        && port_id
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '-' | '_' | '.'));
+    safe.then(|| paths.data_dir.join("proton").join(port_id))
+}
+
+/// `template` with its leading `{placeholder}` swapped for `root_for(name)` (`None` when
+/// there is no placeholder), and the rest joined on safely.
+fn resolve_with(
+    template: &str,
+    root_for: impl FnOnce(Option<&str>) -> Option<PathBuf>,
+) -> Option<PathBuf> {
     let (name, rest) = match template.strip_prefix('{') {
         Some(t) => {
             let end = t.find('}')?;
@@ -50,20 +100,10 @@ pub fn resolve_placeholders(template: &str, os: Os, install: Option<&Path>) -> O
         }
         None => (None, template),
     };
-    let root: PathBuf = match (name, os) {
-        (None, _) => return Some(PathBuf::from(template)).filter(|p| p.is_absolute()),
-        (Some("install"), _) => install?.to_path_buf(),
-        (Some("home"), Os::Windows | Os::Macos | Os::Linux) => base.home_dir().to_path_buf(),
-        (Some("appdata"), Os::Windows) => base.config_dir().to_path_buf(),
-        (Some("localappdata"), Os::Windows) => base.data_local_dir().to_path_buf(),
-        (Some("documents"), Os::Windows | Os::Macos | Os::Linux) => {
-            user.as_ref()?.document_dir()?.to_path_buf()
-        }
-        (Some("app_support"), Os::Macos) => base.data_dir().to_path_buf(),
-        (Some("xdg_data"), Os::Linux) => base.data_dir().to_path_buf(),
-        (Some("xdg_config"), Os::Linux) => base.config_dir().to_path_buf(),
-        _ => return None,
-    };
+    let root = root_for(name)?;
+    if name.is_none() {
+        return Some(root);
+    }
     if rest.contains('{') {
         return None;
     }
@@ -273,6 +313,34 @@ mod tests {
     fn library_lives_under_data_dir() {
         let p = AppPaths::under(PathBuf::from("/tmp/portside-test"));
         assert_eq!(p.library_dir, PathBuf::from("/tmp/portside-test/library"));
+    }
+
+    #[test]
+    fn windows_paths_resolve_inside_a_proton_prefix() {
+        let prefix = PathBuf::from("/data/proton/example");
+        let user = prefix.join("pfx/drive_c/users/steamuser");
+        assert_eq!(
+            resolve_placeholders_in_prefix("{appdata}/Example/Saves", &prefix, None),
+            Some(user.join("AppData/Roaming/Example/Saves"))
+        );
+        assert_eq!(
+            resolve_placeholders_in_prefix("{documents}\\My Games\\Example", &prefix, None),
+            Some(user.join("Documents/My Games/Example"))
+        );
+        assert_eq!(
+            resolve_placeholders_in_prefix("{xdg_data}/x", &prefix, None),
+            None
+        );
+        assert_eq!(
+            resolve_placeholders_in_prefix("{appdata}/../x", &prefix, None),
+            None
+        );
+        let paths = AppPaths::under(PathBuf::from("/data"));
+        assert_eq!(
+            proton_prefix(&paths, "example-port"),
+            Some(PathBuf::from("/data/proton/example-port"))
+        );
+        assert_eq!(proton_prefix(&paths, "../x"), None);
     }
 
     #[test]
