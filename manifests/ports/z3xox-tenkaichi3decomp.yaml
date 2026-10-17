@@ -1,0 +1,24 @@
+# Generated from the release files of v0.1.35.4 and install-checked on 2026-10-16.
+schema: 1
+id: z3xox-tenkaichi3decomp
+game_key: dragonballzbudokaitenkaichi3
+status: in_progress
+source:
+  type: github_releases
+  repo: z3xox/Tenkaichi3Decomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Tenkaichi3Decomp-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Tenkaichi3Decomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Tenkaichi3Decomp-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Tenkaichi3Decomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

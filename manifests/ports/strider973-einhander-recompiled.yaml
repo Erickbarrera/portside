@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: strider973-einhander-recompiled
+game_key: einhnder
+status: in_progress
+source:
+  type: github_releases
+  repo: strider973/Einhander-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "einhander-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Einhander_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "einhander-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Einhander_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

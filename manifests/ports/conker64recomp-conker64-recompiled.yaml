@@ -1,0 +1,18 @@
+# Generated from the release files of v0.1.0-beta and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: conker64recomp-conker64-recompiled
+game_key: conkersbadfurday
+status: in_progress
+source:
+  type: github_releases
+  repo: Conker64Recomp/conker64-recompiled
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Conker64-Recompiled-*.zip"
+    archive: zip
+    launch: { exe: "Conker.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: junior-jones-adventure-island-ii-nes-static-recomp
+game_key: adventureislandii
+status: in_progress
+source:
+  type: github_releases
+  repo: Junior-Jones/Adventure-Island-II-NES-Static-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Adventure-Island-II-NES-Static-Recomp-*-Windows.zip"
+    archive: zip
+    launch: { exe: "Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

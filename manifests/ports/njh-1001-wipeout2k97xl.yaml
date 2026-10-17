@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: njh-1001-wipeout2k97xl
+game_key: wipeoutxlwipeoutxl
+status: in_progress
+source:
+  type: github_releases
+  repo: NJH-1001/Wipeout2K97XL
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wipeoutxl-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Wipeout2K97XL.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

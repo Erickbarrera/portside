@@ -1,0 +1,18 @@
+# Generated from the release files of bfm-r38-61c60516d and install-checked on 2026-10-16.
+schema: 1
+id: blizz127-brave-fencer-musashi-decomp-port
+game_key: bravefencermusashi
+status: playable
+source:
+  type: github_releases
+  repo: Blizz127/Brave-Fencer-Musashi-decomp-port
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "musashi_native_boot" }
+changelog:
+  - "2026-10-16: initial (Linux)"

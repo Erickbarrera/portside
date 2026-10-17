@@ -1,0 +1,41 @@
+# Generated from the release files of v0.3.0 and install-checked on 2026-10-16.
+schema: 1
+id: opensc2k-opensc2k
+game_key: opensc2k
+status: playable
+source:
+  type: github_releases
+  repo: OpenSC2K/OpenSC2K
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenSC2K-*-windows-x64-portable.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenSC2K.exe" }
+  - os: windows
+    arch: arm64
+    asset: "OpenSC2K-*-windows-arm64-portable.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenSC2K.exe" }
+  - os: macos
+    arch: universal
+    asset: "OpenSC2K-*-macos-universal.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenSC2K.app" }
+  - os: linux
+    arch: x86_64
+    asset: "OpenSC2K-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "OpenSC2K.x86_64" }
+  - os: linux
+    arch: arm64
+    asset: "OpenSC2K-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "OpenSC2K.arm64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

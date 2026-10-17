@@ -1,0 +1,31 @@
+# Generated from the release files of 1.51c and install-checked on 2026-10-16.
+schema: 1
+id: iortcw-iortcw
+game_key: iortcw
+status: playable
+source:
+  type: github_releases
+  repo: iortcw/iortcw
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "iortcw-*-win-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ioWolfSP.x64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "iortcw-*-mac-ub.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "iowolfsp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "iortcw-*-linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "iowolfsp.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

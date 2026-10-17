@@ -1,0 +1,24 @@
+# Generated from the release files of v0.4.1 and install-checked on 2026-10-16.
+schema: 1
+id: paulcombal-mw2-recompiled
+game_key: callofdutymodernwarfare2
+status: playable
+source:
+  type: github_releases
+  repo: PaulCombal/mw2-recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "mw2-*-windows-lan.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "mw2-launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "mw2-*-linux-lan.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "mw2-launcher" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

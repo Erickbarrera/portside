@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.2-1 and install-checked on 2026-10-16.
+schema: 1
+id: mechakotik-tails-adventure
+game_key: tailsadventuretailsadventure
+status: playable
+source:
+  type: github_releases
+  repo: mechakotik/tails-adventure
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "tails-adventure-*-windows.zip"
+    archive: zip
+    launch: { exe: "tails-adventure.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "tails-adventure-*-linux-amd64.tar.xz"
+    archive: tar.xz
+    launch: { exe: "tails-adventure" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

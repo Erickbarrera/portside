@@ -1,0 +1,23 @@
+# Generated from the release files of v1.0.0-build.7 and install-checked on 2026-10-16.
+schema: 1
+id: vidanox-banjotooierecompiled
+game_key: banjotooiebanjotooie
+status: in_progress
+source:
+  type: github_releases
+  repo: Vidanox/BanjoTooieRecompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BanjoTooieRecompiled-windows-x64.zip"
+    archive: zip
+    launch: { exe: "BanjoTooieRecompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "BanjoTooieRecompiled-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "BanjoTooieRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,18 @@
+# Generated from the release files of v2.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: zenit2893-cmyk-project-1944
+game_key: callofduty3
+status: playable
+source:
+  type: github_releases
+  repo: zenit2893-cmyk/project-1944
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "cod3-pc-full.zip"
+    archive: zip
+    launch: { exe: "Project1944.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

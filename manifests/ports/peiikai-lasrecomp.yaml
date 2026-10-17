@@ -1,0 +1,34 @@
+# Generated from the release files of beta_4 and install-checked on 2026-10-16.
+schema: 1
+id: peiikai-lasrecomp
+game_key: linksawakening
+status: in_progress
+source:
+  type: github_releases
+  repo: peiikai/LASRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "LAS.Recomp-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "lasrecomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "LAS.Recomp-*-macOS.dmg"
+    archive: dmg
+    launch: { app_bundle: "LAS Recomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "LAS.Recomp-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "LAS.Recomp-linux-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "LAS.Recomp-*-linux-aarch64.AppImage"
+    archive: appimage
+    launch: { exe: "LAS.Recomp-linux-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

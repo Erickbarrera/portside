@@ -81,9 +81,7 @@ jobs:
       cancel-in-progress: false
     env:
       CATALOG_URL: ${{ vars.PORTSIDE_CATALOG_URL || 'https://erickbarrera.github.io/portside' }}
-      # The old address, read by app releases up to 0.2.0: the catalog is copied there too, and
-      # its other pages forward to the new site. Pushes only once CATALOG_DEPLOY_KEY is set.
-      OLD_REPO: ${{ vars.CATALOG_OLD_REPO || 'Erickbarrera/portside-catalog' }}
+      # Where the catalog was published before it moved here; read once, by the first build.
       OLD_URL: https://erickbarrera.github.io/portside-catalog
       # Where the website lives: the same GitHub Pages site, under the repository's path.
       # For a custom domain set the SITE_URL variable to https://<domain> and SITE_BASE to /.
@@ -148,40 +146,3 @@ jobs:
         if: steps.publish.outputs.go == 'true'
         uses: actions/deploy-pages@v4
 
-      # The old address: the catalog files, and a page that forwards everything else.
-      - id: key
-        name: Check the old address's deploy key
-        if: steps.publish.outputs.go == 'true'
-        working-directory: .
-        env:
-          KEY: ${{ secrets.CATALOG_DEPLOY_KEY }}
-        run: |
-          if [ -n "$KEY" ]; then echo "set=true" >> "$GITHUB_OUTPUT"; else echo "set=false" >> "$GITHUB_OUTPUT"; fi
-      - name: Prepare the old address
-        if: steps.key.outputs.set == 'true'
-        working-directory: .
-        run: |
-          mkdir _old
-          cp -R _catalog/. _old/
-          site="${PORTSIDE_SITE_URL%/}${PORTSIDE_SITE_BASE%/}"
-          cat > _old/index.html <<EOF
-          <!doctype html>
-          <meta charset="utf-8">
-          <title>Portside has moved</title>
-          <meta name="robots" content="noindex">
-          <script>location.replace("$site" + location.pathname.replace(/^\/portside-catalog/, "") + location.search + location.hash);</script>
-          <p>Portside has moved to <a href="$site/">$site/</a>.</p>
-          EOF
-          cp _old/index.html _old/404.html
-      - name: Push to the old address
-        if: steps.key.outputs.set == 'true'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          deploy_key: ${{ secrets.CATALOG_DEPLOY_KEY }}
-          external_repository: ${{ env.OLD_REPO }}
-          publish_branch: gh-pages
-          publish_dir: ./_old
-          force_orphan: true
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          full_commit_message: "catalog: publish"

@@ -1,0 +1,31 @@
+# Generated from the release files of v2.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: mchughalex-skate3recomp
+game_key: skate3
+status: playable
+source:
+  type: github_releases
+  repo: mchughalex/skate3recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Skate3Recomp-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "skate3.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Skate3Recomp-macOS.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "skate3recomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Skate3Recomp-Linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "skate3" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

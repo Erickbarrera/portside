@@ -11,8 +11,7 @@ website. Read the area's `CLAUDE.md` before working in it.
 - `web/`: the website (Astro) → `web/CLAUDE.md`.
 - `.github/workflows/catalog.yml`: builds the catalog and the website once a day (06:17 UTC) and deploys
   both to this repository's GitHub Pages, `https://erickbarrera.github.io/portside/`
-  (catalog under `v1/`). It also copies the catalog to the old address,
-  `https://erickbarrera.github.io/portside-catalog`, for app releases up to 0.2.0.
+  (catalog under `v1/`).
 - `docs/specs/`: the contracts shared by the builder, the app and the website (static
   catalog, manifest format, boards, friends and chat, lexicons, save sync). This copy is the
   source; change the spec first, then the code that follows it, in the same PR.

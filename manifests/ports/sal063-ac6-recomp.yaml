@@ -1,0 +1,18 @@
+# Generated from the release files of v1.0.0-beta.2 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: sal063-ac6-recomp
+game_key: acecombat6firesofliberation
+status: playable
+source:
+  type: github_releases
+  repo: sal063/AC6_recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ac6recomp-*.zip"
+    archive: zip
+    launch: { exe: "ac6recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0-bugfix1 and install-checked on 2026-10-16.
+schema: 1
+id: jnmartin84-sonic-r
+game_key: sonicrsonicrjnmartin84
+status: in_progress
+source:
+  type: github_releases
+  repo: jnmartin84/sonic-r
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SONICR.EXE"
+    archive: none
+    launch: { exe: "SONICR.EXE" }
+changelog:
+  - "2026-10-16: initial (Windows)"

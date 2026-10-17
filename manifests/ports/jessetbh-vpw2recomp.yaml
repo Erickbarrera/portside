@@ -1,0 +1,18 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: jessetbh-vpw2recomp
+game_key: virtualprowrestling2
+status: in_progress
+source:
+  type: github_releases
+  repo: jessetbh/VPW2Recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Vpw2Recompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "Vpw2Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

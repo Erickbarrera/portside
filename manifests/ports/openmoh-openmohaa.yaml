@@ -1,0 +1,32 @@
+# Generated from the release files of v0.82.1 and install-checked on 2026-10-16.
+schema: 1
+id: openmoh-openmohaa
+game_key: openmohaa
+status: playable
+source:
+  type: github_releases
+  repo: openmoh/openmohaa
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openmohaa-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "openmohaa.exe" }
+  - os: windows
+    arch: arm64
+    asset: "openmohaa-*-windows-arm64.zip"
+    archive: zip
+    launch: { exe: "openmohaa.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openmohaa-*-linux-amd64.zip"
+    archive: zip
+    launch: { exe: "openmohaa", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "openmohaa-*-linux-arm64.zip"
+    archive: zip
+    launch: { exe: "openmohaa", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

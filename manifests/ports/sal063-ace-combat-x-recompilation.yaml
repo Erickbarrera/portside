@@ -1,0 +1,17 @@
+# Generated from the release files of v1.1-release and install-checked on 2026-10-16.
+schema: 1
+id: sal063-ace-combat-x-recompilation
+game_key: acecombatx
+status: playable
+source:
+  type: github_releases
+  repo: sal063/Ace-Combat-X-Recompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ACX-Recomp-Release.zip"
+    archive: zip
+    launch: { exe: "pspreco-sdl3.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

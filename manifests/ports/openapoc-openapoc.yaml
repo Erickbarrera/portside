@@ -1,0 +1,18 @@
+# Generated from the release files of 20260408 and install-checked on 2026-10-16.
+schema: 1
+id: openapoc-openapoc
+game_key: openapocalypse
+status: playable
+source:
+  type: github_releases
+  repo: OpenApoc/OpenApoc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenApoc-x64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenApoc_Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,25 @@
+# Generated from the release files of v0.5.0-beta.3 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: sergiomanzur-issd-native
+game_key: internationalsuperstarsoccerdeluxe
+status: playable
+source:
+  type: github_releases
+  repo: sergiomanzur/issd-native
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ISSDModStudio-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ISSDModStudio.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ISSDNative-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ISSDNative" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

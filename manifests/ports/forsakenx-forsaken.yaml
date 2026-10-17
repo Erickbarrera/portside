@@ -1,0 +1,19 @@
+# Generated from the release files of v.1.18.2547 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: forsakenx-forsaken
+game_key: forsakenx
+status: in_progress
+source:
+  type: github_releases
+  repo: ForsakenX/forsaken
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "projectx_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "projectx-1.18.2547-WIN32.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

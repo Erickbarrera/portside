@@ -1,0 +1,30 @@
+# Generated from the release files of opentesarena-0.18.0 and install-checked on 2026-10-16.
+schema: 1
+id: afritz1-opentesarena
+game_key: opentesarena
+status: playable
+source:
+  type: github_releases
+  repo: afritz1/OpenTESArena
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*-windows_x86-64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "otesa.exe" }
+  - os: macos
+    arch: arm64
+    asset: "*-macos_arm64.dmg"
+    archive: dmg
+    launch: { app_bundle: "otesa.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "*-linux_x86-64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "otesa" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

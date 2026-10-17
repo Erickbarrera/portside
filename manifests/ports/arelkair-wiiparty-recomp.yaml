@@ -1,0 +1,23 @@
+# Generated from the release files of v0.1.13-alpha and install-checked on 2026-10-16.
+schema: 1
+id: arelkair-wiiparty-recomp
+game_key: wiiparty
+status: playable
+source:
+  type: github_releases
+  repo: arelkair/wiiparty-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wiipartyrecomp-offline-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wiipartyrecomp-launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "wiipartyrecomp-launcher-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "wiipartyrecomp-launcher-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

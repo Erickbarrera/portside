@@ -1,0 +1,28 @@
+# Generated from the release files of v1.1.1-cve-2025 and install-checked on 2026-10-16.
+schema: 1
+id: interkarma-daggerfall-unity
+game_key: daggerfallunity
+status: playable
+source:
+  type: github_releases
+  repo: Interkarma/daggerfall-unity
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dfu_windows_64bit-*.zip"
+    archive: zip
+    launch: { exe: "DaggerfallUnity.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "dfu_mac_universal-*.zip"
+    archive: zip
+    launch: { app_bundle: "DaggerfallUnity.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "dfu_linux_64bit-*.zip"
+    archive: zip
+    launch: { exe: "DaggerfallUnity.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

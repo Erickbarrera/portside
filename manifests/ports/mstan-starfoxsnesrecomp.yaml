@@ -1,0 +1,17 @@
+# Generated from the release files of v0.3.1 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-starfoxsnesrecomp
+game_key: starfox
+status: playable
+source:
+  type: github_releases
+  repo: mstan/StarFoxSNESRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "StarFoxSNESRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "StarFoxSNESRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

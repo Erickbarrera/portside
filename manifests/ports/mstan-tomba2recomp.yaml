@@ -1,0 +1,23 @@
+# Generated from the release files of v0.2.1 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-tomba2recomp
+game_key: tomba2theevilswinereturn
+status: playable
+source:
+  type: github_releases
+  repo: mstan/Tomba2Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Tomba2Recomp-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Tomba2Recomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Tomba2Recomp-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "Tomba2Recomp-linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

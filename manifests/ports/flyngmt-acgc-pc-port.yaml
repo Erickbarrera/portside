@@ -1,0 +1,19 @@
+# Generated from the release files of v0.9.3-playtest and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: flyngmt-acgc-pc-port
+game_key: animalcrossinganimalcrossingpc
+status: playable
+source:
+  type: github_releases
+  repo: flyngmt/ACGC-PC-Port
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ACGC-PC-Port0.*.zip"
+    archive: zip
+    launch: { exe: "AnimalCrossing.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

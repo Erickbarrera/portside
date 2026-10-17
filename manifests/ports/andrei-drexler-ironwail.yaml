@@ -1,0 +1,24 @@
+# Generated from the release files of v0.8.2 and install-checked on 2026-10-16.
+schema: 1
+id: andrei-drexler-ironwail
+game_key: ironwail
+status: playable
+source:
+  type: github_releases
+  repo: andrei-drexler/ironwail
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ironwail-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ironwail.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ironwail-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ironwail" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,23 @@
+# Generated from the release files of 0.1.4 and install-checked on 2026-10-16.
+schema: 1
+id: wootbeer-dinotale
+game_key: yoshisstorydinotale
+status: playable
+source:
+  type: github_releases
+  repo: wootbeer/dinotale
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DinoTale-*-windows.zip"
+    archive: zip
+    launch: { exe: "DinoTale.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "DinoTale-*-linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "DinoTale" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

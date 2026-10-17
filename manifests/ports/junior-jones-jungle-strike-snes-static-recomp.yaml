@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: junior-jones-jungle-strike-snes-static-recomp
+game_key: junglestrike
+status: in_progress
+source:
+  type: github_releases
+  repo: Junior-Jones/Jungle-Strike-SNES-Static-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Jungle-Strike-SNES-Static-Recomp-*-Windows-x64.zip"
+    archive: zip
+    launch: { exe: "Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,36 @@
+# Generated from the release files of v0.9.1 and install-checked on 2026-10-16.
+schema: 1
+id: megaman64recomp-megaman64recompiled
+game_key: megaman64
+status: playable
+source:
+  type: github_releases
+  repo: MegaMan64Recomp/MegaMan64Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MegaMan64Recompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "MegaMan64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "MegaMan64Recompiled-*-macOS.zip"
+    archive: zip
+    nested: { file: "MegaMan64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "MegaMan64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "MegaMan64Recompiled-*-Linux-X64.zip"
+    archive: zip
+    nested: { file: "MegaMan64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "MegaMan64Recompiled" }
+  - os: linux
+    arch: arm64
+    asset: "MegaMan64Recompiled-*-Linux-ARM64.zip"
+    archive: zip
+    nested: { file: "MegaMan64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "MegaMan64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

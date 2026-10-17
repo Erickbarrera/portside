@@ -1,0 +1,56 @@
+# Builds from cdn.openttd.org (url_list, ADR-0024): OpenTTD's GitHub releases hold only source.
+# Sizes and sha256 from https://cdn.openttd.org/openttd-releases/15.3/manifest.yaml, layouts
+# checked 2026-10-16. A new version means updating version, released, urls, sizes and hashes.
+# OpenTTD.app is signed with a Developer ID. OpenTTD offers to download the free OpenGFX
+# graphics on first run, so no files from the original game are needed.
+schema: 1
+id: openttd-openttd
+game_key: transporttycoondeluxe
+status: playable
+source:
+  type: url_list
+  version: "15.3"
+  released: "2026-04-04T19:57:00Z"
+  release_url: "https://github.com/OpenTTD/OpenTTD/releases/tag/15.3"
+  hosts: [cdn.openttd.org]
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openttd-15.3-windows-win64.zip"
+    url: "https://cdn.openttd.org/openttd-releases/15.3/openttd-15.3-windows-win64.zip"
+    sha256: "61c0a6a43d81008c7ff4330fb56351bbf66a980cdad041f1d0e08b51f2eeb34c"
+    size: 11250350
+    archive: zip
+    strip_root: true
+    launch: { exe: "openttd.exe" }
+  - os: windows
+    arch: arm64
+    asset: "openttd-15.3-windows-arm64.zip"
+    url: "https://cdn.openttd.org/openttd-releases/15.3/openttd-15.3-windows-arm64.zip"
+    sha256: "8b4eb443e425ed3046ca94336008fef78ce7c535fd607ae2ec79630e6d6dba96"
+    size: 10714729
+    archive: zip
+    strip_root: true
+    launch: { exe: "openttd.exe" }
+  - os: macos
+    arch: universal
+    asset: "openttd-15.3-macos-universal.zip"
+    url: "https://cdn.openttd.org/openttd-releases/15.3/openttd-15.3-macos-universal.zip"
+    sha256: "c2ac22ab3ac9ac1e82a8d9029b7e4ab069e425904420076605d860e64460f579"
+    size: 15540074
+    archive: zip
+    launch: { app_bundle: "OpenTTD.app" }
+  - os: linux
+    arch: x86_64
+    asset: "openttd-15.3-linux-generic-amd64.tar.xz"
+    url: "https://cdn.openttd.org/openttd-releases/15.3/openttd-15.3-linux-generic-amd64.tar.xz"
+    sha256: "f49eb25d61b00f8f4d332fee02b530ad75552d1efb8f2bb01e7ca5e6540fe059"
+    size: 23046700
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "openttd" }
+multiplayer: online_pvp
+links:
+  homepage: "https://www.openttd.org/"
+changelog:
+  - "2026-10-16: initial, 15.3 from cdn.openttd.org (Windows, macOS and Linux)"

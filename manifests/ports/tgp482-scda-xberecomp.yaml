@@ -1,0 +1,17 @@
+# Generated from the release files of V1 and install-checked on 2026-10-16.
+schema: 1
+id: tgp482-scda-xberecomp
+game_key: tomclancyssplintercelldoubleagentxbox
+status: in_progress
+source:
+  type: github_releases
+  repo: TGP482/SCDA-XBERecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SCDA-XBERecomp.zip"
+    archive: zip
+    launch: { exe: "SCDA.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

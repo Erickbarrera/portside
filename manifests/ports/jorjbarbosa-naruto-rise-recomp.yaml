@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.0-beta.3 and install-checked on 2026-10-16.
+schema: 1
+id: jorjbarbosa-naruto-rise-recomp
+game_key: narutoriseofaninjanarutorise
+status: playable
+source:
+  type: github_releases
+  repo: jorjbarbosa/naruto-rise-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "naruto-rise-recomp-win-amd64.zip"
+    archive: zip
+    launch: { exe: "narutorise_launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

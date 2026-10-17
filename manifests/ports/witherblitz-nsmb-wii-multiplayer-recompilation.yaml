@@ -1,0 +1,18 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: witherblitz-nsmb-wii-multiplayer-recompilation
+game_key: newsupermariobroswiinsmbwiimultiplayer
+status: playable
+source:
+  type: github_releases
+  repo: WitherBlitz/NSMB-Wii-Multiplayer-Recompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "NSMBW-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "NSMBW.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

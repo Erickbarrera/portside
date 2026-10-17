@@ -1,0 +1,29 @@
+# Generated from the release files of v1.8.0 and install-checked on 2026-10-16.
+schema: 1
+id: akratch-goldenballoon
+game_key: diddykongracing
+status: in_progress
+source:
+  type: github_releases
+  repo: akratch/goldenballoon
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Golden-Balloon-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "GoldenBalloon.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Golden-Balloon-*-macos-arm64-unsigned.dmg"
+    archive: dmg
+    launch: { app_bundle: "Golden Balloon.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Golden-Balloon-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "Golden-Balloon-linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

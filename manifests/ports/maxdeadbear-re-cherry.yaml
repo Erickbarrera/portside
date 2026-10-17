@@ -1,0 +1,17 @@
+# Generated from the release files of release and install-checked on 2026-10-16.
+schema: 1
+id: maxdeadbear-re-cherry
+game_key: lollipopchainsaw
+status: in_progress
+source:
+  type: github_releases
+  repo: MaxDeadBear/Re-Cherry
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "re_cherry-windows-x64.exe"
+    archive: none
+    launch: { exe: "re_cherry-windows-x64.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,19 @@
+# Generated from the release files of nightly and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: openenroth-openenroth
+game_key: openenroth
+status: in_progress
+source:
+  type: github_releases
+  repo: OpenEnroth/OpenEnroth
+  channel: tag_pattern
+  tag_pattern: "^nightly$"
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenEnroth_*_Windows_x86_64_RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "OpenEnroth.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

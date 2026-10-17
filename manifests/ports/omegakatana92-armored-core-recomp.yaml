@@ -1,0 +1,18 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: omegakatana92-armored-core-recomp
+game_key: armoredcore
+status: in_progress
+source:
+  type: github_releases
+  repo: omegakatana92/Armored-Core-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Armored.Core.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Armored_Core_Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

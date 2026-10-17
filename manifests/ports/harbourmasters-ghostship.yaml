@@ -1,0 +1,29 @@
+# Generated from the release files of 3.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: harbourmasters-ghostship
+game_key: supermario64
+status: playable
+source:
+  type: github_releases
+  repo: HarbourMasters/Ghostship
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Nautilus-Alfa-Win64.zip"
+    archive: zip
+    launch: { exe: "Ghostship.exe" }
+  - os: macos
+    arch: universal
+    asset: "Nautilus-Alfa-Mac.zip"
+    archive: zip
+    nested: { file: "Ghostship.dmg", archive: dmg }
+    launch: { app_bundle: "Ghostship.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Nautilus-Alfa-Linux.zip"
+    archive: zip
+    launch: { exe: "ghostship.appimage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

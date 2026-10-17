@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-resident-evil-3-recomp
+game_key: residentevil3nemesis
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/resident-evil-3-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "resident-evil-3-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Resident_Evil_3__Nemesis_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "resident-evil-3-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Resident_Evil_3__Nemesis_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

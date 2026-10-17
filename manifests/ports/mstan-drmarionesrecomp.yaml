@@ -1,0 +1,17 @@
+# Generated from the release files of v1.3.0 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-drmarionesrecomp
+game_key: drmario
+status: playable
+source:
+  type: github_releases
+  repo: mstan/DrMarioNesRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DrMarioRecomp-eu-windows-x64.zip"
+    archive: zip
+    launch: { exe: "DrMarioRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

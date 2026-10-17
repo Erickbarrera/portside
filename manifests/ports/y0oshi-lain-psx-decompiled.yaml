@@ -1,0 +1,30 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: y0oshi-lain-psx-decompiled
+game_key: serialexperimentslain
+status: in_progress
+source:
+  type: github_releases
+  repo: Y0oshi/lain-psx-decompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Lain-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "lain.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Lain-macos.zip"
+    archive: zip
+    launch: { app_bundle: "Lain.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Lain-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "lain" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

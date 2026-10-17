@@ -1,0 +1,22 @@
+# Generated from the release files of v2.0 and install-checked on 2026-10-16.
+schema: 1
+id: jorge262007-fftarecomp
+game_key: finalfantasytacticsadvancefftarecomp
+status: in_progress
+source:
+  type: github_releases
+  repo: Jorge262007/FFTARecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "FFTARecomp-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "payload/FFTARecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "FFTARecomp-linux-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "payload/FFTARecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

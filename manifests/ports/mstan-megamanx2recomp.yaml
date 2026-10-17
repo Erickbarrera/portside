@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-megamanx2recomp
+game_key: megamanx2
+status: playable
+source:
+  type: github_releases
+  repo: mstan/MegaManX2Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MegaManX2SNESRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "MegaManX2SNESRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

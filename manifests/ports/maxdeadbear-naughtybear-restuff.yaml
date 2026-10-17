@@ -1,0 +1,23 @@
+# Generated from the release files of release_v1.5.1 and install-checked on 2026-10-16.
+schema: 1
+id: maxdeadbear-naughtybear-restuff
+game_key: naughtybear
+status: playable
+source:
+  type: github_releases
+  repo: MaxDeadBear/NaughtyBear_ReStuff
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "restuff-win-x64.zip"
+    archive: zip
+    launch: { exe: "restuff.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ReStuff-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "restuff" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,27 @@
+# Generated from the release files of 4.06.00 and install-checked on 2026-10-16.
+schema: 1
+id: team-eternity-eternity
+game_key: theeternityengine
+status: playable
+source:
+  type: github_releases
+  repo: team-eternity/eternity
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ee-*-win64.zip"
+    archive: zip
+    launch: { exe: "eternity.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "ee-*-intel.dmg"
+    archive: dmg
+    launch: { app_bundle: "Eternity Engine.app" }
+  - os: macos
+    arch: arm64
+    asset: "ee-*-applesilicon.dmg"
+    archive: dmg
+    launch: { app_bundle: "Eternity Engine.app" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

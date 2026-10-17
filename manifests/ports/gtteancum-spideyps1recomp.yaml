@@ -1,0 +1,18 @@
+# Generated from the release files of sm2-v1.1 and install-checked on 2026-10-16.
+schema: 1
+id: gtteancum-spideyps1recomp
+game_key: openspideyps1
+status: playable
+source:
+  type: github_releases
+  repo: GTTeancum/SpideyPS1recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Spider-Man-2-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SpiderMan2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

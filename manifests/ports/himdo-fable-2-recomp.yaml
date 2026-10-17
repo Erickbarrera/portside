@@ -1,0 +1,18 @@
+# Generated from the release files of 1.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: himdo-fable-2-recomp
+game_key: fable2
+status: playable
+source:
+  type: github_releases
+  repo: himdo/Fable-2-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Fable_2_recomp_v*_windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Fable2Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

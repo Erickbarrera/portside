@@ -1,0 +1,22 @@
+# Generated from the release files of v0.0.6.5 and install-checked on 2026-10-16.
+schema: 1
+id: yestermester-thesimpsonsgamerecomp
+game_key: thesimpsonsgame
+status: playable
+source:
+  type: github_releases
+  repo: YesterMester/TheSimpsonsGameRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "TheSimpsonsGame-Recompiled-Windows-x64-NoAVX2.zip"
+    archive: zip
+    launch: { exe: "simpsons-launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "TheSimpsonsGame-Recompiled-Linux-x64-NoAVX2.tar.gz"
+    archive: tar.gz
+    launch: { exe: "simpsons" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of v0.3.11 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-supermetroidrecomp
+game_key: supermetroid
+status: playable
+source:
+  type: github_releases
+  repo: mstan/SuperMetroidRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "supermetroid-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SuperMetroidSNESRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "supermetroid-*-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SuperMetroidSNESRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

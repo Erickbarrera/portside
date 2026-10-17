@@ -1,0 +1,24 @@
+# Generated from the release files of 1.5.5 and install-checked on 2026-10-16.
+schema: 1
+id: dhewm-dhewm3
+game_key: dhewm3
+status: playable
+source:
+  type: github_releases
+  repo: dhewm/dhewm3
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "dhewm3-1.5.5_Linux_amd64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dhewm3" }
+  - os: linux
+    arch: arm64
+    asset: "dhewm3-1.5.5_Linux_arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dhewm3" }
+changelog:
+  - "2026-10-16: initial (Linux)"

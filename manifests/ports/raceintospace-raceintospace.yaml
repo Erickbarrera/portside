@@ -1,0 +1,18 @@
+# Generated from the release files of v2.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: raceintospace-raceintospace
+game_key: raceintospace
+status: in_progress
+source:
+  type: github_releases
+  repo: raceintospace/raceintospace
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "raceintospace-*-Darwin.dmg"
+    archive: dmg
+    launch: { app_bundle: "raceintospace.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (macOS)"

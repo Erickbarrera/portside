@@ -1,0 +1,30 @@
+# Generated from the release files of v0.2.27 and install-checked on 2026-10-16.
+schema: 1
+id: fliperama86-cvlod-recomp
+game_key: castlevanialegacyofdarkness
+status: playable
+source:
+  type: github_releases
+  repo: fliperama86/cvlod_recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "LodRecomp-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "LodRecomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "LodRecomp-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "LodRecomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "LodRecomp-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "LodRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

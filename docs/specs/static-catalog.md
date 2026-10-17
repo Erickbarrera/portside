@@ -12,9 +12,7 @@ app's contract test reads. CI fails when that file is stale.
 
 ## Where
 Base URL: `https://erickbarrera.github.io/portside` (GitHub Pages of this repository,
-deployed by `.github/workflows/catalog.yml`) [TBD: custom domain]. The same files are also
-copied to the old address, `https://erickbarrera.github.io/portside-catalog`, which app
-releases up to 0.2.0 read; its other pages forward to the new site. Clients take the base URL from configuration
+deployed by `.github/workflows/catalog.yml`) [TBD: custom domain]. Clients take the base URL from configuration
 (`PORTSIDE_CATALOG_URL` in the app, `PUBLIC_PORTSIDE_CATALOG_URL` on the website).
 
 GitHub Pages serves every file with `Access-Control-Allow-Origin: *`, an `ETag`, gzip, and
@@ -101,8 +99,8 @@ invalid manifest fails the build, so a bad manifest never reaches the published 
 
 ## Changelog
 - 2026-10-17 — Base URL moves to `https://erickbarrera.github.io/portside` (the builder and
-  the website moved into the app repository); the old address keeps receiving copies. No
-  shape change.
+  the website moved into the app repository). The old address is no longer updated, so app
+  releases up to 0.2.0 keep the last catalog published there. No shape change.
 - 2026-10-16 — Releases for `url_list` manifests come from the manifest (section
   "Releases"). No shape change.
 - 2026-10-15 — A `manifests/covers.yaml` entry replaces the list screenshot and repo preview

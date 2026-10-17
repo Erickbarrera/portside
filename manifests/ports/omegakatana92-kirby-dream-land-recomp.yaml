@@ -1,0 +1,18 @@
+# Generated from the release files of recomp and install-checked on 2026-10-16.
+schema: 1
+id: omegakatana92-kirby-dream-land-recomp
+game_key: kirbysdreamland
+status: in_progress
+source:
+  type: github_releases
+  repo: omegakatana92/Kirby-Dream-Land-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Kirby.Dream.Land.*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "kirby_s_dream_land.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

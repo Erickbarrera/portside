@@ -1,0 +1,38 @@
+# Generated from the release files of v0.5.2 and install-checked on 2026-10-16.
+schema: 1
+id: troyedwardsjr-z2rs
+game_key: zeldaiitheadventureoflinkz2rs
+status: playable
+source:
+  type: github_releases
+  repo: troyedwardsjr/z2rs
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "z2rs-*-x86_64-pc-windows-msvc.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "z2rs-launcher.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "z2rs-*-x86_64-apple-darwin.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "z2rs.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "z2rs-*-aarch64-apple-darwin.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "z2rs.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "z2rs-*-x86_64-unknown-linux-gnu.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "z2rs-launcher" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

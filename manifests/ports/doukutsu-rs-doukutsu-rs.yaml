@@ -1,0 +1,29 @@
+# Generated from the release files of 1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: doukutsu-rs-doukutsu-rs
+game_key: cavestorydoukutsurs
+status: playable
+source:
+  type: github_releases
+  repo: doukutsu-rs/doukutsu-rs
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "doukutsu-rs_windows_*.x86_64.exe"
+    archive: none
+    launch: { exe: "doukutsu-rs_windows-x86_64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "doukutsu-rs_macos_*.x86_64.zip"
+    archive: zip
+    launch: { app_bundle: "doukutsu-rs.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "doukutsu-rs_macos_*.arm64.zip"
+    archive: zip
+    launch: { app_bundle: "doukutsu-rs.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

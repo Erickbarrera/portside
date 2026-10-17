@@ -1,0 +1,23 @@
+# Generated from the release files of v0.5.7-beta and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: arnoansems-catacombgl
+game_key: catacombgl
+status: playable
+source:
+  type: github_releases
+  repo: ArnoAnsems/CatacombGL
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "CatacombGL-Windows-64bit-0-5-7.zip"
+    archive: zip
+    launch: { exe: "CatacombGL.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "CatacombGL-Linux-0-5-7.tar.xz"
+    archive: tar.xz
+    launch: { exe: "CatacombGL" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

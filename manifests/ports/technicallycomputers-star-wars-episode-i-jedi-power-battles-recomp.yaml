@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-star-wars-episode-i-jedi-power-battles-recomp
+game_key: starwarsepisodeijedipowerbattles
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/Star-wars---Episode-I---Jedi-Power-Battles-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "seijpb-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Star_wars___Episode_I___Jedi_Power_Battles__Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "seijpb-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Star_wars___Episode_I___Jedi_Power_Battles__Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

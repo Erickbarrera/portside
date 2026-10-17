@@ -1,0 +1,17 @@
+# Generated from the release files of v0.0.4 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-rubysapphirerecomp
+game_key: pokemonrubyandpokemonsapphire
+status: playable
+source:
+  type: github_releases
+  repo: mstan/RubySapphireRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "RubyRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "RubyRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

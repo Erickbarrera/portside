@@ -1,0 +1,32 @@
+# Generated from the release files of v0.9.5 and install-checked on 2026-10-16.
+schema: 1
+id: 999sian-tmc
+game_key: thelegendofzeldatheminishcapprojectpicori
+status: in_progress
+source:
+  type: github_releases
+  repo: 999sian/tmc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "tmc-multi-windows-x86_64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "tmc_pc.exe" }
+  - os: windows
+    arch: arm64
+    asset: "tmc-multi-windows-arm64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "tmc_pc.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "tmc-multi-linux-x86_64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "tmc_pc" }
+  - os: linux
+    arch: arm64
+    asset: "tmc-multi-linux-arm64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "tmc_pc" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,30 @@
+# Generated from the release files of 1.3.3 and install-checked on 2026-10-16.
+schema: 1
+id: rsdkmodding-rsdkv3-decompilation
+game_key: soniccd
+status: in_progress
+source:
+  type: github_releases
+  repo: RSDKModding/RSDKv3-Decompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "v3-windows-x64.zip"
+    archive: zip
+    launch: { exe: "RSDKv3.exe" }
+  - os: macos
+    arch: universal
+    asset: "v3-mac.zip"
+    archive: zip
+    nested: { file: "RSDKv3.zip", archive: zip }
+    launch: { app_bundle: "RSDKv3.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "v3-linux.zip"
+    archive: zip
+    nested: { file: "linux.tar.gz", archive: tar.gz }
+    launch: { exe: "RSDKv3" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

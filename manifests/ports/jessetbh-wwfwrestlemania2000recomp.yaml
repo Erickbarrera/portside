@@ -1,0 +1,18 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: jessetbh-wwfwrestlemania2000recomp
+game_key: wwfwrestlemania2000
+status: in_progress
+source:
+  type: github_releases
+  repo: jessetbh/WWFWrestleMania2000Recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Wm2kRecompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "Wm2kRecompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

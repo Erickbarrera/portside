@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: doyagu-ballanced
+game_key: ballanceballanced
+status: boots
+source:
+  type: github_releases
+  repo: doyaGu/Ballanced
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ballance-runtime-x64.zip"
+    archive: zip
+    launch: { exe: "Bin/Player.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

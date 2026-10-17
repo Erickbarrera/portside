@@ -1,0 +1,18 @@
+# Generated from the release files of v1.3.1 and install-checked on 2026-10-16.
+schema: 1
+id: recomp-code-street-recomp-v3
+game_key: nbastreetv3
+status: playable
+source:
+  type: github_releases
+  repo: recomp-code/street-recomp-v3
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "NBAStreetV3-PC-*.zip"
+    archive: zip
+    nested: { file: "gshost-win64.zip", archive: zip }
+    launch: { exe: "pcsx2-gsrunner.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,22 @@
+# Generated from the release files of v1.1 and install-checked on 2026-10-16.
+schema: 1
+id: rohanbhattacharyya-osbm
+game_key: starboundopenstarboundmobile
+status: playable
+source:
+  type: github_releases
+  repo: RohanBhattacharyya/oSBM
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "oSBM-*-pc-launcher-windows.zip"
+    archive: zip
+    launch: { exe: "starbound.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "oSBM-*-pc-launcher-linux.zip"
+    archive: zip
+    launch: { exe: "starbound" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

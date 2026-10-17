@@ -1,0 +1,36 @@
+# Generated from the release files of v1.0.5 and install-checked on 2026-10-16.
+schema: 1
+id: loreanxavier-pt-pc
+game_key: ptptpc
+status: playable
+source:
+  type: github_releases
+  repo: LoreanXavier/pt-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "P.T.PC.Port-portable-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "pt.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "P.T.PC.Port-macOS-x64.zip"
+    archive: zip
+    launch: { app_bundle: "P.T. PC Port.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "P.T.PC.Port-macOS-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "P.T. PC Port.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "P.T.PC.Port-portable-linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "pt", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

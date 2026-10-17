@@ -1,0 +1,24 @@
+# Generated from the release files of v1.0.4 and install-checked on 2026-10-16.
+schema: 1
+id: citrongames-dora64
+game_key: doraemonnobitatomittsunoseireiseki
+status: in_progress
+source:
+  type: github_releases
+  repo: citrongames/Dora64
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Dora64-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Dora64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Dora64-*-Linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Dora64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,19 @@
+# Generated from the release files of v2.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: team-eternity-calico-doom
+game_key: doomcalicojaguardoombackport
+status: in_progress
+source:
+  type: github_releases
+  repo: team-eternity/calico-doom
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "calico-v2.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "calico-doom.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,18 @@
+# Generated from the release files of V2.2.1 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: trxyebeep-tomb4
+game_key: tombraiderthelastrevelationtomb4
+status: in_progress
+source:
+  type: github_releases
+  repo: Trxyebeep/TOMB4
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "tomb4.zip"
+    archive: zip
+    launch: { exe: "tomb4.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

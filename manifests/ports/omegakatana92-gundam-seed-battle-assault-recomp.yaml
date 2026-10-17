@@ -1,0 +1,19 @@
+# Generated from the release files of WIP and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: omegakatana92-gundam-seed-battle-assault-recomp
+game_key: gundamseedbattleassault
+status: in_progress
+source:
+  type: github_releases
+  repo: omegakatana92/Gundam-Seed-Battle-Assault-Recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Gundam.Seed.Battle.Assault.Recomp.WIP.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "GEMiniRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

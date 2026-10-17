@@ -1,0 +1,23 @@
+# Generated from the release files of v1.0.4 and install-checked on 2026-10-16.
+schema: 1
+id: josiahg2502-glitch-mother3recomp
+game_key: mother3
+status: playable
+source:
+  type: github_releases
+  repo: josiahg2502-glitch/Mother3Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Mother3Recomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Mother3Recomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Mother3Recomp-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Mother3Recomp", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

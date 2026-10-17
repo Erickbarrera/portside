@@ -1,0 +1,24 @@
+# Generated from the release files of v1.4.7 and install-checked on 2026-10-16.
+schema: 1
+id: linkssy2-roadrash64recompiled
+game_key: roadrash64
+status: playable
+source:
+  type: github_releases
+  repo: linkssy2/RoadRash64Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "RoadRash64Recompiled-*-Win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "RoadRash64Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "RoadRash64Recompiled-*-Linux-Experimental.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "RoadRash64Recompiled-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

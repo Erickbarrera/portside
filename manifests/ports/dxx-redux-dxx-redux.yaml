@@ -1,0 +1,34 @@
+# Generated from the release files of v1.1 and install-checked on 2026-10-16.
+schema: 1
+id: dxx-redux-dxx-redux
+game_key: dxxredux
+status: playable
+source:
+  type: github_releases
+  repo: dxx-redux/dxx-redux
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "d1x-redux-*-sdl12compat.zip"
+    archive: zip
+    launch: { exe: "d1x-redux.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "d1x-redux-*-mac.zip"
+    archive: zip
+    launch: { app_bundle: "D1X-Redux.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "d1x-redux-*-mac-arm.zip"
+    archive: zip
+    launch: { app_bundle: "D1X-Redux.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "d1x-redux-*-linux-sdl12compat.tar.gz"
+    archive: tar.gz
+    launch: { exe: "d1x-redux.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

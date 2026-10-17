@@ -1,0 +1,30 @@
+# Generated from the release files of 1.3.1-mbu and install-checked on 2026-10-16.
+schema: 1
+id: randomityguy-mbhaxe
+game_key: marbleblastgoldmbhaxe
+status: playable
+source:
+  type: github_releases
+  repo: RandomityGuy/MBHaxe
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MBHaxe-Ultra-Win.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "marbleblast.exe" }
+  - os: macos
+    arch: universal
+    asset: "MBHaxe-Ultra-Mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "MarbleBlast Ultra.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "MBHaxe-Ultra-Linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "marblegame" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

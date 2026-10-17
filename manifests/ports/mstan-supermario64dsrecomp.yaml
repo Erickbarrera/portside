@@ -1,0 +1,17 @@
+# Generated from the release files of v0.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-supermario64dsrecomp
+game_key: supermario64ds
+status: playable
+source:
+  type: github_releases
+  repo: mstan/supermario64dsrecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SuperMario64DSRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "SuperMario64DSRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

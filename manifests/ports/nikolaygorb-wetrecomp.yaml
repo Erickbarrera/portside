@@ -1,0 +1,24 @@
+# Generated from the release files of 1.3 and install-checked on 2026-10-16.
+schema: 1
+id: nikolaygorb-wetrecomp
+game_key: wet
+status: playable
+source:
+  type: github_releases
+  repo: nikolaygorb/WetRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wet-recomp-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wetrecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "wet-recomp-lin64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wetrecomp", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

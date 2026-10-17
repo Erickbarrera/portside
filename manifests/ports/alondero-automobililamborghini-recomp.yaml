@@ -1,0 +1,22 @@
+# Generated from the release files of v0.8.1 and install-checked on 2026-10-16.
+schema: 1
+id: alondero-automobililamborghini-recomp
+game_key: automobililamborghini
+status: playable
+source:
+  type: github_releases
+  repo: alondero/automobililamborghini-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "lamborghini-recomp-windows-x64.zip"
+    archive: zip
+    launch: { exe: "lamborghini_modern.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "lamborghini-recomp-linux-x64.zip"
+    archive: zip
+    launch: { exe: "lamborghini_modern" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

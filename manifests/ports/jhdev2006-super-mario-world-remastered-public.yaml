@@ -1,0 +1,22 @@
+# Generated from the release files of v1.0.1 and install-checked on 2026-10-16.
+schema: 1
+id: jhdev2006-super-mario-world-remastered-public
+game_key: supermarioworldsupermarioworldremastered
+status: in_progress
+source:
+  type: github_releases
+  repo: JHDev2006/Super-Mario-World-Remastered-Public
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Windows.zip"
+    archive: zip
+    launch: { exe: "MarioWorldRemastered.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Linux.zip"
+    archive: zip
+    launch: { exe: "MarioWorldRemastered.x86_64", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,18 @@
+# Generated from the release files of 1.1.12.55 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: jval1972-xgreed
+game_key: inpursuitofgreedxgreed
+status: in_progress
+source:
+  type: github_releases
+  repo: jval1972/xGreed
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "xGreed_*_bin.zip"
+    archive: zip
+    launch: { exe: "xGreed.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

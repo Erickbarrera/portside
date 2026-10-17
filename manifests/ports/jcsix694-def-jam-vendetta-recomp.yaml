@@ -1,0 +1,18 @@
+# Generated from the release files of v0.4.0 and install-checked on 2026-10-16.
+schema: 1
+id: jcsix694-def-jam-vendetta-recomp
+game_key: defjamvendetta
+status: playable
+source:
+  type: github_releases
+  repo: jcsix694/def-jam-vendetta-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Def-Jam-Vendetta-Recompiled-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Def Jam Vendetta Recompiled Settings.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

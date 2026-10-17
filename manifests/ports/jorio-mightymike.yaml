@@ -1,0 +1,33 @@
+# Generated from the release files of v3.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: jorio-mightymike
+game_key: mightymike
+status: playable
+source:
+  type: github_releases
+  repo: jorio/MightyMike
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MightyMike-*-windows-x64-hotfix.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "MightyMike.exe" }
+  - os: macos
+    arch: universal
+    asset: "MightyMike-*-mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "Mighty Mike.app" }
+  - os: linux
+    arch: x86_64
+    asset: "MightyMike-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "MightyMike-linux-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "MightyMike-*-linux-aarch64.AppImage"
+    archive: appimage
+    launch: { exe: "MightyMike-linux-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

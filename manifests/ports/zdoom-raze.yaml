@@ -1,0 +1,22 @@
+# Generated from the release files of 1.11.0 and install-checked on 2026-10-16.
+schema: 1
+id: zdoom-raze
+game_key: raze
+status: playable
+source:
+  type: github_releases
+  repo: ZDoom/Raze
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Raze-*b-windows.zip"
+    archive: zip
+    launch: { exe: "raze.exe" }
+  - os: macos
+    arch: universal
+    asset: "raze-macos-*.zip"
+    archive: zip
+    launch: { app_bundle: "Raze.app" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

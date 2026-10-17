@@ -1,0 +1,24 @@
+# Generated from the release files of v1.3.4 and install-checked on 2026-10-16.
+schema: 1
+id: bibendovsky-bstone
+game_key: bstone
+status: playable
+source:
+  type: github_releases
+  repo: bibendovsky/bstone
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bstone-*+e65a6b40-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "bstone.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "bstone-*+e65a6b40-Linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "bstone" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

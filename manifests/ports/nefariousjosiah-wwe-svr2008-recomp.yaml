@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: nefariousjosiah-wwe-svr2008-recomp
+game_key: wwesmackdownvsraw2008
+status: playable
+source:
+  type: github_releases
+  repo: nefariousjosiah/WWE-SVR2008-RECOMP
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SVR2008-NATIVE.zip"
+    archive: zip
+    launch: { exe: "svr2008.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

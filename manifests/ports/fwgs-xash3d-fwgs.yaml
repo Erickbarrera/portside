@@ -1,0 +1,24 @@
+# Generated from the release files of continuous and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: fwgs-xash3d-fwgs
+game_key: xash3dfwgs
+status: playable
+source:
+  type: github_releases
+  repo: FWGS/xash3d-fwgs
+  channel: tag_pattern
+  tag_pattern: "^continuous$"
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "xash3d-fwgs-amd64.AppImage"
+    archive: appimage
+    launch: { exe: "xash3d-fwgs-amd64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "xash3d-fwgs-arm64.AppImage"
+    archive: appimage
+    launch: { exe: "xash3d-fwgs-arm64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Linux)"

@@ -1,0 +1,17 @@
+# Generated from the release files of 1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: arefdsg-mk64recomp
+game_key: mariokart64mk64recomp
+status: in_progress
+source:
+  type: github_releases
+  repo: arefdsg/MK64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MK64Recompiled-v*-Windows.zip"
+    archive: zip
+    launch: { exe: "Zelda64Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,32 @@
+# Generated from the release files of latest and install-checked on 2026-10-16.
+schema: 1
+id: ec-quake3e
+game_key: quake3e
+status: playable
+source:
+  type: github_releases
+  repo: ec-/Quake3e
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "quake3e-windows-mingw-x86_64.zip"
+    archive: zip
+    launch: { exe: "quake3e.x64.exe" }
+  - os: windows
+    arch: arm64
+    asset: "quake3e-windows-msvc-arm64.zip"
+    archive: zip
+    launch: { exe: "quake3e.arm64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "quake3e-linux-x86_64.zip"
+    archive: zip
+    launch: { exe: "quake3e.x64", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "quake3e-linux-arm64.zip"
+    archive: zip
+    launch: { exe: "quake3e", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

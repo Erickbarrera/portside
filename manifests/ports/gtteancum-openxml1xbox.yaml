@@ -1,0 +1,17 @@
+# Generated from the release files of 0.9.1b and install-checked on 2026-10-16.
+schema: 1
+id: gtteancum-openxml1xbox
+game_key: xmenlegends
+status: playable
+source:
+  type: github_releases
+  repo: GTTeancum/OpenXML1xbox
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenXML1xbox-*-win64.zip"
+    archive: zip
+    launch: { exe: "x-men legends.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

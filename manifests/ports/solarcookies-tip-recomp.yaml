@@ -1,0 +1,22 @@
+# Generated from the release files of 1.13.0 and install-checked on 2026-10-16.
+schema: 1
+id: solarcookies-tip-recomp
+game_key: vivapinatatroubleinparadise
+status: playable
+source:
+  type: github_releases
+  repo: SolarCookies/TiP-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "retip_*_windows.zip"
+    archive: zip
+    launch: { exe: "retip.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "retip_*_linux.tar.xz"
+    archive: tar.xz
+    launch: { exe: "retip_" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

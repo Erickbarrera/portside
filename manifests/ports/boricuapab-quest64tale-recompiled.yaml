@@ -1,0 +1,24 @@
+# Generated from the release files of v1.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: boricuapab-quest64tale-recompiled
+game_key: quest64quest64tale
+status: playable
+source:
+  type: github_releases
+  repo: boricuapab/quest64tale-recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "quest64tale-recompiled-win_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Quest64Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "quest64tale-recompiled-linux_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Quest64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

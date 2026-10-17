@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-bomberman-fantasy-race-recomp
+game_key: bombermanfantasyracebombermanfantasyrace
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/Bomberman-Fantasy-Race-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bfr-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Bomberman_Fantasy_Race__Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "bfr-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Bomberman_Fantasy_Race__Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

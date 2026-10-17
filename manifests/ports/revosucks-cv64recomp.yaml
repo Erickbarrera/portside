@@ -1,0 +1,34 @@
+# Generated from the release files of v0.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: revosucks-cv64recomp
+game_key: castlevania64
+status: in_progress
+source:
+  type: github_releases
+  repo: RevoSucks/CV64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "CV64Recompiled-Windows-RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "CV64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "CV64Recompiled-macOS-Release.zip"
+    archive: zip
+    nested: { file: "CV64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "CV64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "CV64Recompiled-AppImage-X64-Release.zip"
+    archive: zip
+    launch: { exe: "CV64Recompiled-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "CV64Recompiled-AppImage-ARM64-Release.zip"
+    archive: zip
+    launch: { exe: "CV64Recompiled-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

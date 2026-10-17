@@ -1,0 +1,30 @@
+# Generated from the release files of v0.1.4 and install-checked on 2026-10-16.
+schema: 1
+id: speedbreakerproject-speedbreaker
+game_key: speedbreaker
+status: playable
+source:
+  type: github_releases
+  repo: SpeedBreakerProject/speedbreaker
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "SpeedBreaker-macos.dmg"
+    archive: dmg
+    launch: { app_bundle: "SpeedBreaker.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "SpeedBreaker-steamos-x86_64.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "lib/SpeedBreaker" }
+  - os: linux
+    arch: arm64
+    asset: "SpeedBreaker-steamos-arm64.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "lib/SpeedBreaker" }
+changelog:
+  - "2026-10-16: initial (macOS, Linux)"

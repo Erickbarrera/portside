@@ -1,0 +1,19 @@
+# Generated from the release files of v0.23.0-alpha.3 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: kyra422-skybreak
+game_key: thelegendofzeldaskywardswordskybreak
+status: in_progress
+source:
+  type: github_releases
+  repo: Kyra422/skybreak
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SkyBreak-0.23.0.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "app/SkyBreak.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

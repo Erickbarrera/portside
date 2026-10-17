@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.21 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-metal-slug-x-recomp
+game_key: metalslugxmetalslugx
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/Metal-Slug-X-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "msx-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Metal_Slug_X__Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "msx-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Metal_Slug_X__Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

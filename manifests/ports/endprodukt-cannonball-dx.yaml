@@ -1,0 +1,17 @@
+# Generated from the release files of 1.04 and install-checked on 2026-10-16.
+schema: 1
+id: endprodukt-cannonball-dx
+game_key: outruncannonballdx
+status: playable
+source:
+  type: github_releases
+  repo: Endprodukt/cannonball-dx
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "CannonballDX_*.zip"
+    archive: zip
+    launch: { exe: "cannonball-dx.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

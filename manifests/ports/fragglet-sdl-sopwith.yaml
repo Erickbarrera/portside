@@ -1,0 +1,31 @@
+# Generated from the release files of sdl-sopwith-2.9.0 and install-checked on 2026-10-16.
+schema: 1
+id: fragglet-sdl-sopwith
+game_key: sopwithsdlsopwith
+status: playable
+source:
+  type: github_releases
+  repo: fragglet/sdl-sopwith
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*-win64.zip"
+    archive: zip
+    launch: { exe: "sopwith.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "*-macos-x86_64.zip"
+    archive: zip
+    nested: { file: "*-macos-x86_64.dmg", archive: dmg }
+    launch: { app_bundle: "SDL Sopwith.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "*-macos-arm64.zip"
+    archive: zip
+    nested: { file: "*-macos-arm64.dmg", archive: dmg }
+    launch: { app_bundle: "SDL Sopwith.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

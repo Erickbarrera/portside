@@ -1,0 +1,24 @@
+# Generated from the release files of 20260301 and install-checked on 2026-10-16.
+schema: 1
+id: alistert-openjazz
+game_key: openjazz
+status: playable
+source:
+  type: github_releases
+  repo: AlisterT/openjazz
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openjazz-windows-mingw-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenJazz.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openjazz-linux-glibc2.35-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenJazz", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

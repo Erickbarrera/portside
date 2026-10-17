@@ -1,0 +1,17 @@
+# Generated from the release files of v2026.06.24.1 and install-checked on 2026-10-16.
+schema: 1
+id: slickamogus-silent-hill-pc-nightly
+game_key: silenthillsilenthillpcnightly
+status: in_progress
+source:
+  type: github_releases
+  repo: SlickAmogus/silent-hill-pc-nightly
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SilentHillPC.exe"
+    archive: none
+    launch: { exe: "SilentHillPC.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

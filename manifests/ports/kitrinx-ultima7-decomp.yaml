@@ -1,0 +1,29 @@
+# Generated from the release files of v0.4.0 and install-checked on 2026-10-16.
+schema: 1
+id: kitrinx-ultima7-decomp
+game_key: ultima7
+status: playable
+source:
+  type: github_releases
+  repo: Kitrinx/Ultima7_Decomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ultima7-portable-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Ultima7.exe" }
+  - os: macos
+    arch: arm64
+    asset: "ultima7-portable-*-macos-arm64.dmg"
+    archive: dmg
+    launch: { app_bundle: "Ultima7.app" }
+  - os: linux
+    arch: x86_64
+    asset: "ultima7-portable-*-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Ultima7" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

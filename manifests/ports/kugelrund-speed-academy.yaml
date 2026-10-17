@@ -1,0 +1,18 @@
+# Generated from the release files of v1.10 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: kugelrund-speed-academy
+game_key: speedacademy
+status: playable
+source:
+  type: github_releases
+  repo: kugelrund/Speed-Academy
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "jasp.exe"
+    archive: none
+    launch: { exe: "jasp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

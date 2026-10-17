@@ -1,0 +1,22 @@
+# Generated from the release files of v0.4.0 and install-checked on 2026-10-16.
+schema: 1
+id: kvark-vange-rs
+game_key: vangers
+status: playable
+source:
+  type: github_releases
+  repo: kvark/vange-rs
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "vangers-windows-latest.zip"
+    archive: zip
+    launch: { exe: "road.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "vangers-ubuntu-latest.zip"
+    archive: zip
+    launch: { exe: "road", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

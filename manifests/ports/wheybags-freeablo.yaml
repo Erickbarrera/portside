@@ -1,0 +1,24 @@
+# Generated from the release files of v0.4 and install-checked on 2026-10-16.
+schema: 1
+id: wheybags-freeablo
+game_key: freeablo
+status: playable
+source:
+  type: github_releases
+  repo: wheybags/freeablo
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "freeablo_*_windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "bin/freeablo.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "freeablo_*_linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "bin/freeablo" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

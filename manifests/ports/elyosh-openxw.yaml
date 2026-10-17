@@ -1,0 +1,24 @@
+# Generated from the release files of v0.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: elyosh-openxw
+game_key: openxw
+status: playable
+source:
+  type: github_releases
+  repo: elyosh/OpenXW
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openxw-*-windows-x86_64-release.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenXW.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openxw-*-linux-x86_64-release.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "OpenXW" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

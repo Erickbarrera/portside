@@ -1,0 +1,17 @@
+# Generated from the release files of vanilla-RC5 and install-checked on 2026-10-16.
+schema: 1
+id: 1oom-fork-1oom
+game_key: 1oom
+status: playable
+source:
+  type: github_releases
+  repo: 1oom-fork/1oom
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "1oom-vanilla-beta-RC5-testing.zip"
+    archive: zip
+    launch: { exe: "1oom_classic_sdl2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

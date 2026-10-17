@@ -1,0 +1,29 @@
+# Generated from the release files of v1.6 and install-checked on 2026-10-16.
+schema: 1
+id: yeoldpress-alttp-dx
+game_key: thelegendofzeldaalinktothepastalttpdx
+status: playable
+source:
+  type: github_releases
+  repo: YeOldPress/alttp-dx
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "alttp-dx-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "zelda3.exe" }
+  - os: macos
+    arch: arm64
+    asset: "alttp-dx-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "ALTTP-DX.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "alttp-dx-*-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "alttp-dx-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

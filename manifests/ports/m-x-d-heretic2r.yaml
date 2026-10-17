@@ -1,0 +1,18 @@
+# Generated from the release files of R6 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: m-x-d-heretic2r
+game_key: heretic2r
+status: playable
+source:
+  type: github_releases
+  repo: m-x-d/Heretic2R
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Heretic2R_*.zip"
+    archive: zip
+    launch: { exe: "Heretic2R.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

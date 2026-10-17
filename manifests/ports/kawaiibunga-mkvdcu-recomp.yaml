@@ -1,0 +1,17 @@
+# Generated from the release files of v0.2.1 and install-checked on 2026-10-16.
+schema: 1
+id: kawaiibunga-mkvdcu-recomp
+game_key: mortalkombatvsdcuniverse
+status: in_progress
+source:
+  type: github_releases
+  repo: KawaiiBunga/MKVDCU-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MKVDCU-Recomp.exe"
+    archive: none
+    launch: { exe: "MKVDCU-Recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

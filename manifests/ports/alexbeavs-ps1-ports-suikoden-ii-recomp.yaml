@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-suikoden-ii-recomp
+game_key: suikodenii
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/suikoden-ii-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "suikodenii-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Suikoden_II.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "suikodenii-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Suikoden_II" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

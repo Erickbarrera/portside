@@ -1,0 +1,23 @@
+# Generated from the release files of v0.1.0-beta and install-checked on 2026-10-16.
+schema: 1
+id: wootbeer-bzrecomp
+game_key: battlezoneriseoftheblackdogsbzrecomp
+status: in_progress
+source:
+  type: github_releases
+  repo: wootbeer/bzrecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BattlezoneRecompiled-*-windows.zip"
+    archive: zip
+    launch: { exe: "BattlezoneRecompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "BattlezoneRecompiled-*-linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "BattlezoneRecompiled-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

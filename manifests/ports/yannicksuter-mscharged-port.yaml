@@ -1,0 +1,23 @@
+# Generated from the release files of v1.0.9 and install-checked on 2026-10-16.
+schema: 1
+id: yannicksuter-mscharged-port
+game_key: mariostrikerschargedmscharged
+status: playable
+source:
+  type: github_releases
+  repo: yannicksuter/mscharged-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "mscharged-*+g6144eb682311-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "mscharged.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "mscharged-*+g6144eb682311-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "mscharged" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

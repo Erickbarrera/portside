@@ -1,0 +1,18 @@
+# Generated from the release files of v0.7.7 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: interrupt-systemshock
+game_key: shockolate
+status: playable
+source:
+  type: github_releases
+  repo: Interrupt/systemshock
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "systemshock-windows.zip"
+    archive: zip
+    launch: { exe: "systemshock.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,23 @@
+# Generated from the release files of 1.3.3 and install-checked on 2026-10-16.
+schema: 1
+id: rsdkmodding-rsdkv4-decompilation
+game_key: sonicthehedgehogsonicthehedgehog2
+status: in_progress
+source:
+  type: github_releases
+  repo: RSDKModding/RSDKv4-Decompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "v4-windows-x64.zip"
+    archive: zip
+    launch: { exe: "RSDKv4.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "v4-linux.zip"
+    archive: zip
+    nested: { file: "linux.tar.gz", archive: tar.gz }
+    launch: { exe: "RSDKv4" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

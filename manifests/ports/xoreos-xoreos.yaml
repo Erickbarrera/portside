@@ -1,0 +1,24 @@
+# Generated from the release files of v0.0.6 and install-checked on 2026-10-16.
+schema: 1
+id: xoreos-xoreos
+game_key: xoreos
+status: playable
+source:
+  type: github_releases
+  repo: xoreos/xoreos
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "xoreos-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "xoreos.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "xoreos-*-linux64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "xoreos" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

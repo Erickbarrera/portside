@@ -1,0 +1,17 @@
+# Generated from the release files of 0.2.1 and install-checked on 2026-10-16.
+schema: 1
+id: psxrestore-condemned2recomp
+game_key: condemned2bloodshot
+status: in_progress
+source:
+  type: github_releases
+  repo: psxrestore/Condemned2Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Condemned2Recomp_v*_window.zip"
+    archive: zip
+    launch: { exe: "condemned2recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

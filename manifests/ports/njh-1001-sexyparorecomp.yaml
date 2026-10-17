@@ -1,0 +1,22 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: njh-1001-sexyparorecomp
+game_key: sexyparodius
+status: in_progress
+source:
+  type: github_releases
+  repo: NJH-1001/SexyParoRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "sexyparo-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Sexy_Parodius_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "sexyparo-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Sexy_Parodius_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

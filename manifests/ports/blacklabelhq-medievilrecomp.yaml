@@ -1,0 +1,27 @@
+# Generated from the release files of v0.2b and install-checked on 2026-10-16.
+schema: 1
+id: blacklabelhq-medievilrecomp
+game_key: psxusamedievil
+status: in_progress
+source:
+  type: github_releases
+  repo: BlackLabelHQ/MediEvilRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MediEvilRecomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "medievil.exe" }
+  - os: windows
+    arch: arm64
+    asset: "MediEvilRecomp-*-windows-arm64.zip"
+    archive: zip
+    launch: { exe: "medievil.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "MediEvilRecomp-*-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "medievil" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

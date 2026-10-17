@@ -1,0 +1,19 @@
+# Generated from the release files of 0.10.0 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: diasurgical-devilution
+game_key: diablo
+status: playable
+source:
+  type: github_releases
+  repo: diasurgical/devilution
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Diablo.exe"
+    archive: none
+    launch: { exe: "Diablo.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

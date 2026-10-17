@@ -1,0 +1,33 @@
+# Generated from the release files of v3.4.1 and install-checked on 2026-10-16.
+schema: 1
+id: bishop-333-omega-engine
+game_key: omegaengine
+status: playable
+source:
+  type: github_releases
+  repo: Bishop-333/OmegA-engine
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "omega-engine-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "omega.exe" }
+  - os: macos
+    arch: universal
+    asset: "omega-engine-macos-universal2.dmg"
+    archive: dmg
+    launch: { app_bundle: "OmegA.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "omega-engine-linux-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "omega-x64" }
+  - os: linux
+    arch: arm64
+    asset: "omega-engine-linux-arm64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "omega-arm64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

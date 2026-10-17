@@ -1,0 +1,25 @@
+# Generated from the release files of v0.1.3 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: yvt-openspades
+game_key: openspades
+status: playable
+source:
+  type: github_releases
+  repo: yvt/openspades
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenSpades-*-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenSpades.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "OpenSpades-*-OSX.zip"
+    archive: zip
+    launch: { app_bundle: "OpenSpades.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

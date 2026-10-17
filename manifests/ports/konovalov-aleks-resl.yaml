@@ -1,0 +1,17 @@
+# Generated from the release files of release-1.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: konovalov-aleks-resl
+game_key: shortlinerailroad
+status: playable
+source:
+  type: github_releases
+  repo: konovalov-aleks/reSL
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "resl-*-windows.zip"
+    archive: zip
+    launch: { exe: "resl.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

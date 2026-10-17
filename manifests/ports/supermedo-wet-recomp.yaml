@@ -1,0 +1,18 @@
+# Generated from the release files of v0.6.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: supermedo-wet-recomp
+game_key: wet
+status: playable
+source:
+  type: github_releases
+  repo: Supermedo/wet-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wet-recomp-windows-x64.zip"
+    archive: zip
+    launch: { exe: "WetLauncher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

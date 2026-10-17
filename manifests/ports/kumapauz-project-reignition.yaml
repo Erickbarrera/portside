@@ -1,0 +1,24 @@
+# Generated from the release files of v0.4.2 and install-checked on 2026-10-16.
+schema: 1
+id: kumapauz-project-reignition
+game_key: sonicandthesecretringsprojectreignition
+status: playable
+source:
+  type: github_releases
+  repo: kumapauz/project-reignition
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Project.Reignition.Windows.*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Project Reignition.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Project.Reignition.Linux.*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Project Reignition.x86_64", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

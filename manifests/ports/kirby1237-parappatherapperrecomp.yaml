@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: kirby1237-parappatherapperrecomp
+game_key: parappatherapper
+status: in_progress
+source:
+  type: github_releases
+  repo: kirby1237/PaRappaTheRapperRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "prtr-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "PaRappaTheRapper_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "prtr-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "PaRappaTheRapper_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of v1.6 and install-checked on 2026-10-16.
+schema: 1
+id: james2doyle-ffta-recomp
+game_key: finalfantasytacticsadvance
+status: in_progress
+source:
+  type: github_releases
+  repo: james2doyle/ffta-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "FFTARecomp-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "FFTARecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "FFTARecomp-*-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "FFTARecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

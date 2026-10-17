@@ -1,0 +1,28 @@
+# Generated from the release files of v0.27.0 and install-checked on 2026-10-16.
+schema: 1
+id: odrannnn-metroidprimeport
+game_key: metroidprime
+status: playable
+source:
+  type: github_releases
+  repo: Odrannnn/MetroidPrimePort
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "metroid-prime-port-*-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "metroid_prime_port.exe" }
+  - os: macos
+    arch: arm64
+    asset: "metroid-prime-port-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "Metroid Prime Port.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "MetroidPrime-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "MetroidPrime-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

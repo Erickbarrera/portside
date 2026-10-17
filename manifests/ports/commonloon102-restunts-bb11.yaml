@@ -1,0 +1,27 @@
+# Generated from the release files of v1.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: commonloon102-restunts-bb11
+game_key: restunts
+status: in_progress
+source:
+  type: github_releases
+  repo: CommonLoon102/restunts-bb11
+  channel: stable
+builds:
+  - os: windows
+    arch: arm64
+    asset: "restunts-windows-arm64.zip"
+    archive: zip
+    launch: { exe: "bin/restunts.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "restunts-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "bin/restunts" }
+  - os: linux
+    arch: arm64
+    asset: "restunts-linux-arm64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "bin/restunts" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

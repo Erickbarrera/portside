@@ -1,0 +1,18 @@
+# Generated from the release files of swpe-0.99.2026 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: zlatkok-swos-port
+game_key: sensibleworldofsoccer9697swos
+status: in_progress
+source:
+  type: github_releases
+  repo: zlatkok/swos-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*.zip"
+    archive: zip
+    launch: { exe: "swpe.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,23 @@
+# Generated from the release files of v1.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: rsdkmodding-rsdkv5-decompilation
+game_key: sonicmaniarsdkv5
+status: in_progress
+source:
+  type: github_releases
+  repo: RSDKModding/RSDKv5-Decompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "v5-windows-x64.zip"
+    archive: zip
+    launch: { exe: "RSDKv5.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "v5-linux.zip"
+    archive: zip
+    nested: { file: "linux.tar.gz", archive: tar.gz }
+    launch: { exe: "RSDKv5" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

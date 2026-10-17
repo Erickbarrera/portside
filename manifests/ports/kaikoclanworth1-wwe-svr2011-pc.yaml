@@ -1,0 +1,17 @@
+# Generated from the release files of v2.1.3 and install-checked on 2026-10-16.
+schema: 1
+id: kaikoclanworth1-wwe-svr2011-pc
+game_key: wwesmackdownvsraw2011wwesvr2011pc
+status: playable
+source:
+  type: github_releases
+  repo: KaikoClanworth1/wwe-svr2011-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SvR2011-PC-*.zip"
+    archive: zip
+    launch: { exe: "SvR2011 Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

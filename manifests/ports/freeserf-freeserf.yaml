@@ -1,0 +1,24 @@
+# Generated from the release files of v0.5 and install-checked on 2026-10-16.
+schema: 1
+id: freeserf-freeserf
+game_key: thesettlersi
+status: playable
+source:
+  type: github_releases
+  repo: freeserf/freeserf
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "FreeSerf.dmg"
+    archive: dmg
+    launch: { app_bundle: "FreeSerf.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "FreeSerf-*-Linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "FreeSerf" }
+changelog:
+  - "2026-10-16: initial (macOS, Linux)"

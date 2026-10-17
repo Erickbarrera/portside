@@ -1,0 +1,18 @@
+# Generated from the release files of v0.0.2 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: mstan-supermarioadvance4recomp
+game_key: supermarioadvance4supermariobros3
+status: in_progress
+source:
+  type: github_releases
+  repo: mstan/SuperMarioAdvance4Recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SuperMarioAdvance4Recomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "SuperMarioAdvance4Recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

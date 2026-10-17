@@ -1,0 +1,19 @@
+# Generated from the release files of Open-Beta-1.7 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: nyperyuhgard-ctr-pc-port
+game_key: crashteamracingctrpc
+status: playable
+source:
+  type: github_releases
+  repo: NyperYuhgard/CTR-PC-Port
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Windows.zip"
+    archive: zip
+    launch: { exe: "ctr_native.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

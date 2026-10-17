@@ -1,0 +1,18 @@
+# Generated from the release files of 8.71H15 and install-checked on 2026-10-16.
+schema: 1
+id: 0lvin-heretic2
+game_key: heretic2
+status: playable
+source:
+  type: github_releases
+  repo: 0lvin/heretic2
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "yquake2remaster-x86_64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "yquake2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

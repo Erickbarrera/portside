@@ -1,0 +1,31 @@
+# Generated from the release files of nightly and install-checked on 2026-10-16.
+schema: 1
+id: dpjudas-surrealengine
+game_key: surrealengine
+status: playable
+source:
+  type: github_releases
+  repo: dpjudas/SurrealEngine
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SurrealEngine-windows-prerelease.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SurrealEngine.exe" }
+  - os: macos
+    arch: arm64
+    asset: "SurrealEngine-macos-prerelease.zip"
+    archive: zip
+    nested: { file: "*/SurrealEngine.dmg", archive: dmg }
+    launch: { app_bundle: "SurrealEngine.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "SurrealEngine-linux-prerelease.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SurrealEngine", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

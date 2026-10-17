@@ -1,0 +1,36 @@
+# Generated from the release files of v1.14.0 and install-checked on 2026-10-16.
+schema: 1
+id: pyrdacor-ambermoon-net
+game_key: ambermoon
+status: playable
+source:
+  type: github_releases
+  repo: Pyrdacor/Ambermoon.net
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Ambermoon.net-Windows.zip"
+    archive: zip
+    launch: { exe: "Ambermoon.net.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "Ambermoon.net-Mac.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Ambermoon.net.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "Ambermoon.net-Mac-ARM.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Ambermoon.net.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Ambermoon.net-Linux.tar.gz"
+    archive: tar.gz
+    launch: { exe: "Ambermoon.net" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

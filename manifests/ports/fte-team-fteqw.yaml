@@ -1,0 +1,22 @@
+# Generated from the release files of 2025-09-27 and install-checked on 2026-10-16.
+schema: 1
+id: fte-team-fteqw
+game_key: quakeq1pietercomftequakeworld
+status: in_progress
+source:
+  type: github_releases
+  repo: fte-team/fteqw
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "fteqw-win64-*.zip"
+    archive: zip
+    launch: { exe: "fteqw64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "fteqw-linux64-*.zip"
+    archive: zip
+    launch: { exe: "fteqw64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

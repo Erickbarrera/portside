@@ -1,0 +1,23 @@
+# Generated from the release files of v0.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: nemo22-skynet-godot
+game_key: theterminatorskynetskynetgodot
+status: playable
+source:
+  type: github_releases
+  repo: nemo22/skynet-godot
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SkyNET.exe"
+    archive: none
+    launch: { exe: "SkyNET.exe" }
+  - os: macos
+    arch: universal
+    asset: "SkyNET.zip"
+    archive: zip
+    launch: { app_bundle: "SkyNET Godot Port.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

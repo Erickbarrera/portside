@@ -1,0 +1,30 @@
+# Generated from the release files of latest and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: theassemblyarmada-vanilla-conquer
+game_key: vanillaconquer
+status: in_progress
+source:
+  type: github_releases
+  repo: TheAssemblyArmada/Vanilla-Conquer
+  channel: tag_pattern
+  tag_pattern: "^latest$"
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "vanilla-conquer-internal-win-gcc-x86_64-ce83b59.zip"
+    archive: zip
+    launch: { exe: "vanillara.exe" }
+  - os: macos
+    arch: universal
+    asset: "vanilla-conquer-internal-macos-clang-universal2-ce83b59.zip"
+    archive: zip
+    launch: { app_bundle: "vanillara.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "vanilla-conquer-internal-linux-clang-ubuntu-22.04-x86_64-ce83b59.zip"
+    archive: zip
+    launch: { exe: "vanillara" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

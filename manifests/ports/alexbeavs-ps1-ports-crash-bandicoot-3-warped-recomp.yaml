@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-crash-bandicoot-3-warped-recomp
+game_key: crashbandicoot3warped
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/crash-bandicoot-3-warped-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "crash-bandicoot-3-warped-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Crash_Bandicoot_3__Warped_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "crash-bandicoot-3-warped-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Crash_Bandicoot_3__Warped_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

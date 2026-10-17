@@ -1,0 +1,17 @@
+# Generated from the release files of v1.1 and install-checked on 2026-10-16.
+schema: 1
+id: gtteancum-xmen-mutant-academy-2-pc
+game_key: xmenmutantacademy2
+status: in_progress
+source:
+  type: github_releases
+  repo: GTTeancum/xmen-mutant-academy-2-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "XMenMA2-portable.zip"
+    archive: zip
+    launch: { exe: "XMenMA2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

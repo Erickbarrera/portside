@@ -1,0 +1,23 @@
+# Generated from the release files of v0.8.4 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: thiagolira-trouble-makers-pc-recomp
+game_key: mischiefmakers
+status: playable
+source:
+  type: github_releases
+  repo: ThiagoLira/trouble-makers-pc-recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "TroubleMakers-Windows-X64.zip"
+    archive: zip
+    launch: { exe: "troublemakers.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "TroubleMakers-SteamDeck-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "TroubleMakers-SteamDeck-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of 2.2.1 and install-checked on 2026-10-16.
+schema: 1
+id: the-new-platinum-team-openmbg
+game_key: marbleblastgoldopenmbg
+status: playable
+source:
+  type: github_releases
+  repo: The-New-Platinum-Team/OpenMBG
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenMBG-Win.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "marbleblast.exe" }
+  - os: macos
+    arch: universal
+    asset: "OpenMBG-Mac-Extended.zip"
+    archive: zip
+    launch: { app_bundle: "MarbleBlast Gold MBX.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

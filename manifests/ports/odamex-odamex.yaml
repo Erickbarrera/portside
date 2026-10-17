@@ -1,0 +1,23 @@
+# Generated from the release files of 12.3.0 and install-checked on 2026-10-16.
+schema: 1
+id: odamex-odamex
+game_key: odamex
+status: playable
+source:
+  type: github_releases
+  repo: odamex/odamex
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "odamex-win64-*.zip"
+    archive: zip
+    launch: { exe: "odamex.exe" }
+  - os: macos
+    arch: universal
+    asset: "odamex-macos-*.dmg"
+    archive: dmg
+    launch: { app_bundle: "Odamex/Odamex.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

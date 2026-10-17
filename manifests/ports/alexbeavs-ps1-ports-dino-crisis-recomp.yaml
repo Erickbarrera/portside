@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-dino-crisis-recomp
+game_key: dinocrisis
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/dino-crisis-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dino-crisis-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Dino_Crisis_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "dino-crisis-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Dino_Crisis_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

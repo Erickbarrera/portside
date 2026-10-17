@@ -1,0 +1,22 @@
+# Generated from the release files of v0.5.2 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-sonic3andknucklesrecomp
+game_key: sonic3andknuckles
+status: playable
+source:
+  type: github_releases
+  repo: mstan/Sonic3AndKnucklesRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Sonic3KRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "Sonic3KRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Sonic3KRecomp-linux-x86_64-*.AppImage"
+    archive: appimage
+    launch: { exe: "Sonic3KRecomp-linux-x86_64-AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

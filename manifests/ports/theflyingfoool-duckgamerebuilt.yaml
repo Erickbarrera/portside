@@ -1,0 +1,18 @@
+# Generated from the release files of v1.4.7 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: theflyingfoool-duckgamerebuilt
+game_key: duckgame
+status: in_progress
+source:
+  type: github_releases
+  repo: TheFlyingFoool/DuckGameRebuilt
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DuckGameRebuilt.zip"
+    archive: zip
+    launch: { exe: "DuckGame.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

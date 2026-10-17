@@ -1,0 +1,44 @@
+# Generated from the release files of v0.1.0-preview.2 and install-checked on 2026-10-16.
+schema: 1
+id: zoomieszaggy-space-channel-5
+game_key: spacechannel5
+status: in_progress
+source:
+  type: github_releases
+  repo: ZoomiesZaggy/Space-Channel-5
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SpaceChannel5-*-Windows-X64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "SpaceChannel5.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "SpaceChannel5-*-macOS-X64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "SpaceChannel5.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "SpaceChannel5-*-macOS-ARM64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "SpaceChannel5.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "SpaceChannel5-*-Linux-X64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "SpaceChannel5" }
+  - os: linux
+    arch: arm64
+    asset: "SpaceChannel5-*-Linux-ARM64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "SpaceChannel5" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,31 @@
+# Generated from the release files of v0.8.3 and install-checked on 2026-10-16.
+schema: 1
+id: lfarroco-ogre-battle-64-recomp
+game_key: ogrebattle64personoflordlycaliber
+status: playable
+source:
+  type: github_releases
+  repo: lfarroco/ogre-battle-64-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ogre-battle-64-recomp-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ogrebattle64.exe" }
+  - os: macos
+    arch: arm64
+    asset: "ogre-battle-64-recomp-macos-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { app_bundle: "Ogre Battle 64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "ogre-battle-64-recomp-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ogrebattle64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

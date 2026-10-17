@@ -1,0 +1,30 @@
+# Generated from the release files of v0.4.8 and install-checked on 2026-10-16.
+schema: 1
+id: dyzz-srw64-recomp
+game_key: superrobotwars64
+status: playable
+source:
+  type: github_releases
+  repo: dyzz/srw64-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Marchwind64-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Marchwind64.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Marchwind64-*-macos14-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "Marchwind64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Marchwind64-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "srw64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

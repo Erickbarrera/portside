@@ -1,0 +1,29 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: goliathret-edgeoftimerecomp
+game_key: edgeoftime
+status: in_progress
+source:
+  type: github_releases
+  repo: goliathret/EdgeOfTimeRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "EdgeOfTimeRecomp-*-win-amd64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "EdgeOfTimeRecomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "EdgeOfTimeRecomp-*-mac-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "EdgeOfTimeRecomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "EdgeOfTimeRecomp-*-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "EdgeOfTimeRecomp-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

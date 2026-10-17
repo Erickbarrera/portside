@@ -1,0 +1,19 @@
+# Generated from the release files of v0.1.3-unstable and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: gizcesi-opentricky
+game_key: ssxtricky
+status: playable
+source:
+  type: github_releases
+  repo: GiZcesi/OpenTricky
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenTricky-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenTricky.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

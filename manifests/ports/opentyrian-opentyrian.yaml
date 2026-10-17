@@ -1,0 +1,42 @@
+# Generated from the release files of v2.1.20260913 and install-checked on 2026-10-16.
+schema: 1
+id: opentyrian-opentyrian
+game_key: opentyrian
+status: playable
+source:
+  type: github_releases
+  repo: opentyrian/opentyrian
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "opentyrian-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "opentyrian.exe" }
+  - os: windows
+    arch: arm64
+    asset: "opentyrian-*-windows-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "opentyrian.exe" }
+  - os: macos
+    arch: universal
+    asset: "opentyrian-*-macos-universal.zip"
+    archive: zip
+    launch: { app_bundle: "OpenTyrian.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "opentyrian-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "opentyrian" }
+  - os: linux
+    arch: arm64
+    asset: "opentyrian-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "opentyrian" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

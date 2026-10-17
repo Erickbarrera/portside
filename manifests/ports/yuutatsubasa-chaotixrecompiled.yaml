@@ -1,0 +1,24 @@
+# Generated from the release files of v0.4.2 and install-checked on 2026-10-16.
+schema: 1
+id: yuutatsubasa-chaotixrecompiled
+game_key: knuckleschaotix
+status: playable
+source:
+  type: github_releases
+  repo: YuutaTsubasa/ChaotixRecompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ChaotixRecompiled-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ChaotixRecompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ChaotixRecompiled-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ChaotixRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

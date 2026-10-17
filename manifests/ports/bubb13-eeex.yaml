@@ -1,0 +1,17 @@
+# Generated from the release files of v1.3.1 and install-checked on 2026-10-16.
+schema: 1
+id: bubb13-eeex
+game_key: baldursgateenhancededitioneeex
+status: in_progress
+source:
+  type: github_releases
+  repo: Bubb13/EEex
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "eeex-*.zip"
+    archive: zip
+    launch: { exe: "Setup-EEex.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

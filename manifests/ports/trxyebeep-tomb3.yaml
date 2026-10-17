@@ -1,0 +1,18 @@
+# Generated from the release files of V2.0.2 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: trxyebeep-tomb3
+game_key: tombraideriiitomb3
+status: in_progress
+source:
+  type: github_releases
+  repo: Trxyebeep/tomb3
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "tomb3.zip"
+    archive: zip
+    launch: { exe: "tomb3.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

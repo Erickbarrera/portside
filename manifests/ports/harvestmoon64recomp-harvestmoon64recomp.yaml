@@ -1,0 +1,36 @@
+# Generated from the release files of v1.2.2 and install-checked on 2026-10-16.
+schema: 1
+id: harvestmoon64recomp-harvestmoon64recomp
+game_key: harvestmoon64
+status: playable
+source:
+  type: github_releases
+  repo: HarvestMoon64Recomp/HarvestMoon64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "HarvestMoon64Recompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "HarvestMoon64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "HarvestMoon64Recompiled-*-macOS.zip"
+    archive: zip
+    nested: { file: "HarvestMoon64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "HarvestMoon64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "HarvestMoon64Recompiled-*-Linux-X64.zip"
+    archive: zip
+    nested: { file: "HarvestMoon64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "HarvestMoon64Recompiled" }
+  - os: linux
+    arch: arm64
+    asset: "HarvestMoon64Recompiled-*-Linux-ARM64.zip"
+    archive: zip
+    nested: { file: "HarvestMoon64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "HarvestMoon64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

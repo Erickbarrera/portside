@@ -1,0 +1,18 @@
+# Generated from the release files of release_v1.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: x86matthew-playable3dmaze
+game_key: 3dmaze
+status: in_progress
+source:
+  type: github_releases
+  repo: x86matthew/Playable3DMaze
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Playable3DMaze.zip"
+    archive: zip
+    launch: { exe: "Playable3DMazeLoader.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

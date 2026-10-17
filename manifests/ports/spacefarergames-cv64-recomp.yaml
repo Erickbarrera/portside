@@ -1,0 +1,17 @@
+# Generated from the release files of Releases and install-checked on 2026-10-16.
+schema: 1
+id: spacefarergames-cv64-recomp
+game_key: castlevania64cv64
+status: in_progress
+source:
+  type: github_releases
+  repo: spacefarergames/CV64-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Castlevania.64_Recomp_Claude1.1_Release.zip"
+    archive: zip
+    launch: { exe: "CV64_Recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

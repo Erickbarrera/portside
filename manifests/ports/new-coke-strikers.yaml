@@ -1,0 +1,33 @@
+# Generated from the release files of v1.3.0 and install-checked on 2026-10-16.
+schema: 1
+id: new-coke-strikers
+game_key: supermariostrikers
+status: playable
+source:
+  type: github_releases
+  repo: new-coke/strikers
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "strikers-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "strikers.exe" }
+  - os: macos
+    arch: arm64
+    asset: "strikers-macos-arm64.tar.gz"
+    archive: tar.gz
+    launch: { app_bundle: "strikers-settings.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "strikers-linux-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "strikers" }
+  - os: linux
+    arch: arm64
+    asset: "strikers-linux-arm64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "strikers" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

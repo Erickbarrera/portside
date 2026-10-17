@@ -1,0 +1,18 @@
+# Generated from the release files of v0.10.0-dev.2 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: 96dot-daorecomp
+game_key: dragonageorigins
+status: playable
+source:
+  type: github_releases
+  repo: 96dot/DAORecomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DAORecomp.exe"
+    archive: none
+    launch: { exe: "DAORecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

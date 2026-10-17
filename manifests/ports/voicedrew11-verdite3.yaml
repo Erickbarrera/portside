@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.2 and install-checked on 2026-10-16.
+schema: 1
+id: voicedrew11-verdite3
+game_key: kingsfieldii
+status: playable
+source:
+  type: github_releases
+  repo: Voicedrew11/verdite3
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Verdite3-*-win-x64.zip"
+    archive: zip
+    launch: { exe: "Verdite3.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Verdite3-*-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "Verdite3-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

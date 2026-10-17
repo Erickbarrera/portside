@@ -1,0 +1,29 @@
+# Generated from the release files of 1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: harbourmasters-lighthouse
+game_key: banjokazooie
+status: in_progress
+source:
+  type: github_releases
+  repo: HarbourMasters/Lighthouse
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Lighthouse-Hatteras-Alfa-Win64.zip"
+    archive: zip
+    launch: { exe: "Lighthouse.exe" }
+  - os: macos
+    arch: universal
+    asset: "Lighthouse-Hatteras-Alfa-Mac.zip"
+    archive: zip
+    nested: { file: "Lighthouse.dmg", archive: dmg }
+    launch: { app_bundle: "Lighthouse.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Lighthouse-Hatteras-Alfa-Linux.zip"
+    archive: zip
+    launch: { exe: "lighthouse.appimage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,33 @@
+# Generated from the release files of 1.3.4 and install-checked on 2026-10-16.
+schema: 1
+id: jorio-bugdom
+game_key: bugdom
+status: playable
+source:
+  type: github_releases
+  repo: jorio/Bugdom
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Bugdom-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Bugdom.exe" }
+  - os: macos
+    arch: universal
+    asset: "Bugdom-*-mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "Bugdom.app" }
+  - os: linux
+    arch: x86_64
+    asset: "Bugdom-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "Bugdom-linux-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "Bugdom-*-linux-aarch64.AppImage"
+    archive: appimage
+    launch: { exe: "Bugdom-linux-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

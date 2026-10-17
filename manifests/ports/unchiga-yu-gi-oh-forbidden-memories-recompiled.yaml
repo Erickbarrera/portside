@@ -1,0 +1,25 @@
+# Generated from the release files of v0.3.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: unchiga-yu-gi-oh-forbidden-memories-recompiled
+game_key: yugiohforbiddenmemories
+status: playable
+source:
+  type: github_releases
+  repo: Unchiga/Yu-Gi-Oh-Forbidden-Memories-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "yfm-redecomp-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "memories-pc.exe" }
+  - os: macos
+    arch: arm64
+    asset: "yfm-redecomp-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "YFM Re-Decomp.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

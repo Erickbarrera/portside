@@ -1,0 +1,23 @@
+# Generated from the release files of v0.8.5-beta and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: riperiperi-freeso
+game_key: freeso
+status: playable
+source:
+  type: github_releases
+  repo: riperiperi/FreeSO
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "client-windows-*.zip"
+    archive: zip
+    launch: { exe: "FreeSO.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "client-delta-linux-*.zip"
+    archive: zip
+    launch: { exe: "FreeSO" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

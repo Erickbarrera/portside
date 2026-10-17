@@ -1,0 +1,23 @@
+# Generated from the release files of v0.0.8 and install-checked on 2026-10-16.
+schema: 1
+id: elliotttate-dkc2recomp
+game_key: donkeykongcountry2diddyskongquest
+status: playable
+source:
+  type: github_releases
+  repo: elliotttate/DKC2Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DKC2Recomp-*-Windows-x64.zip"
+    archive: zip
+    launch: { exe: "DKC2Recomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "DKC2Recomp-*-macOS-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "DKC2Recomp.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

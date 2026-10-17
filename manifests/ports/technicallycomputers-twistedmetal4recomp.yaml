@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.37 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-twistedmetal4recomp
+game_key: twistedmetal4twistedmetal4
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/TwistedMetal4Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "twistedmetal4-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "TwistedMetal4_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "twistedmetal4-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "TwistedMetal4_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

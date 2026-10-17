@@ -1,0 +1,17 @@
+# Generated from the release files of v1.1.8 and install-checked on 2026-10-16.
+schema: 1
+id: littlebitua-downpourrecomp
+game_key: silenthilldownpour
+status: playable
+source:
+  type: github_releases
+  repo: LittleBitUA/DownpourRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DownpourRecomp-*.zip"
+    archive: zip
+    launch: { exe: "downpour.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

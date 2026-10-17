@@ -1,0 +1,24 @@
+# Generated from the release files of v0.8.0-beta.1c and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: coccofresco-triaevum
+game_key: ocarinaoftime3dtriaevum
+status: playable
+source:
+  type: github_releases
+  repo: coccofresco/TriAevum
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "TriAevum-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "TriAevum.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "TriAevum-*-Linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "TriAevum-Linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

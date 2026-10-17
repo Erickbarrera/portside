@@ -1,0 +1,23 @@
+# Generated from the release files of v2.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: tekrantgaming-sms-pc-port
+game_key: supermariosunshine
+status: playable
+source:
+  type: github_releases
+  repo: TekRantGaming/sms-pc-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SMS-PC-Port-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "sms.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SMS-PC-Port-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "SMS-PC-Port-linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

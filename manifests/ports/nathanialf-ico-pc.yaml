@@ -1,0 +1,36 @@
+# Generated from the release files of v0.7.7 and install-checked on 2026-10-16.
+schema: 1
+id: nathanialf-ico-pc
+game_key: icopc
+status: playable
+source:
+  type: github_releases
+  repo: nathanialf/ico-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ico-pc-*-win-portable.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "x64/ico_pc_x64.exe" }
+  - os: macos
+    arch: arm64
+    asset: "ico-pc-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "ICO.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "ico-pc-*-linux-portable.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ico_pc" }
+  - os: linux
+    arch: arm64
+    asset: "ico-pc-*-linux-arm64-portable.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ico_pc" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

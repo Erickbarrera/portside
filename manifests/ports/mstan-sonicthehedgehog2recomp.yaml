@@ -1,0 +1,17 @@
+# Generated from the release files of v0.8.2 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-sonicthehedgehog2recomp
+game_key: sonicthehedgehog2
+status: playable
+source:
+  type: github_releases
+  repo: mstan/SonicTheHedgehog2Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SonicTheHedgehog2Recomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "SonicTheHedgehog2Recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

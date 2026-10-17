@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1 and install-checked on 2026-10-16.
+schema: 1
+id: snesrev-smw
+game_key: supermarioworld
+status: in_progress
+source:
+  type: github_releases
+  repo: snesrev/smw
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "smw_*.zip"
+    archive: zip
+    launch: { exe: "smw.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

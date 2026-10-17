@@ -1,0 +1,19 @@
+# Generated from the release files of experimental and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: sk8-engine-skate-3-rust-engine
+game_key: skate3skate3rustengine
+status: in_progress
+source:
+  type: github_releases
+  repo: SK8-ENGINE/skate-3-rust-engine
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "skate3rust-windows-x64-build-46.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "skate3rust.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

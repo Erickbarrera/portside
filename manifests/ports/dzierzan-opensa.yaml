@@ -1,0 +1,28 @@
+# Generated from the release files of 20230905 and install-checked on 2026-10-16.
+schema: 1
+id: dzierzan-opensa
+game_key: opensa
+status: playable
+source:
+  type: github_releases
+  repo: Dzierzan/OpenSA
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenSA-*-x64-winportable.zip"
+    archive: zip
+    launch: { exe: "OpenSA.exe" }
+  - os: macos
+    arch: universal
+    asset: "OpenSA-*.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenSA.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "OpenSA-*-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "OpenSA-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

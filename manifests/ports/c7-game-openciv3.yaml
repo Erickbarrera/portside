@@ -1,0 +1,31 @@
+# Generated from the release files of v0.3-dutch-preview-1 and install-checked on 2026-10-16.
+schema: 1
+id: c7-game-openciv3
+game_key: openciv3
+status: playable
+source:
+  type: github_releases
+  repo: C7-Game/OpenCiv3
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenCiv3_*-Dutch-Windows.zip"
+    archive: zip
+    launch: { exe: "OpenCiv3.exe" }
+  - os: macos
+    arch: universal
+    asset: "OpenCiv3_*-Dutch-Mac.zip"
+    archive: zip
+    nested: { file: "OpenCiv3_*-Dutch.zip", archive: zip }
+    launch: { app_bundle: "OpenCiv3.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "OpenCiv3_*-Dutch-Linux-x86_64.zip"
+    archive: zip
+    nested: { file: "OpenCiv3_*-Dutch.tgz", archive: tar.gz }
+    strip_root: true
+    launch: { exe: "OpenCiv3.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

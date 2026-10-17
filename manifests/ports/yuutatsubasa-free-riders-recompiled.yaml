@@ -1,0 +1,24 @@
+# Generated from the release files of v0.8.3 and install-checked on 2026-10-16.
+schema: 1
+id: yuutatsubasa-free-riders-recompiled
+game_key: sonicfreeriders
+status: playable
+source:
+  type: github_releases
+  repo: YuutaTsubasa/Free-Riders-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "FreeRidersRecompiled-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "FreeRidersRecompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "FreeRidersRecompiled-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "FreeRidersRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

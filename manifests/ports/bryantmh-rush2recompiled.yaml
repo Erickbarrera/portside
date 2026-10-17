@@ -1,0 +1,18 @@
+# Generated from the release files of v1.0.20 and install-checked on 2026-10-16.
+schema: 1
+id: bryantmh-rush2recompiled
+game_key: n64classicrush2
+status: playable
+source:
+  type: github_releases
+  repo: bryantmh/rush2recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Rush2Recompiled-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Rush2Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

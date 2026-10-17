@@ -1,0 +1,24 @@
+# Generated from the release files of 1.2 and install-checked on 2026-10-16.
+schema: 1
+id: nikolaygorb-armyoftworecomp
+game_key: armyoftwo
+status: playable
+source:
+  type: github_releases
+  repo: nikolaygorb/ArmyOfTwoRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Ao2-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "armyoftworecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Ao2-lin64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "armyoftworecomp", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

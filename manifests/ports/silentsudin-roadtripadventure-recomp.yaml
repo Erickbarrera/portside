@@ -1,0 +1,24 @@
+# Generated from the release files of v0.2.3 and install-checked on 2026-10-16.
+schema: 1
+id: silentsudin-roadtripadventure-recomp
+game_key: roadtrip
+status: playable
+source:
+  type: github_releases
+  repo: silentsudin/RoadTripAdventure-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "RoadTripRecomp-*-Windows-x64-portable.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "RoadTrip.exe" }
+  - os: macos
+    arch: arm64
+    asset: "RoadTripRecomp-*-macOS.dmg"
+    archive: dmg
+    launch: { app_bundle: "RoadTrip.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

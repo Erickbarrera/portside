@@ -1,0 +1,34 @@
+# Generated from the release files of v0.8.27 and install-checked on 2026-10-16.
+schema: 1
+id: underdecoded-gen2recomped
+game_key: pokemongoldsilvercrystalgen2recomped
+status: playable
+source:
+  type: github_releases
+  repo: UNDERdecoded/Gen2Recomped
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Gen2Recomped-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Gen2Recomped.exe" }
+  - os: macos
+    arch: universal
+    asset: "Gen2Recomped-*-macos.zip"
+    archive: zip
+    launch: { app_bundle: "Gen2Recomped.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Gen2Recomped-*-linux.zip"
+    archive: zip
+    launch: { exe: "Gen2Recomped-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "Gen2Recomped-*-rg34xxsp-stockos64-mod.zip"
+    archive: zip
+    launch: { exe: "gen2recomp/lovegame/translation/rom-translate" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

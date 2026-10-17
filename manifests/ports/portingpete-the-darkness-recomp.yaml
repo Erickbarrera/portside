@@ -1,0 +1,18 @@
+# Generated from the release files of v0.1.7 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: portingpete-the-darkness-recomp
+game_key: thedarkness
+status: playable
+source:
+  type: github_releases
+  repo: portingpete/The-Darkness-Recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "The-Darkness-Recomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "build_native/Release/DarkRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

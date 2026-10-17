@@ -1,0 +1,42 @@
+# Generated from the release files of 3e74da6 and install-checked on 2026-10-16.
+schema: 1
+id: sinan-karakaya-dq8-recompiled
+game_key: dq8
+status: playable
+source:
+  type: github_releases
+  repo: Sinan-Karakaya/DQ8-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DQ8Recomp-*-Windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dq8-launcher.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "DQ8Recomp-*-macOS-x86_64.zip"
+    archive: zip
+    launch: { app_bundle: "DQ8Recomp Launcher.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "DQ8Recomp-*-macOS-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "DQ8Recomp Launcher.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "DQ8Recomp-*-Linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dq8-launcher" }
+  - os: linux
+    arch: arm64
+    asset: "DQ8Recomp-*-Linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dq8-launcher" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

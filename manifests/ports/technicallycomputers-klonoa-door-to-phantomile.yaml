@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.4 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-klonoa-door-to-phantomile
+game_key: klonoadoortophantomile
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/Klonoa-Door-to-Phantomile
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "kdp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Klonoa___Door_to_Phantomile.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "kdp-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Klonoa___Door_to_Phantomile" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

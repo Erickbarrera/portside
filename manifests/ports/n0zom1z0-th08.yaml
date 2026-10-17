@@ -1,0 +1,24 @@
+# Generated from the release files of v0.2.1-linux-64bit and install-checked on 2026-10-16.
+schema: 1
+id: n0zom1z0-th08
+game_key: touhou8imperishablenightth08
+status: boots
+source:
+  type: github_releases
+  repo: N0zoM1z0/th08
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "th08-portable-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "th08-modern" }
+  - os: linux
+    arch: arm64
+    asset: "th08-portable-linux-aarch64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "th08-modern" }
+changelog:
+  - "2026-10-16: initial (Linux)"

@@ -1,0 +1,30 @@
+# Generated from the release files of release-20260606 and install-checked on 2026-10-16.
+schema: 1
+id: reflectionhle-reflectionhle
+game_key: wolfenstein3dreflectionhlereflectionkeen
+status: playable
+source:
+  type: github_releases
+  repo: ReflectionHLE/ReflectionHLE
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "reflectionhle-win64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "reflectionhle.exe" }
+  - os: macos
+    arch: universal
+    asset: "reflectionhle-macos-universal2-*.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { app_bundle: "reflectionhle.app" }
+  - os: linux
+    arch: x86_64
+    asset: "reflectionhle-linux-x86_64-*.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "reflectionhle" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

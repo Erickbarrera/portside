@@ -1,0 +1,23 @@
+# Generated from the release files of v0.3 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: opennfs-opennfs
+game_key: needforspeed16
+status: playable
+source:
+  type: github_releases
+  repo: OpenNFS/OpenNFS
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenNFS.Pre-Alpha.v_03.zip"
+    archive: zip
+    launch: { exe: "bin/OpenNFS-win-gcc.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "OpenNFS.Pre-Alpha.v_03.zip"
+    archive: zip
+    launch: { exe: "bin/OpenNFS-linux" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

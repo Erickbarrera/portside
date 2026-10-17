@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.17 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-mastersofteraskasirecomp
+game_key: starwarsmastersoftersksimastersofteraskasirecomp
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/MastersOfTerasKasiRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "motk-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Masters_of_Teras_Kasi_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "motk-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Masters_of_Teras_Kasi_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

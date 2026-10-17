@@ -1,0 +1,24 @@
+# Generated from the release files of v1.1 and install-checked on 2026-10-16.
+schema: 1
+id: sulix-omnispeak
+game_key: omnispeak
+status: playable
+source:
+  type: github_releases
+  repo: sulix/omnispeak
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "omnispeak-win64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "omnispeak.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "omnispeak-linux-*.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "omnispeak.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

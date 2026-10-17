@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-final-fantasy-ix-recomp
+game_key: finalfantasyix
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/final-fantasy-ix-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "final-fantasy-ix-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Final_Fantasy_IX_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "final-fantasy-ix-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Final_Fantasy_IX_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

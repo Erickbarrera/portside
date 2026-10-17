@@ -1,0 +1,18 @@
+# Generated from the release files of 1.0_Staging and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: spacefarergames-ecstaticarecompiled
+game_key: ecstaticaecstaticarecompiled
+status: in_progress
+source:
+  type: github_releases
+  repo: spacefarergames/EcstaticaRecompiled
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Launcher.zip"
+    archive: zip
+    launch: { exe: "EcstaticaRecompLaunch.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

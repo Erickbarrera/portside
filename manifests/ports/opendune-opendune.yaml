@@ -1,0 +1,23 @@
+# Generated from the release files of 0.9 and install-checked on 2026-10-16.
+schema: 1
+id: opendune-opendune
+game_key: opendune
+status: playable
+source:
+  type: github_releases
+  repo: OpenDUNE/OpenDUNE
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "opendune-*-windows-win64.zip"
+    archive: zip
+    launch: { exe: "opendune.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "opendune-*-macosx-x86_64-sdl2.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenDUNE.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

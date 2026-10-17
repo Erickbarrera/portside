@@ -1,0 +1,17 @@
+# Generated from the release files of v0.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-zeroracersvirtualboyrecomp
+game_key: zeroracers
+status: in_progress
+source:
+  type: github_releases
+  repo: mstan/ZeroRacersVirtualBoyRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ZeroRacersVirtualBoyRecomp-windows-x64.zip"
+    archive: zip
+    launch: { exe: "ZeroRacersVirtualBoyRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

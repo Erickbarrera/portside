@@ -1,0 +1,24 @@
+# Generated from the release files of v0.3.10 and install-checked on 2026-10-16.
+schema: 1
+id: acklavidian-decomp-wots2
+game_key: wayofthesamurai2
+status: in_progress
+source:
+  type: github_releases
+  repo: acklavidian/decomp_wots2
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wots2-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wots2.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "wots2-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "wots2" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

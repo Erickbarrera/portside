@@ -1,0 +1,36 @@
+# Generated from the release files of 1.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: sonicdcer-starfox64recomp
+game_key: starfox64
+status: playable
+source:
+  type: github_releases
+  repo: sonicdcer/Starfox64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Starfox64Recompiled-v*-Windows-RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "Starfox64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "Starfox64Recompiled-v*-macOS-Release.zip"
+    archive: zip
+    nested: { file: "Starfox64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "Starfox64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Starfox64Recompiled-v*-Linux-X64-Release.zip"
+    archive: zip
+    nested: { file: "Starfox64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "Starfox64Recompiled" }
+  - os: linux
+    arch: arm64
+    asset: "Starfox64Recompiled-v*-Linux-ARM64-Release.zip"
+    archive: zip
+    nested: { file: "Starfox64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "Starfox64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

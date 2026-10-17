@@ -1,0 +1,34 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: revosucks-bm64recomp
+game_key: bomberman64
+status: in_progress
+source:
+  type: github_releases
+  repo: RevoSucks/BM64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BM64Recompiled-Windows-RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "BM64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "BM64Recompiled-macOS-Release.zip"
+    archive: zip
+    nested: { file: "BM64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "BM64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "BM64Recompiled-AppImage-X64-Release.zip"
+    archive: zip
+    launch: { exe: "BM64Recompiled-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "BM64Recompiled-AppImage-ARM64-Release.zip"
+    archive: zip
+    launch: { exe: "BM64Recompiled-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

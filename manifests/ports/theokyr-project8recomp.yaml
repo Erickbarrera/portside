@@ -1,0 +1,24 @@
+# Generated from the release files of v0.3.0 and install-checked on 2026-10-16.
+schema: 1
+id: theokyr-project8recomp
+game_key: tonyhawksproject8
+status: playable
+source:
+  type: github_releases
+  repo: theokyr/Project8Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Project8Recomp-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Project8Recomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Project8Recomp-*-linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Project8Recomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"
