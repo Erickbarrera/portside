@@ -6,7 +6,7 @@ Builds the static Portside catalog (`docs/specs/static-catalog.md`, ADR-0015) fr
 - upstream GitHub releases of ports that have a manifest.
 
 The output is plain JSON files (`v1/snapshot.json`, `v1/ports/{id}.json`, …).
-`.github/workflows/catalog.yml` builds it every hour and deploys it to this repository's
+`.github/workflows/catalog.yml` builds it once a day and deploys it to this repository's
 GitHub Pages (setup in `../docs/publishing.md`).
 
 ## Commands

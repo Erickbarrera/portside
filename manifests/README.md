@@ -55,9 +55,8 @@ Every port needs files from the player's own copy of the game; `status_notes` sa
 5. Run the checks in `catalog/`: `pnpm validate` (every file here), then
    `pnpm build --out dist` to build a catalog with it and see warnings about asset globs that
    match no file in the latest release (needs network; set `GITHUB_TOKEN` if you hit the
-   GitHub rate limit). The published catalog picks the change up on the next hourly build
-   after it merges.
+   GitHub rate limit). The published catalog picks the change up when it merges.
 
 ## Covers
 `covers.yaml` fixes SteamGridDB covers for games that have no other image: map a `game_key`
-to the right SteamGridDB game id, or to `none` for no cover. The next hourly build applies it.
+to the right SteamGridDB game id, or to `none` for no cover. Merging it republishes the catalog.

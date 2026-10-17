@@ -12,7 +12,7 @@ the release notes say how to open them.
 This repository holds:
 - `client/`: the desktop app (Tauri 2: Rust core and Svelte UI).
 - `catalog/` and `manifests/`: the builder of the catalog the app reads, and the install
-  manifests it uses. The catalog is rebuilt every hour and published at
+  manifests it uses. The catalog is rebuilt once a day and published at
   `https://erickbarrera.github.io/portside` (format: `docs/specs/static-catalog.md`).
 - `web/`: the website, published at the same address.
 

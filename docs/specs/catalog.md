@@ -52,11 +52,12 @@ confidence, not the status; curators change status.
 
 ## Refresh cadence
 The catalog is rebuilt and published as static files (static-catalog.md, ADR-0015):
-- games.json, manifests and GitHub releases: every hour, and on every push that changes
+- games.json, manifests and GitHub releases: once a day, and on every push that changes
   `catalog/` or `manifests/`. Releases are read with the workflow's own token.
 - Link health: [TBD: not built].
 
 ## Changelog
+- 2026-10-17 — Rebuilt once a day instead of hourly.
 - 2026-10-14 — Built into a static catalog hourly instead of ingested by a worker
   (ADR-0015). Curator overrides and compat reports are not implemented.
 - 2026-10-13 — Upstream file is now `{ games: [...] }`; ingest rules (validity, duplicate ids,

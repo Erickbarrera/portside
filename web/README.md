@@ -24,7 +24,7 @@ variables that point it at another copy.
 Nothing to set up beyond the catalog's publishing steps (`../docs/publishing.md`).
 The `catalog` workflow builds this site with the catalog and deploys both to this
 repository's GitHub Pages:
-- A push to `main` that touches `web/` publishes the site. Hourly runs republish only when the
+- A push to `main` that touches `web/` publishes the site. Daily runs republish only when the
   catalog changed, which also refreshes the first page baked into the HTML.
 - Catalog updates need no publish of the site: the browser reads the live catalog.
 - To check the Pages path locally: `PORTSIDE_SITE_BASE=/portside pnpm build && pnpm preview`.

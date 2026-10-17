@@ -9,7 +9,7 @@ website. Read the area's `CLAUDE.md` before working in it.
   `catalog/CLAUDE.md`. There is no hosted backend; don't add a server.
 - `manifests/ports/`: which release file to install per OS → `manifests/README.md`.
 - `web/`: the website (Astro) → `web/CLAUDE.md`.
-- `.github/workflows/catalog.yml`: builds the catalog and the website every hour and deploys
+- `.github/workflows/catalog.yml`: builds the catalog and the website once a day (06:17 UTC) and deploys
   both to this repository's GitHub Pages, `https://erickbarrera.github.io/portside/`
   (catalog under `v1/`). It also copies the catalog to the old address,
   `https://erickbarrera.github.io/portside-catalog`, for app releases up to 0.2.0.

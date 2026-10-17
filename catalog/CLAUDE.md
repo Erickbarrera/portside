@@ -26,7 +26,7 @@ test/          vitest; fixtures are synthetic (invented ports, no real game name
   `client/crates/portside-api/src/models.rs` (its contract test reads the document) in the
   same PR.
 - Keep `build.ts` pure and deterministic for the same input: `rev` and `updated_at` must not
-  change when the content doesn't, or every client re-downloads the catalog every hour.
+  change when the content doesn't, or every client re-downloads the catalog after every build.
 - An invalid manifest must fail the build; a GitHub error for one port must not (keep the
   published releases for it).
 - No game assets or links to them (`../docs/legal/policy.md`). Screenshots are only linked,

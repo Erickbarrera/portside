@@ -4,7 +4,7 @@
  * One cover per game, matched by title, linked from SteamGridDB's CDN.
  *
  * Lookups are remembered in a cache published with the catalog (`build/steamgriddb.json`), so
- * each hourly build only looks up games it hasn't checked recently, a limited number per run.
+ * each build only looks up games it hasn't checked recently, a limited number per run.
  */
 import { parse as parseYaml } from "yaml";
 

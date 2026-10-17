@@ -6,7 +6,7 @@ GitHub Pages: the site at `https://erickbarrera.github.io/portside/`, the catalo
 `v1/` (`docs/specs/static-catalog.md`).
 
 ## When it runs
-- Every hour: rebuilds the catalog, and deploys only when it changed.
+- Once a day (06:17 UTC): rebuilds the catalog, and deploys only when it changed.
 - On a push to `main` that touches `catalog/`, `manifests/`, `web/` or the workflow, and from
   Actions → catalog → Run workflow: always deploys.
 - On a pull request: checks only (lint, types, tests, manifests, generated files, site build).

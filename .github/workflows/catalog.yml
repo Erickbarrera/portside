@@ -1,7 +1,7 @@
 name: catalog
 
 # Checks the catalog builder, the manifests and the website; on main, rebuilds the static catalog
-# every hour and deploys it, with the website, to this repository's GitHub Pages
+# once a day and deploys it, with the website, to this repository's GitHub Pages
 # (docs/specs/static-catalog.md, docs/publishing.md).
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
     branches: [main]
     paths: ["catalog/**", "manifests/**", "web/**", "docs/specs/static-catalog/**", ".github/workflows/catalog.yml"]
   schedule:
-    - cron: "17 * * * *"
+    - cron: "17 6 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -117,7 +117,7 @@ jobs:
           STEAMGRIDDB_API_KEY: ${{ secrets.STEAMGRIDDB_API_KEY }}
           CATALOG_PREVIOUS_URL: ${{ steps.previous.outputs.url }}
         run: pnpm build --out ../_catalog
-      # Hourly runs publish only when the catalog changed; pushes to main (a website or builder
+      # Daily runs publish only when the catalog changed; pushes to main (a website or builder
       # change) and manual runs always publish.
       - id: publish
         name: Decide whether to publish
