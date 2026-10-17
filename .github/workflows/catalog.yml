@@ -142,7 +142,11 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+          # One name per attempt: a re-run would otherwise find two "github-pages" artifacts.
+          name: github-pages-${{ github.run_attempt }}
       - id: deploy
         if: steps.publish.outputs.go == 'true'
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
 
