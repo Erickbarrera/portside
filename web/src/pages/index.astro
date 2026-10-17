@@ -1,0 +1,495 @@
+---
+import { getImage, Picture } from "astro:assets";
+import chat from "../assets/screenshots/chat.png";
+import community from "../assets/screenshots/community.png";
+import discover from "../assets/screenshots/discover.png";
+import gamePage from "../assets/screenshots/game-page.png";
+import library from "../assets/screenshots/library.png";
+import Base from "../layouts/Base.astro";
+import { downloadsHtml, releaseLabel } from "../lib/download-html";
+import { href } from "../lib/paths";
+import { type AppRelease, fetchAppRelease } from "../lib/releases";
+
+const features = [
+  {
+    title: "One-click install & updates",
+    body: "Builds come straight from each project's own GitHub releases, checked and kept current.",
+  },
+  {
+    title: "Playable status per OS",
+    body: "See at a glance whether a port is perfect, playable or still in progress on your system.",
+  },
+  {
+    title: "Cloud saves you own",
+    body: "Save sync through a folder your own iCloud Drive, Dropbox, OneDrive or Google Drive keeps in step.",
+  },
+  {
+    title: "Sign in with Bluesky",
+    body: "Use any AT Protocol account. Your profile, library and reviews stay portable.",
+  },
+  {
+    title: "Discussion boards & chat",
+    body: "A board for every game, plus friends, DMs and invites to play together.",
+  },
+  {
+    title: "Steam Deck ready",
+    body: "Couch mode with large tiles and full gamepad navigation.",
+  },
+];
+
+// The desktop app on the live catalog (people and chats are examples); `pnpm screenshots`
+// recaptures them.
+const shots = [
+  {
+    src: gamePage,
+    alt: "The OpenRCT2 page in Portside, with a screenshot of the game and its v0.5.6 release running on macOS.",
+    title: "Install and play in one click",
+    body: "Each game page shows how well it runs on your system and installs the latest release.",
+  },
+  {
+    src: library,
+    alt: "The Portside library with DevilutionX ready to play and OpenRCT2 running.",
+    title: "Your library",
+    body: "Everything you've installed, with play time and a Play button.",
+  },
+  {
+    src: community,
+    alt: "Portside's Community tab listing recent discussion threads across games.",
+    title: "Discussions for every game",
+    body: "Ask for help, report bugs and share mods. Threads are Bluesky posts.",
+  },
+  {
+    src: chat,
+    alt: "A Portside chat with a friend, including an invite to play OpenRA together.",
+    title: "Friends and invites",
+    body: "Message friends over Bluesky and invite them to play.",
+  },
+];
+// Full-size copies for the "open larger" links.
+const full = await Promise.all(
+  [discover, ...shots.map((s) => s.src)].map((src) => getImage({ src, format: "webp" })),
+);
+const shotWidths = [640, 960, 1280];
+
+// The newest app release at build time; the page checks GitHub again in the browser.
+let release: AppRelease | null = null;
+try {
+  release = await fetchAppRelease(import.meta.env.GITHUB_TOKEN || undefined);
+} catch (err) {
+  console.warn(`[download] ${(err as Error).message}; the browser will try again`);
+}
+
+const steps = [
+  { title: "Find a port", body: "Browse community ports by game, status and platform." },
+  {
+    title: "Add your game files",
+    body: "They're checked on your device and never uploaded.",
+  },
+  { title: "Play", body: "Portside installs the build and launches it for you." },
+  { title: "Your saves follow you", body: "Pick up on another device where you left off." },
+];
+---
+
+<Base
+  title="Portside: every great game port, one launcher"
+  description="Install, update and play community ports of classic games on Windows, macOS, Linux and Android. Bring your own game files."
+>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Community game ports, organized</p>
+        <h1>Every great game port, one launcher.</h1>
+        <p class="lede">
+          Install, update and play community ports of classic games on Windows, macOS, Linux and
+          Android. Bring your own game files.
+        </p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#download" data-dl-button>
+            {release ? "Download Portside" : "Downloads coming soon"}
+          </a>
+          <a class="btn btn-secondary" href={href("/catalog")}>Browse the catalog</a>
+        </div>
+        <p class="note" data-dl-note>
+          {
+            release ? (
+              <>
+                {releaseLabel(release)} · <a href="#download">Other systems and files</a>
+              </>
+            ) : (
+              "Downloads are coming with the public alpha."
+            )
+          }
+        </p>
+        <p class="note dl-started" data-dl-started hidden></p>
+      </div>
+      <figure class="hero-shot">
+        <a href={full[0]?.src}>
+          <Picture
+            src={discover}
+            alt="Portside's Discover page listing the most-starred ports, such as OpenRA, OpenRCT2 and DevilutionX, with how well each plays on macOS."
+            formats={["avif"]}
+            fallbackFormat="webp"
+            widths={[640, 960, 1280, 1920, 2560]}
+            sizes="(min-width: 1440px) 780px, (min-width: 960px) 55vw, 100vw"
+            loading="eager"
+          />
+        </a>
+        <figcaption>The desktop app on the live catalog.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap features" aria-labelledby="features-title">
+    <h2 id="features-title">What you get</h2>
+    <ul class="grid">
+      {
+        features.map((f) => (
+          <li class="card">
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap tour" aria-labelledby="tour-title">
+    <h2 id="tour-title">A look inside</h2>
+    <p class="tour-note">
+      Games, stars, statuses, releases and pictures are from the live catalog; game pictures
+      come from the awesome-decomp-games list and the ports' own GitHub pages. The people and
+      conversations are examples.
+    </p>
+    <ul class="shots">
+      {
+        shots.map((s, i) => (
+          <li>
+            <a href={full[i + 1]?.src}>
+              <Picture
+                src={s.src}
+                alt={s.alt}
+                formats={["avif"]}
+                fallbackFormat="webp"
+                widths={shotWidths}
+                sizes="(min-width: 1120px) 530px, (min-width: 760px) 50vw, 100vw"
+              />
+            </a>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="download" class="wrap download" aria-labelledby="download-title">
+    <h2 id="download-title">Download</h2>
+    <div data-dl-list set:html={downloadsHtml(release, null)} />
+    <p class="dl-foot">
+      Windows, macOS and Linux (Steam Deck included); Android comes later. Source code and every
+      release are on <a href="https://github.com/Erickbarrera/portside">GitHub</a>.
+    </p>
+  </section>
+  <script type="application/json" id="dl-release" set:html={JSON.stringify(release)} />
+
+  <section id="how-it-works" class="wrap how" aria-labelledby="how-title">
+    <h2 id="how-title">How it works</h2>
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li>
+            <span class="num" aria-hidden="true">{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap credit" aria-labelledby="credit-title">
+    <h2 id="credit-title">Built on the community's work</h2>
+    <p>
+      Portside lists projects built by their own teams. The catalog starts from
+      <a href="https://github.com/SubmitGame/awesome-decomp-games">awesome-decomp-games</a>, and
+      every listing links back to the port's maintainers and source. Portside never hosts or
+      links to ROMs or game assets.
+    </p>
+  </section>
+</Base>
+
+<script>
+  import { downloadsHtml, FIRST_RUN, primaryFor, releaseLabel } from "../lib/download-html";
+  import { type AppRelease, detectOs, fetchAppRelease, OS_LABEL } from "../lib/releases";
+
+  const nav = navigator as Navigator & {
+    userAgentData?: { platform?: string; mobile?: boolean };
+  };
+  let os = detectOs(nav);
+  // iPadOS asks for desktop pages with a Mac user agent; Macs have no touch screen.
+  if (os === "macos" && navigator.maxTouchPoints > 1) os = null;
+
+  const button = document.querySelector<HTMLAnchorElement>("[data-dl-button]");
+  const note = document.querySelector<HTMLElement>("[data-dl-note]");
+  const started = document.querySelector<HTMLElement>("[data-dl-started]");
+  const list = document.querySelector<HTMLElement>("[data-dl-list]");
+
+  function show(release: AppRelease | null) {
+    if (list) list.innerHTML = downloadsHtml(release, os);
+    if (!button || !note || !release) return;
+    const file = primaryFor(release, os);
+    if (file && os) {
+      // A direct link to the file: the browser downloads it and stays on this page.
+      button.href = file.url;
+      button.textContent = `Download for ${OS_LABEL[os]}`;
+      button.dataset.os = os;
+    } else {
+      button.href = "#download";
+      button.textContent = "Download Portside";
+      delete button.dataset.os;
+    }
+    note.innerHTML = "";
+    note.append(`${releaseLabel(release)} · `);
+    const other = document.createElement("a");
+    other.href = "#download";
+    other.textContent = file ? "Other systems and files" : "Choose your system";
+    note.append(other);
+  }
+
+  button?.addEventListener("click", () => {
+    const shown = button.dataset.os as keyof typeof FIRST_RUN | undefined;
+    if (!started || !shown) return;
+    started.textContent = `Your download is starting. ${FIRST_RUN[shown]}`;
+    started.hidden = false;
+  });
+
+  const baked = document.getElementById("dl-release")?.textContent;
+  const initial = baked ? (JSON.parse(baked) as AppRelease | null) : null;
+  show(initial);
+  // A release published after this page was built shows up without a rebuild.
+  fetchAppRelease()
+    .then((live) => {
+      if (live && live.tag !== initial?.tag) show(live);
+    })
+    .catch(() => {});
+</script>
+
+<style>
+  .hero {
+    padding: 80px 0 72px;
+    background:
+      radial-gradient(60% 80% at 85% 10%, rgb(167 139 250 / 0.18), transparent 70%),
+      var(--surface-1);
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    max-width: 16ch;
+  }
+  .lede {
+    color: var(--text-2);
+    font-size: 1.2rem;
+    max-width: 56ch;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .note {
+    color: var(--text-4);
+    font-size: 0.9rem;
+    margin-top: 16px;
+  }
+  section.wrap {
+    padding-top: 72px;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+  }
+  .card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 20px;
+  }
+  .card h3 {
+    font-size: 1.05rem;
+  }
+  .card p,
+  .steps p,
+  .credit p {
+    color: var(--text-2);
+    margin: 0;
+  }
+  .credit p {
+    max-width: 70ch;
+  }
+  .hero-shot {
+    margin: 0;
+  }
+  .hero-grid {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  /* Side by side on wide screens; the screenshot gets the larger column and, where the
+     window has room, reaches up to 160px past the content edge. */
+  @media (min-width: 960px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+    .hero-shot {
+      margin-right: max(-160px, calc((100vw - var(--max)) / -2));
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+    }
+  }
+
+  .dl-started {
+    color: var(--text-2);
+    max-width: 52ch;
+  }
+  .download :global(.dl-meta),
+  .dl-foot {
+    color: var(--text-3);
+  }
+  .dl-foot {
+    margin-top: 16px;
+  }
+  .download :global(.dl-cards) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+  }
+  .download :global(.dl-card) {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 20px;
+  }
+  .download :global(.dl-card.is-mine) {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .download :global(.dl-card h3) {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .download :global(.dl-yours) {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .download :global(.dl-files) {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+    display: grid;
+    gap: 8px;
+  }
+  .download :global(.dl-file) {
+    display: grid;
+    gap: 2px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-s);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .download :global(.dl-file:hover) {
+    background: var(--surface-3);
+  }
+  .download :global(.dl-label) {
+    font-weight: 600;
+  }
+  .download :global(.dl-note),
+  .download :global(.dl-tip) {
+    color: var(--text-3);
+    font-size: 0.9rem;
+  }
+  .download :global(.dl-tip) {
+    margin: 0;
+  }
+  .tour-note {
+    color: var(--text-3);
+    margin: 0;
+  }
+  .hero-shot figcaption {
+    color: var(--text-4);
+    font-size: 0.85rem;
+    margin-top: 10px;
+  }
+  .hero-shot img,
+  .shots img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-m);
+  }
+  .hero-shot img {
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(167 139 250 / 0.12);
+  }
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 32px 24px;
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+  }
+  .shots h3 {
+    font-size: 1.05rem;
+    margin-top: 14px;
+  }
+  .shots p {
+    color: var(--text-2);
+    margin: 0;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+  }
+  .num {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .steps h3 {
+    font-size: 1.05rem;
+  }
+</style>

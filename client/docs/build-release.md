@@ -41,7 +41,7 @@ pass Gatekeeper by hand, Windows users click through SmartScreen. What each secr
 - **Tauri updater key** (free, `pnpm tauri signer generate`): enables in-app auto-update;
   secrets `TAURI_SIGNING_PRIVATE_KEY` (+ password), and tauri-action then uploads `latest.json`.
 
-The app reads the static catalog from `https://erickbarrera.github.io/portside-catalog`
+The app reads the static catalog from `https://erickbarrera.github.io/portside`
 (docs/specs/static-catalog.md). A build can bake in another address from the repository
 variable `PORTSIDE_DEFAULT_CATALOG_URL` (Settings → Secrets and variables → Actions →
 Variables); `PORTSIDE_CATALOG_URL` still overrides it at run time.

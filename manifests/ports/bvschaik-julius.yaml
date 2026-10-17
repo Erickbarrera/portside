@@ -1,0 +1,31 @@
+# Release files checked against v1.8.0 on 2026-10-15.
+# julius.app is ad-hoc signed, not Developer ID.
+schema: 1
+id: bvschaik-julius
+game_key: caesariii
+status: playable
+status_notes: "Needs the files from your own copy of Caesar III; Julius asks for their folder on first run."
+source:
+  type: github_releases
+  repo: bvschaik/julius
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "julius-*-windows.zip"
+    archive: zip
+    launch: { exe: "julius.exe" }
+  - os: macos
+    arch: universal
+    asset: "julius-*-mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "julius.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "julius-*-linux.AppImage"
+    archive: appimage
+    launch: { exe: "julius.AppImage" }
+multiplayer: none
+changelog:
+  - "2026-10-15: initial (Windows, macOS and Linux)"

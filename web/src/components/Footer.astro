@@ -1,0 +1,43 @@
+---
+import { href } from "../lib/paths";
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="wrap row">
+    <p>© {year} Portside. Portside never hosts or links to game files.</p>
+    <ul>
+      <li><a href={href("/catalog")}>Catalog</a></li>
+      <!-- [TBD: GitHub repo URL]. Docs, content policy, privacy, terms and contact pages are planned in docs/content-plan.md. -->
+    </ul>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    color: var(--text-3);
+    font-size: 0.9rem;
+    padding: 28px 0;
+    margin-top: 64px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  p {
+    margin: 0;
+  }
+  ul {
+    display: flex;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    color: var(--text-2);
+  }
+</style>

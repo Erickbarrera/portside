@@ -1,0 +1,7 @@
+schema: 1
+id: not-in-catalog
+game_key: nothing
+status: playable
+source: { type: github_releases, repo: example-org/nothing }
+builds:
+  - { os: linux, arch: x86_64, asset: "x-*.zip", archive: zip, launch: { exe: x } }

@@ -1,0 +1,42 @@
+# Release files checked against 1.7.5 on 2026-10-14 (Linux on 2026-10-15).
+schema: 1
+id: vcmi-vcmi
+game_key: heroesofmightandmagiciii
+status: playable
+status_notes: "Needs the data files from your own copy of Heroes of Might and Magic III (Shadow of Death or Complete); the VCMI launcher imports them on first run."
+source:
+  type: github_releases
+  repo: vcmi/vcmi
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "VCMI-macOS-arm.dmg"
+    archive: dmg
+    launch: { app_bundle: "VCMI.app" }
+  - os: macos
+    arch: x86_64
+    asset: "VCMI-macOS-intel.dmg"
+    archive: dmg
+    launch: { app_bundle: "VCMI.app" }
+  - os: windows
+    arch: x86_64
+    asset: "VCMI-Windows.zip"
+    archive: zip
+    launch: { exe: "VCMI_launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "VCMI-Linux-x64.AppImage"
+    archive: appimage
+    launch: { exe: "VCMI.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "VCMI-Linux-arm64.AppImage"
+    archive: appimage
+    launch: { exe: "VCMI.AppImage" }
+multiplayer: online_pvp
+links:
+  homepage: "https://vcmi.eu"
+changelog:
+  - "2026-10-14: initial (macOS and Windows)"
+  - "2026-10-15: Linux"

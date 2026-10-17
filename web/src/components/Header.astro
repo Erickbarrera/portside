@@ -1,0 +1,67 @@
+---
+import { href } from "../lib/paths";
+const path = Astro.url.pathname;
+const links = [
+  { href: href("/catalog"), label: "Catalog" },
+  { href: href("/#download"), label: "Download" },
+  { href: href("/#how-it-works"), label: "How it works" },
+];
+---
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href={href("/")}>
+      <img src={href("/favicon.svg")} alt="" width="28" height="28" />
+      Portside
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={path.startsWith(l.href) ? "page" : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-1);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 60px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--text);
+  }
+</style>

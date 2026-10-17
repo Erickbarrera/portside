@@ -1,0 +1,38 @@
+{
+  "name": "@portside/catalog",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Builds Portside's static catalog (games.json + manifests + upstream releases) for GitHub Pages.",
+  "engines": { "node": ">=22" },
+  "packageManager": "pnpm@10.28.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas/manifest.v1.json": "./schemas/manifest.v1.json"
+  },
+  "scripts": {
+    "catalog": "tsx src/cli.ts",
+    "build": "tsx src/cli.ts build",
+    "validate": "tsx src/cli.ts validate",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "schema:gen": "tsx scripts/gen-schema.ts",
+    "contract:write": "tsx scripts/write-contract.ts"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.41",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.18.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild"]
+  }
+}

@@ -1,0 +1,36 @@
+# Release files checked against openmw-0.51.0 on 2026-10-14 (Linux on 2026-10-15).
+# Windows ships only an installer (.exe), which Portside can't run, so Windows isn't listed.
+schema: 1
+id: openmw-openmw
+game_key: theelderscrollsiiimorrowind
+status: playable
+status_notes: "Needs the Data Files folder from your own copy of Morrowind; the OpenMW launcher asks for it on first run. Not on Windows in Portside yet: upstream ships only an installer there."
+source:
+  type: github_releases
+  repo: OpenMW/openmw
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "OpenMW-*-macOS-arm64.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenMW.app" }
+    unsigned: true
+  - os: macos
+    arch: x86_64
+    asset: "OpenMW-*-macOS-x86_64.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenMW.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "openmw-*-Linux-64Bit.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "openmw-launcher", chmod_x: true }
+multiplayer: none
+links:
+  homepage: "https://openmw.org"
+changelog:
+  - "2026-10-14: initial (macOS)"
+  - "2026-10-15: Linux"

@@ -45,7 +45,7 @@ never depend on Tauri; they must be testable without a window.
 
 ## Commands (run in `client/`; keep in sync)
 - `pnpm install` once, then `pnpm tauri dev` — desktop app against `PORTSIDE_CATALOG_URL`
-  (default: the published catalog, `https://erickbarrera.github.io/portside-catalog`).
+  (default: the published catalog, `https://erickbarrera.github.io/portside`).
   `PORTSIDE_DATA_DIR` overrides where it keeps its files (handy for a clean test run).
 - Rust must come from rustup (it reads `rust-toolchain.toml`); Homebrew's `rust` is too old.
 - `pnpm --filter @portside/ui dev` — UI only in a browser, commands answered by synthetic

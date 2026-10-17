@@ -6,12 +6,15 @@ and update them from their own GitHub releases in one click. Bring your own game
 Portside never downloads or shares them.
 
 **Status: alpha.** Downloads are on the [releases page](https://github.com/Erickbarrera/portside/releases)
-and the [website](https://erickbarrera.github.io/portside-catalog/). Builds are not signed yet;
+and the [website](https://erickbarrera.github.io/portside/). Builds are not signed yet;
 the release notes say how to open them.
 
-This repository holds the desktop app (Tauri 2: Rust core and Svelte UI) in `client/`. The
-catalog it reads is published at `https://erickbarrera.github.io/portside-catalog`
-(format: `docs/specs/static-catalog.md`).
+This repository holds:
+- `client/`: the desktop app (Tauri 2: Rust core and Svelte UI).
+- `catalog/` and `manifests/`: the builder of the catalog the app reads, and the install
+  manifests it uses. The catalog is rebuilt once a day and published at
+  `https://erickbarrera.github.io/portside` (format: `docs/specs/static-catalog.md`).
+- `web/`: the website, published at the same address.
 
 ## Features
 

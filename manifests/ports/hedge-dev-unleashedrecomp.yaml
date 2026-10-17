@@ -1,0 +1,20 @@
+# Release files checked against v1.0.3 on 2026-10-15. Upstream ships no macOS build, and Linux
+# only as a Flatpak bundle, which Portside can't install.
+schema: 1
+id: hedge-dev-unleashedrecomp
+game_key: sonicunleashed
+status: playable
+status_notes: "Needs the game files from your own Xbox 360 copy of Sonic Unleashed (plus its title update); the installer asks for them on first run. Windows only in Portside: there is no macOS build, and Linux comes only as a Flatpak bundle."
+source:
+  type: github_releases
+  repo: hedge-dev/UnleashedRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "UnleashedRecomp-Windows.zip"
+    archive: zip
+    launch: { exe: "UnleashedRecomp.exe" }
+multiplayer: none
+changelog:
+  - "2026-10-14: initial (Windows)"

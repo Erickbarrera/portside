@@ -43,7 +43,7 @@ pub struct Client {
 
 impl Client {
     /// `base_url` is where the catalog is published, e.g.
-    /// `https://erickbarrera.github.io/portside-catalog`. `user_agent` is like
+    /// `https://erickbarrera.github.io/portside`. `user_agent` is like
     /// `portside-desktop/0.1.0`.
     pub fn new(base_url: &str, user_agent: &str) -> Result<Client, ApiError> {
         let mut base = Url::parse(base_url).map_err(|e| ApiError::BaseUrl(e.to_string()))?;
