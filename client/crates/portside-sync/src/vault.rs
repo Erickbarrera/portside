@@ -79,6 +79,26 @@ pub struct DeviceRecord {
     pub last_sync: String,
 }
 
+/// How long one device has played one game.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PlaytimeEntry {
+    pub total_secs: u64,
+    /// Unix seconds the last session ended.
+    pub last_played: u64,
+    pub sessions: u64,
+}
+
+/// A device's play time, in `playtime/<device id>.json`. Only that device writes it.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PlaytimeRecord {
+    pub device_id: String,
+    pub device_name: String,
+    /// RFC 3339.
+    pub updated_at: String,
+    /// Port id → play time.
+    pub games: BTreeMap<String, PlaytimeEntry>,
+}
+
 /// What `vault.json` says.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct VaultInfo {
@@ -114,6 +134,20 @@ fn read_vault_file(storage: &dyn Storage) -> Result<Option<VaultFile>> {
         return Err(SyncError::NewerVault);
     }
     Ok(Some(file))
+}
+
+/// A catalog port id: `a-z`, `0-9`, `-`, `_`, `.`, not starting with `.`.
+fn safe_port_id(id: &str) -> bool {
+    !id.is_empty()
+        && !id.starts_with('.')
+        && id
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || "-_.".contains(c))
+}
+
+/// A device id (a ULID), safe as a file name.
+fn safe_device_id(id: &str) -> bool {
+    !id.is_empty() && id.chars().all(|c| c.is_ascii_alphanumeric())
 }
 
 impl Vault {
@@ -200,13 +234,39 @@ impl Vault {
         Ok(devices)
     }
 
+    /// Rewrites this device's play time.
+    pub fn write_playtime(&self, record: &PlaytimeRecord) -> Result<()> {
+        if !safe_device_id(&record.device_id) {
+            return Err(SyncError::Rules(format!(
+                "{:?} isn't a device id",
+                record.device_id
+            )));
+        }
+        self.write_json(&format!("playtime/{}.json", record.device_id), record)
+    }
+
+    /// Every device's play time. Files that don't open or don't match their name are
+    /// skipped, and so are games that aren't port ids.
+    pub fn playtime(&self) -> Result<Vec<PlaytimeRecord>> {
+        let mut found = Vec::new();
+        for name in self.storage.list("playtime")? {
+            let Some(device) = name.strip_suffix(".json") else {
+                continue;
+            };
+            match self.read_json::<PlaytimeRecord>(&format!("playtime/{name}")) {
+                Ok(Some(mut r)) if r.device_id == device => {
+                    r.games.retain(|port_id, _| safe_port_id(port_id));
+                    found.push(r);
+                }
+                Ok(_) | Err(SyncError::NotDownloaded(_)) | Err(SyncError::Corrupt(_)) => {}
+                Err(e) => return Err(e),
+            }
+        }
+        Ok(found)
+    }
+
     fn snapshot_dir(port_id: &str) -> Result<String> {
-        let safe = !port_id.is_empty()
-            && !port_id.starts_with('.')
-            && port_id
-                .chars()
-                .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || "-_.".contains(c));
-        if !safe {
+        if !safe_port_id(port_id) {
             return Err(SyncError::Rules(format!("{port_id:?} isn't a port id")));
         }
         Ok(format!("games/{port_id}"))

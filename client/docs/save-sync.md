@@ -9,7 +9,8 @@ first, plain files, no recovery phrase). This page covers the client side.
     `FolderStorage`, which writes through a temporary name and rename, skips `*.tmp`
     files, and reports iCloud's `.name.icloud` placeholders as "not downloaded yet".
   - `vault`: `vault.json`, device records and snapshots (JSON), blobs (the save files
-    unchanged, named by BLAKE3 hash).
+    unchanged, named by BLAKE3 hash), and each device's play time
+    (`playtime/<device id>.json`).
   - `scan`: finds save files under a root with include/exclude globs (NFC paths, no
     symlinks); `restore` copies the current saves to the trash folder, writes each file via
     `*.portside-tmp` + rename with the snapshot's mtime, and removes files that aren't in
@@ -21,6 +22,11 @@ first, plain files, no recovery phrase). This page covers the client side.
   runs syncs off the async runtime (one per game at a time), emits `saves-changed`.
   `game_launch` syncs first; a conflict fails the launch with `E_SAVES_CONFLICT`; any
   other problem lets the game start. A sync also runs after the game exits.
+- `src-tauri/src/playtime.rs`: after a game exits, at start-up and when cloud saves are
+  turned on, rewrites this device's play time in the vault, reads the other devices', and
+  adds theirs to every `PlayStats` the UI gets (`play_stats`, `game-changed`), sending
+  `playtime-changed` when the totals move. Turning cloud saves off shows this device's
+  time only again.
 - UI: `lib/saves.svelte.ts` (store), `SavesSetup.svelte` (Settings → Cloud saves),
   `CloudSaves.svelte` (game page).
 

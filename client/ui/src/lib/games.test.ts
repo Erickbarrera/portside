@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { crashed, formatPlaytime } from "./games.svelte";
+import { byRecent, crashed, formatPlaytime } from "./games.svelte";
 
 const stats = { port_id: "x", total_secs: 0, last_played: null, sessions: 0 };
 
@@ -24,5 +24,19 @@ describe("crashed", () => {
     expect(crashed({ state: "exited", code: 0, stopped: false, stats })).toBe(false);
     expect(crashed({ state: "exited", code: null, stopped: true, stats })).toBe(false);
     expect(crashed(undefined)).toBe(false);
+  });
+});
+
+describe("byRecent", () => {
+  const last: Record<string, number | null> = { a: 100, b: 300, c: null, d: null };
+  const games = [
+    { port_id: "c", title: "Charlie" },
+    { port_id: "a", title: "Alpha" },
+    { port_id: "d", title: "Bravo" },
+    { port_id: "b", title: "Delta" },
+  ];
+  it("puts the most recently played first and never played last, by title", () => {
+    const sorted = [...games].sort((x, y) => byRecent(x, y, (id) => last[id] ?? null));
+    expect(sorted.map((g) => g.port_id)).toEqual(["b", "a", "d", "c"]);
   });
 });

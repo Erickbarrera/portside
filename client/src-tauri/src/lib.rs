@@ -7,6 +7,7 @@ mod gamepad;
 mod games;
 mod installs;
 mod keychain;
+mod playtime;
 mod proton;
 mod saves;
 mod social;
@@ -89,7 +90,8 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             gamepad::GamepadInput,
             social::AuthChanged,
             social::ChatChanged,
-            saves::SavesChanged
+            saves::SavesChanged,
+            playtime::PlaytimeChanged
         ])
         // Catalog numbers (stars, asset sizes, revisions) stay far below 2^53.
         .dangerously_cast_bigints_to_number()

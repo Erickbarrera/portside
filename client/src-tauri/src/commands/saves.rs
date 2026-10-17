@@ -47,22 +47,26 @@ pub async fn saves_pick_folder(app: AppHandle, title: String) -> Option<String> 
 #[specta::specta]
 pub async fn saves_use_folder(app: AppHandle, path: String) -> Result<SavesStatus, CommandError> {
     let path = folder(&path)?;
-    saves::blocking(&app, move |s| {
+    let status = saves::blocking(&app, move |s| {
         s.use_folder(&path)?;
         Ok(s.status())
     })
-    .await
+    .await?;
+    crate::playtime::spawn_share(&app);
+    Ok(status)
 }
 
 /// Stops syncing on this device. Saves on disk and in the folder are left alone.
 #[tauri::command]
 #[specta::specta]
 pub async fn saves_turn_off(app: AppHandle) -> Result<SavesStatus, CommandError> {
-    saves::blocking(&app, |s| {
+    let status = saves::blocking(&app, |s| {
         s.turn_off()?;
         Ok(s.status())
     })
-    .await
+    .await?;
+    crate::playtime::forget_others(&app);
+    Ok(status)
 }
 
 /// Devices that use the same cloud saves, most recently synced first.

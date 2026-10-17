@@ -29,6 +29,7 @@ snapshot means everyone agrees; two or more is a conflict the player settles onc
 Portside Saves/
   vault.json                              written once when the vault is created
   devices/<device id>.json                device record
+  playtime/<device id>.json               play time on that device
   games/<port id>/<snapshot id>.<device id>.json   snapshot
   blobs/<id[0..2]>/<id>                   a save file's bytes, unchanged
 ```
@@ -64,6 +65,24 @@ save). A snapshot whose `port_id` or file name doesn't match where it was found 
 
 ## Device record
 `{"id", "name", "os", "app_version", "last_sync": "<RFC 3339>"}`, rewritten on each sync.
+
+## Play time
+Each device keeps its own play time (from its local play sessions) in
+`playtime/<device id>.json`, and only that device writes the file, so it can simply be
+rewritten:
+```json
+{
+  "device_id": "01JDEV…", "device_name": "Erick's MacBook",
+  "updated_at": "2026-10-17T22:00:00Z",
+  "games": {"openrct2-openrct2": {"total_secs": 12600, "last_played": 1792000000, "sessions": 4}}
+}
+```
+`last_played` is Unix seconds when the last session ended. A device rewrites its file after
+a game exits and when cloud saves are turned on, then reads every other device's file. A
+game's play time on screen is this device's own sessions plus every other device's
+`total_secs` and `sessions`; last played is the latest of them. A file whose `device_id`
+doesn't match its name, or that doesn't open, is skipped; so are game keys that aren't port
+ids. Play time syncs for every game played, whether or not Portside knows its save folder.
 
 ## Sync (one game)
 Runs before the game starts, after it exits, and when the player presses "Sync now". One
@@ -106,6 +125,8 @@ missing, disk full) lets the game start and shows an error.
 - Android (Storage Access Framework roots).
 
 ## Changelog
+- 2026-10-17 — v2: play time per device in `playtime/<device id>.json`, added up across
+  devices.
 - 2026-10-15 — v2 revised before release (ADR-0023): no encryption and no recovery phrase.
   Save files are stored unchanged, records are plain JSON, games are folders named by port
   id, blob ids are plain BLAKE3. `vault.json` lost `kdf` and `check`.

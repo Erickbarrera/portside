@@ -1,7 +1,7 @@
 //! Cloud saves (docs/specs/save-sync-protocol.md): the vault this device uses, syncing a
 //! game before it starts and after it exits, and the `saves-changed` event.
 
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::time::Duration;
@@ -13,8 +13,8 @@ use portside_core::paths::{
 use portside_core::{Os, Platform};
 use portside_installer::BuildFit;
 use portside_sync::{
-    Device, FolderStorage, LocalState, SaveRules, SaveTemplate, SnapshotInfo, SyncError,
-    SyncOutcome, SyncState, Syncer, Vault,
+    Device, FolderStorage, LocalState, PlaytimeEntry, PlaytimeRecord, SaveRules, SaveTemplate,
+    SnapshotInfo, SyncError, SyncOutcome, SyncState, Syncer, Vault,
 };
 use serde::{Deserialize, Serialize};
 use specta::Type;
@@ -232,6 +232,26 @@ impl Saves {
 
     pub fn devices(&self) -> Result<Vec<portside_sync::DeviceRecord>, SyncError> {
         self.vault()?.devices()
+    }
+
+    pub fn device_id(&self) -> &str {
+        &self.device.id
+    }
+
+    /// Rewrites this device's play time in the vault and returns every device's, this
+    /// one's included. Blocking.
+    pub fn share_playtime(
+        &self,
+        games: BTreeMap<String, PlaytimeEntry>,
+    ) -> Result<Vec<PlaytimeRecord>, SyncError> {
+        let vault = self.vault()?;
+        vault.write_playtime(&PlaytimeRecord {
+            device_id: self.device.id.clone(),
+            device_name: self.device.name.clone(),
+            updated_at: portside_sync::now_rfc3339(),
+            games,
+        })?;
+        vault.playtime()
     }
 
     pub fn set_custom_folder(&self, port_id: &str, folder: Option<&str>) -> Result<(), SyncError> {
@@ -498,7 +518,7 @@ pub fn spawn_after_exit(app: &AppHandle, port_id: &str) {
     tauri::async_runtime::spawn(async move { after_exit(&app, &port_id).await });
 }
 
-/// Syncs a game's saves after it exits, when cloud saves are on.
+/// Syncs a game's saves and play time after it exits, when cloud saves are on.
 pub async fn after_exit(app: &AppHandle, port_id: &str) {
     if !app.state::<AppState>().saves.enabled() {
         return;
@@ -506,9 +526,11 @@ pub async fn after_exit(app: &AppHandle, port_id: &str) {
     if let Err(e) = sync(app, port_id).await {
         eprintln!("could not sync saves for {port_id}: {}", e.message);
     }
+    crate::playtime::share(app).await;
 }
 
-/// Opens the vault in the background at start-up, so the first sync is quick.
+/// Opens the vault in the background at start-up, so the first sync is quick, and picks up
+/// play time from other devices.
 pub fn spawn_open(app: AppHandle) {
     tauri::async_runtime::spawn(async move {
         let handle = app.clone();
@@ -521,6 +543,7 @@ pub fn spawn_open(app: AppHandle) {
             }
         })
         .await;
+        crate::playtime::share(&app).await;
     });
 }
 
