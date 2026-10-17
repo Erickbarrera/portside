@@ -3,12 +3,19 @@
 
 ## What's new
 
-More games install on every system: Portside can now install ports whose download holds
-another archive (the Mac builds of Ship of Harkinian, 2 Ship 2 Harkinian, Zelda64Recomp and
-Space Cadet Pinball, and Zelda64Recomp on Linux) and Linux AppImages whose file name changes
-with each release. Portside is in alpha: browse the catalog of community game ports, install
-and update ports that have an install manifest, launch them, and sign in with Bluesky for
-friends, chat and discussion boards. Expect rough edges; please report bugs as issues.
+Steam Deck and controller support, on every system:
+
+- **Controllers:** move around the whole app with a gamepad (or the arrow keys).
+- **Add to Steam:** put an installed game in Steam's library, with artwork, so you can start
+  it from Game Mode or Big Picture.
+- **Couch mode:** a bigger, full-screen layout with an on-screen keyboard, on by itself in
+  Steam's Game Mode and Big Picture (Settings → Couch mode).
+- **Steam Deck:** install games to the SD card, and text fields open Steam's own keyboard.
+- **Proton:** on Linux and the Steam Deck, ports that only have a Windows build install and
+  run through Proton, if Steam has it installed.
+
+Also new: installed games in the sidebar, ports downloaded from their own site, and 7z
+archives. Portside is in alpha: expect rough edges and please report bugs as issues.
 
 ## Downloads
 
