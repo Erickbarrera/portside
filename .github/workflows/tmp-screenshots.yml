@@ -1,0 +1,44 @@
+name: tmp-screenshots
+
+# Temporary: retakes the website's app screenshots (web/scripts/capture-screenshots.mjs) on a
+# runner that can load the game covers, and commits them to this branch. Removed before the
+# pull request is ready.
+on:
+  push:
+    branches: [claude/manifests-all-os-eqxw27]
+    paths: ["web/scripts/capture-screenshots.mjs", ".github/workflows/tmp-screenshots.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: client/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --frozen-lockfile
+        working-directory: client
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm exec playwright install --with-deps chromium
+        working-directory: web
+      - run: |
+          (pnpm --filter @portside/ui dev > ../ui-dev.log 2>&1 &)
+          for i in $(seq 1 60); do curl -fs http://localhost:5173 >/dev/null && break; sleep 2; done
+        working-directory: client
+      - run: pnpm screenshots
+        working-directory: web
+      - if: always()
+        run: tail -20 ui-dev.log
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add web/src/assets/screenshots
+          git commit -m "chore: retake app screenshots"
+          git push
