@@ -37,7 +37,7 @@ An invite is an ordinary direct message:
 ```
 
 - `{site}` is where the website and catalog are published (the app's catalog address,
-  `https://erickbarrera.github.io/portside-catalog` by default). The link carries a link
+  `https://erickbarrera.github.io/portside` by default). The link carries a link
   facet, so every Bluesky app shows it as a link; the website opens its catalog searched for
   the title.
 - Portside recognises a message as an invite when a link (from a facet or the text) has the
@@ -54,4 +54,6 @@ Presence ("online", "playing now"), Portside-run group chats, voice, push notifi
 They need a server (ADR-0016, phase 2).
 
 ## Changelog
+- 2026-10-17 — Default `{site}` is `https://erickbarrera.github.io/portside` (was
+  `.../portside-catalog`).
 - 2026-10-14 — Draft (ADR-0021).
