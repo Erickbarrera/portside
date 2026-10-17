@@ -84,9 +84,17 @@ const shot = async (name) => {
   await page.screenshot({ path: `${out}${name}.png` });
   console.log(`wrote ${name}.png`);
 };
-const install = async (title) => {
-  await page.getByRole("link", { name: "Discover" }).click();
-  await page.getByText(title, { exact: true }).first().click();
+// The sidebar's links; a game card can carry the same word in its name.
+const nav = (name) =>
+  page.getByRole("navigation", { name: "Main" }).getByRole("link", { name, exact: true });
+const title = (id) => {
+  const port = all.find((p) => p.id === id);
+  if (!port) throw new Error(`${id} is not in the catalog`);
+  return port.title;
+};
+const install = async (id) => {
+  await nav("Discover").click();
+  await page.getByText(title(id), { exact: true }).first().click();
   await page.getByRole("button", { name: "Install" }).click();
   // macOS asks before installing an unsigned app.
   const anyway = page.getByRole("button", { name: "Install anyway" });
@@ -96,18 +104,27 @@ const install = async (title) => {
 };
 
 await page.goto(`${ui}/discover?mock-os=macos`);
-await shot("discover");
-await install("Diablo (DevilutionX)");
-await install("RollerCoaster Tycoon 2 (OpenRCT2)");
+// A few installed games first, so the sidebar's Installed list shows in every screenshot.
+for (const id of [
+  "harbourmasters-shipwright",
+  "openttd-openttd",
+  "diasurgical-devilutionx",
+  "openrct2-openrct2",
+]) {
+  await install(id);
+}
 await page.getByRole("button", { name: "Play" }).click();
 await page.mouse.move(800, 400);
 await page.mouse.wheel(0, -5000); // back to the top, cover included
 await shot("game-page");
-await page.getByRole("link", { name: "Library" }).click();
+await nav("Discover").click();
+await page.mouse.wheel(0, -5000);
+await shot("discover");
+await nav("Library").click();
 await shot("library");
-await page.getByRole("link", { name: "Community" }).click();
+await nav("Community").click();
 await shot("community");
-await page.getByRole("link", { name: /Friends/ }).click();
+await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: /Friends/ }).click();
 await page.getByRole("heading", { name: "Friends", exact: true }).waitFor();
 await page.getByText("Example Ada").first().click(); // the mock's made-up friend
 await shot("chat");
