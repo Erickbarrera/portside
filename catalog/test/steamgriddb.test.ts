@@ -7,6 +7,7 @@ import {
   pickGame,
   pickGrid,
   readCache,
+  titleVariants,
   updateCovers,
 } from "../src/steamgriddb.js";
 
@@ -44,6 +45,40 @@ describe("steamgriddb", () => {
     expect(pickGame(results, "Example Quest")).toBe(2);
     expect(pickGame(results, "Example Quest III")).toBeNull();
     expect(pickGame(results, "!!!")).toBeNull();
+  });
+
+  it("tries the title without its trailing notes, the whole title first", () => {
+    expect(titleVariants("Example Racer (Racer GBA (racergba))")).toEqual([
+      "Example Racer (Racer GBA (racergba))",
+      "Example Racer",
+    ]);
+    expect(titleVariants("Example Kart (2012) (kart-pc-port)")).toEqual([
+      "Example Kart (2012) (kart-pc-port)",
+      "Example Kart (2012)",
+      "Example Kart",
+    ]);
+    expect(titleVariants("(only a note)")).toEqual(["(only a note)"]);
+    expect(titleVariants("Example (Deluxe) Kart")).toEqual(["Example (Deluxe) Kart"]);
+    const results = [
+      { id: 1, name: "Example Kart" },
+      { id: 2, name: "Example Kart (2012)" },
+    ];
+    expect(pickGame(results, "Example Kart (2012) (kart-pc-port)")).toBe(2);
+    expect(pickGame([results[0]!], "Example Kart (2012) (kart-pc-port)")).toBe(1);
+  });
+
+  it("searches again without the notes when the whole title finds nothing", async () => {
+    const calls: string[] = [];
+    const api = fakeApi(
+      { "Example Racer": [{ id: 7, name: "Example Racer" }] },
+      { 7: [{ id: 1, url: cdn(1) }] },
+      calls,
+    );
+    expect(await lookupCover("Example Racer (racergba)", { key: "k", fetchFn: api })).toEqual({
+      id: 7,
+      url: cdn(1),
+    });
+    expect(calls).toHaveLength(3);
   });
 
   it("picks the best grid on the CDN and keeps the current one while it's listed", () => {

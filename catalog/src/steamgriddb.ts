@@ -11,11 +11,13 @@ import { parse as parseYaml } from "yaml";
 export const SGDB_API = "https://www.steamgriddb.com/api/v2";
 /** Landscape grids, closest to the app's 16:9 covers. */
 const GRID_QUERY = "dimensions=920x430,460x215&types=static&nsfw=false&humor=false";
-/** Games looked up per build (two requests each). */
+/** Games looked up per build (two or three requests each). */
 export const LOOKUP_BUDGET = 150;
 /** Days before a game is looked up again: misses sooner, since art gets added. */
 export const RECHECK_HIT_DAYS = 30;
 export const RECHECK_MISS_DAYS = 7;
+/** Misses checked before this day used the whole title only; ones with notes are retried. */
+const NOTES_RETRY_SINCE = "2026-10-16";
 
 export interface CoverEntry {
   /** SteamGridDB game id, or null when no game matched. */
@@ -111,11 +113,41 @@ export function normalizeTitle(s: string): string {
     .replace(/[^a-z0-9]/g, "");
 }
 
-/** The search result whose name is the title, ignoring case and punctuation; else null. */
+/**
+ * The title, then the title without each trailing "(…)" note in turn, most specific first:
+ * "Sonic Advance (Sonic GBA (sonicgba))" → ["Sonic Advance (Sonic GBA (sonicgba))",
+ * "Sonic Advance"]. The upstream list puts port names and forks in such notes.
+ */
+export function titleVariants(title: string): string[] {
+  const out = [title.trim()];
+  let rest = out[0] as string;
+  while (rest.endsWith(")")) {
+    let depth = 0;
+    let i = rest.length - 1;
+    for (; i >= 0; i--) {
+      if (rest[i] === ")") depth++;
+      else if (rest[i] === "(" && --depth === 0) break;
+    }
+    if (i <= 0) break;
+    rest = rest.slice(0, i).trim();
+    if (!normalizeTitle(rest)) break;
+    out.push(rest);
+  }
+  return out;
+}
+
+/**
+ * The search result whose name is the title, ignoring case and punctuation, else one named like
+ * the title without its trailing notes (most specific first); else null.
+ */
 export function pickGame(results: { id: number; name: string }[], title: string): number | null {
-  const want = normalizeTitle(title);
-  if (!want) return null;
-  return results.find((r) => normalizeTitle(r.name) === want)?.id ?? null;
+  for (const v of titleVariants(title)) {
+    const want = normalizeTitle(v);
+    if (!want) continue;
+    const hit = results.find((r) => normalizeTitle(r.name) === want);
+    if (hit) return hit.id;
+  }
+  return null;
 }
 
 /**
@@ -154,11 +186,17 @@ export async function lookupCover(
 ): Promise<{ id: number | null; url: string | null }> {
   let id = known.id ?? null;
   if (id === null) {
-    const results = await get<{ id: number; name: string }>(
-      `/search/autocomplete/${encodeURIComponent(title)}`,
-      opts,
-    );
-    id = pickGame(results, title);
+    // The whole title first; when nothing matches and it has notes, the title without them
+    // (a note like "(sonicgba)" usually leaves the search empty).
+    const variants = titleVariants(title);
+    for (const q of new Set([variants[0], variants.at(-1)])) {
+      const results = await get<{ id: number; name: string }>(
+        `/search/autocomplete/${encodeURIComponent(q as string)}`,
+        opts,
+      );
+      id = pickGame(results, title);
+      if (id !== null) break;
+    }
     if (id === null) return { id: null, url: null };
   }
   const grids = await get<{ id: number; score?: number; url: string }>(
@@ -199,7 +237,11 @@ export async function updateCovers(input: {
     if (prev) out.games[key] = prev;
     const overridden = typeof o === "number" && prev?.id !== o;
     const age = prev ? daysBetween(prev.checked, today) : Number.POSITIVE_INFINITY;
-    const stale = age >= (prev?.url ? RECHECK_HIT_DAYS : RECHECK_MISS_DAYS);
+    const stale =
+      age >= (prev?.url ? RECHECK_HIT_DAYS : RECHECK_MISS_DAYS) ||
+      (prev?.id === null &&
+        prev.checked < NOTES_RETRY_SINCE &&
+        titleVariants(wanted.get(key) as string).length > 1);
     if (!prev || overridden || stale) due.push({ key, overridden, age });
   }
   // A covers.yaml fix shows in the next build, not after the backlog of new games.
