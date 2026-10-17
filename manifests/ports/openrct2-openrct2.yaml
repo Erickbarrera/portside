@@ -1,0 +1,46 @@
+# Release files checked against v0.5.6 on 2026-10-13 (Linux on 2026-10-15).
+schema: 1
+id: openrct2-openrct2
+game_key: rollercoastertycoon2
+status: playable
+status_notes: "Needs the files from your own copy of RollerCoaster Tycoon 2 or RollerCoaster Tycoon Classic."
+source:
+  type: github_releases
+  repo: OpenRCT2/OpenRCT2
+  channel: stable
+builds:
+  - os: macos
+    arch: universal
+    asset: "OpenRCT2-*-macos-universal.zip"
+    archive: zip
+    launch: { app_bundle: "OpenRCT2.app" }
+    checksum: upstream
+    unsigned: true
+  - os: windows
+    arch: x86_64
+    asset: "OpenRCT2-*-windows-portable-x64.zip"
+    archive: zip
+    launch: { exe: "openrct2.exe" }
+    checksum: upstream
+  - os: linux
+    arch: x86_64
+    asset: "OpenRCT2-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "OpenRCT2.AppImage" }
+    checksum: upstream
+saves:
+  # OpenRCT2's documented user folder; [TBD: confirm on a real install].
+  root:
+    windows: "{documents}/OpenRCT2/"
+    macos: "{app_support}/OpenRCT2/"
+    linux: "{xdg_config}/OpenRCT2/"
+  # Not config.ini: it holds this computer's path to the game files.
+  include: ["save/**", "landscape/**", "scenario/**"]
+  portable: true
+multiplayer: online_coop
+links:
+  homepage: "https://openrct2.io"
+changelog:
+  - "2026-10-13: initial (macOS and Windows)"
+  - "2026-10-14: save folders for cloud saves"
+  - "2026-10-15: Linux"

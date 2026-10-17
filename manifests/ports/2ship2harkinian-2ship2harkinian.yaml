@@ -1,0 +1,32 @@
+# Release files checked against 5.0.1 on 2026-10-15.
+# The macOS asset is a .dmg inside a .zip (`nested`); 2s2h.app is ad-hoc signed, not Developer ID.
+schema: 1
+id: 2ship2harkinian-2ship2harkinian
+game_key: thelegendofzeldamajorasmask
+status: playable
+status_notes: "Needs your own Majora's Mask ROM; 2 Ship 2 Harkinian asks for it on first run."
+source:
+  type: github_releases
+  repo: 2ship2harkinian/2ship2harkinian
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "2Ship-*-Win64.zip"
+    archive: zip
+    launch: { exe: "2ship.exe" }
+  - os: macos
+    arch: universal
+    asset: "2Ship-*-Mac.zip"
+    archive: zip
+    nested: { file: "2Ship.dmg", archive: dmg }
+    launch: { app_bundle: "2s2h.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "2Ship-*-Linux.zip"
+    archive: zip
+    launch: { exe: "2ship.appimage", chmod_x: true }
+multiplayer: none
+changelog:
+  - "2026-10-15: initial (Windows, macOS and Linux)"

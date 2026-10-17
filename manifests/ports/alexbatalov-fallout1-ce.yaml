@@ -1,0 +1,30 @@
+# Release files checked against v1.1.0 on 2026-10-13 (Linux on 2026-10-15).
+schema: 1
+id: alexbatalov-fallout1-ce
+game_key: falloutfalloutcommunityedition
+status: playable
+status_notes: "Needs the data files (master.dat, critter.dat, data folder) from your own copy of Fallout."
+source:
+  type: github_releases
+  repo: alexbatalov/fallout1-ce
+  channel: stable
+builds:
+  - os: macos
+    arch: universal
+    asset: "fallout-ce-macos.dmg"
+    archive: dmg
+    launch: { app_bundle: "Fallout Community Edition.app" }
+  - os: windows
+    arch: x86_64
+    asset: "fallout-ce-windows-x64.zip"
+    archive: zip
+    launch: { exe: "fallout-ce.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "fallout-ce-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "fallout-ce", chmod_x: true }
+multiplayer: none
+changelog:
+  - "2026-10-13: initial (macOS and Windows)"
+  - "2026-10-15: Linux"

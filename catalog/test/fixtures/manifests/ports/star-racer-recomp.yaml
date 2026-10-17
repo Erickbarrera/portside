@@ -1,0 +1,8 @@
+# Invalid on purpose: unknown status.
+schema: 1
+id: star-racer-recomp
+game_key: starracer
+status: amazing
+source: { type: github_releases, repo: example-org/star-racer-recomp }
+builds:
+  - { os: windows, arch: x86_64, asset: "x-*.zip", archive: zip, launch: { exe: x.exe } }

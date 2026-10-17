@@ -1,0 +1,28 @@
+# Synthetic manifest for tests (invented project).
+schema: 1
+id: castle-quest-port
+game_key: castlequest
+display_name: "Castle Quest Engine"
+status: perfect
+status_notes: "Fully playable."
+source:
+  type: github_releases
+  repo: example-org/castle-quest-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "CastleQuest-*-win64.zip"
+    archive: zip
+    launch: { exe: "castlequest.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "CastleQuest-*-linux.tar.gz"
+    archive: tar.gz
+    launch: { exe: "castlequest", chmod_x: true }
+saves:
+  root:
+    windows: "{install}/saves/"
+    linux: "{xdg_data}/castlequest/"
+  include: ["*.sav"]
+multiplayer: none

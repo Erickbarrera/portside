@@ -1,0 +1,39 @@
+# Release files checked against v1.5.1 on 2026-10-13 (Linux on 2026-10-15).
+schema: 1
+id: coop-deluxe-sm64coopdx
+game_key: supermario64
+status: playable
+status_notes: "Needs your own Super Mario 64 ROM, which it asks for on first launch."
+source:
+  type: github_releases
+  repo: coop-deluxe/sm64coopdx
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "sm64coopdx_macOS_ARM.zip"
+    archive: zip
+    launch: { app_bundle: "sm64coopdx.app" }
+    unsigned: true
+  - os: macos
+    arch: x86_64
+    asset: "sm64coopdx_macOS_Intel.zip"
+    archive: zip
+    launch: { app_bundle: "sm64coopdx.app" }
+    unsigned: true
+  - os: windows
+    arch: x86_64
+    asset: "sm64coopdx_Windows.zip"
+    archive: zip
+    launch: { exe: "sm64coopdx.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "sm64coopdx_Linux.zip"
+    archive: zip
+    launch: { exe: "sm64coopdx", chmod_x: true }
+multiplayer: online_coop
+links:
+  homepage: "https://sm64coopdx.com"
+changelog:
+  - "2026-10-13: initial (macOS and Windows)"
+  - "2026-10-15: Linux"

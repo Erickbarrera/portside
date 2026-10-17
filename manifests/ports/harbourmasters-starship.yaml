@@ -1,0 +1,24 @@
+# Release files checked against v2.0.0 on 2026-10-15. Upstream ships no macOS build.
+schema: 1
+id: harbourmasters-starship
+game_key: starfox64
+status: playable
+status_notes: "Needs your own Star Fox 64 ROM; Starship asks for it on first run. Not on macOS: upstream publishes no Mac build."
+source:
+  type: github_releases
+  repo: HarbourMasters/Starship
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Starship-*-Windows.zip"
+    archive: zip
+    launch: { exe: "Starship.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Starship-*-Linux.zip"
+    archive: zip
+    launch: { exe: "starship.appimage", chmod_x: true }
+multiplayer: none
+changelog:
+  - "2026-10-15: initial (Windows and Linux)"

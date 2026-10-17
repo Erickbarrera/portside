@@ -1,0 +1,28 @@
+# Release files checked against Release_2.1.0 on 2026-10-15. Upstream ships no Linux build.
+# The macOS asset is a .dmg inside a .zip (`nested`); the app is not Developer ID signed.
+schema: 1
+id: k4zmu2a-spacecadetpinball
+game_key: 3dpinballspacecadet
+status: playable
+status_notes: "Needs the data files from your own copy of 3D Pinball for Windows (Space Cadet), placed next to the program. Not on Linux: upstream publishes no Linux build."
+source:
+  type: github_releases
+  repo: k4zmu2a/SpaceCadetPinball
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SpaceCadetPinballx64Win.zip"
+    archive: zip
+    launch: { exe: "SpaceCadetPinball.exe" }
+  - os: macos
+    arch: universal
+    asset: "SpaceCadetPinballMac.zip"
+    archive: zip
+    nested: { file: "SpaceCadetPinball-*-mac.dmg", archive: dmg }
+    launch: { app_bundle: "SpaceCadetPinball.app" }
+    unsigned: true
+multiplayer: none
+changelog:
+  - "2026-10-14: initial (Windows)"
+  - "2026-10-15: macOS (archive inside an archive)"

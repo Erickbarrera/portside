@@ -1,0 +1,10 @@
+# Game picture fixes (docs/specs/static-catalog.md, "Screenshots"; ADR-0020).
+# Games with no list screenshot and no repo preview image get a SteamGridDB cover matched by
+# title. When the match is wrong or missing, set the right SteamGridDB game id (the number in
+# https://www.steamgriddb.com/game/<id>); to show the generated cover instead, set `none`.
+# An entry also replaces a wrong list screenshot or repo preview image: the game then gets
+# that SteamGridDB cover (or the generated one) on every port.
+#
+#   <game_key>: <SteamGridDB game id> | none
+# The list's openage picture is a video still of a person; openage is an Age of Empires II engine.
+openage: 36303 # Age of Empires II: The Age of Kings

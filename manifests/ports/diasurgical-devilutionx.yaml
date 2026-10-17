@@ -1,0 +1,45 @@
+# Release files checked against 1.5.5 on 2026-10-13 (Linux on 2026-10-15).
+schema: 1
+id: diasurgical-devilutionx
+game_key: diablo
+status: playable
+status_notes: "Needs DIABDAT.MPQ from your own copy of Diablo."
+source:
+  type: github_releases
+  repo: diasurgical/DevilutionX
+  channel: stable
+builds:
+  - os: macos
+    arch: universal
+    asset: "devilutionx-macOS-universal.dmg"
+    archive: dmg
+    launch: { app_bundle: "devilutionX.app" }
+  - os: windows
+    arch: x86_64
+    asset: "devilutionx-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "devilutionx.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "devilutionx-linux-x86_64.appimage"
+    archive: appimage
+    launch: { exe: "devilutionx-linux-x86_64.appimage" }
+  - os: linux
+    arch: arm64
+    asset: "devilutionx-linux-aarch64.tar.xz"
+    archive: tar.xz
+    launch: { exe: "devilutionx", chmod_x: true }
+saves:
+  # DevilutionX's documented save folders; [TBD: confirm on a real install].
+  root:
+    windows: "{appdata}/diasurgical/devilution/"
+    macos: "{app_support}/diasurgical/devilution/"
+    linux: "{xdg_data}/diasurgical/devilution/"
+  include: ["*.sv", "*.hsv"]
+  portable: true
+multiplayer: online_coop
+changelog:
+  - "2026-10-13: initial (macOS and Windows)"
+  - "2026-10-14: save folders for cloud saves"
+  - "2026-10-15: Linux (x86_64 AppImage, arm64)"

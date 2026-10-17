@@ -1,0 +1,35 @@
+# Release files checked against release-20250330 on 2026-10-14 (Linux on 2026-10-15).
+# The release installs three games (Red Alert, Tiberian Dawn, Dune 2000); Portside launches Red Alert.
+# Linux ships one AppImage per game, so the Linux build is Red Alert only.
+schema: 1
+id: openra-openra
+game_key: openra
+status: playable
+status_notes: "Installs Red Alert, Tiberian Dawn and Dune 2000; Portside launches Red Alert. On first run OpenRA's content installer copies the game files from your own discs or fetches the content EA released as freeware."
+source:
+  type: github_releases
+  repo: OpenRA/OpenRA
+  channel: tag_pattern
+  tag_pattern: "^release-"
+builds:
+  - os: macos
+    arch: universal
+    asset: "OpenRA-release-*.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenRA - Red Alert.app" }
+  - os: windows
+    arch: x86_64
+    asset: "OpenRA-release-*-x64-winportable.zip"
+    archive: zip
+    launch: { exe: "RedAlert.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "OpenRA-Red-Alert-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "OpenRA-Red-Alert-x86_64.AppImage" }
+multiplayer: online_pvp
+links:
+  homepage: "https://www.openra.net"
+changelog:
+  - "2026-10-14: initial (macOS and Windows)"
+  - "2026-10-15: Linux (Red Alert AppImage)"

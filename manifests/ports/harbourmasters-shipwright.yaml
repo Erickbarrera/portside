@@ -1,0 +1,35 @@
+# Release files checked against 9.3.0 on 2026-10-15.
+# The macOS asset is a .dmg inside a .zip (`nested`); soh.app is ad-hoc signed, not Developer ID.
+schema: 1
+id: harbourmasters-shipwright
+game_key: thelegendofzeldaocarinaoftime
+status: playable
+status_notes: "Needs your own Ocarina of Time ROM; Ship of Harkinian asks for it on first run."
+source:
+  type: github_releases
+  repo: HarbourMasters/Shipwright
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SoH-*-Win64.zip"
+    archive: zip
+    launch: { exe: "soh.exe" }
+  - os: macos
+    arch: universal
+    asset: "SoH-*-Mac.zip"
+    archive: zip
+    nested: { file: "SoH.dmg", archive: dmg }
+    launch: { app_bundle: "soh.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "SoH-*.appimage"
+    archive: appimage
+    launch: { exe: "soh.appimage" }
+multiplayer: none
+links:
+  homepage: "https://shipofharkinian.com"
+changelog:
+  - "2026-10-14: initial (Windows)"
+  - "2026-10-15: macOS (archive inside an archive) and Linux"

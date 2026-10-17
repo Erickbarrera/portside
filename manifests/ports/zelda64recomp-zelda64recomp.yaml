@@ -1,0 +1,39 @@
+# Release files checked against v1.2.2 on 2026-10-15.
+# macOS and Linux assets are an archive inside a .zip (`nested`); the app is ad-hoc signed, not Developer ID.
+schema: 1
+id: zelda64recomp-zelda64recomp
+game_key: thelegendofzeldamajorasmask
+status: playable
+status_notes: "Needs your own Majora's Mask ROM (N64, US)."
+source:
+  type: github_releases
+  repo: Zelda64Recomp/Zelda64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Zelda64Recompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "Zelda64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "Zelda64Recompiled-*-macOS.zip"
+    archive: zip
+    nested: { file: "Zelda64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "Zelda64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Zelda64Recompiled-*-Linux-X64.zip"
+    archive: zip
+    nested: { file: "Zelda64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "Zelda64Recompiled", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "Zelda64Recompiled-*-Linux-ARM64.zip"
+    archive: zip
+    nested: { file: "Zelda64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "Zelda64Recompiled", chmod_x: true }
+changelog:
+  - "2026-10-14: initial (Windows)"
+  - "2026-10-15: macOS and Linux (archives inside archives)"

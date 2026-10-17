@@ -1,0 +1,36 @@
+# Release files checked against v1.0.2 on 2026-10-15.
+# BanjoRecompiled.app is ad-hoc signed, not Developer ID.
+schema: 1
+id: banjorecomp-banjorecomp
+game_key: banjokazooie
+status: playable
+status_notes: "Needs your own Banjo-Kazooie ROM (N64); the game asks for it on first run."
+source:
+  type: github_releases
+  repo: BanjoRecomp/BanjoRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BanjoRecompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "BanjoRecompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "BanjoRecompiled-*-macOS.zip"
+    archive: zip
+    launch: { app_bundle: "BanjoRecompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "BanjoRecompiled-*-Linux-X64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "BanjoRecompiled", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "BanjoRecompiled-*-Linux-ARM64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "BanjoRecompiled", chmod_x: true }
+multiplayer: none
+changelog:
+  - "2026-10-15: initial (Windows, macOS and Linux)"

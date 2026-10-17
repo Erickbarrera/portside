@@ -1,0 +1,39 @@
+# Release files checked against v0.10.1 on 2026-10-15.
+# "Deth Race.app" is not Developer ID signed.
+schema: 1
+id: dethrace-labs-dethrace
+game_key: carmageddon
+status: playable
+status_notes: "Needs the data folder from your own copy of Carmageddon."
+source:
+  type: github_releases
+  repo: dethrace-labs/dethrace
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dethrace-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dethrace.exe" }
+  - os: macos
+    arch: universal
+    asset: "dethrace-*-macos-arm64-x64.dmg"
+    archive: dmg
+    launch: { app_bundle: "Deth Race.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "dethrace-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dethrace", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "dethrace-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "dethrace", chmod_x: true }
+multiplayer: none
+changelog:
+  - "2026-10-15: initial (Windows, macOS and Linux)"
