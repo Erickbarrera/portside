@@ -74,7 +74,8 @@ and `sha256` and `name` = `asset`.
    (`usesCustomOpenGraphImage`, read with the GraphQL API and the workflow's token), on
    `repository-images.githubusercontent.com`. GitHub's generated repo card is not used.
 3. Else the game's cover from [SteamGridDB](https://www.steamgriddb.com) (ADR-0020): the
-   game whose name equals the game title (ignoring case and punctuation), its best-scored
+   game whose name equals the game title (ignoring case and punctuation), or else the title
+   without its trailing "(…)" notes (port names, forks; most specific first), its best-scored
    static landscape grid (920×430 or 460×215, no NSFW or humor images), linked from
    SteamGridDB's CDN (`*.steamgriddb.com`). One cover per `game_key`, shared by its ports
    that have no image of their own. `manifests/covers.yaml` fixes wrong matches
@@ -103,6 +104,9 @@ invalid manifest fails the build, so a bad manifest never reaches the published 
   releases up to 0.2.0 keep the last catalog published there. No shape change.
 - 2026-10-16 — Releases for `url_list` manifests come from the manifest (section
   "Releases"). No shape change.
+- 2026-10-16 — SteamGridDB matching also tries the title without its trailing "(…)" notes;
+  misses with notes checked before that day are looked up again (section "Screenshots").
+  No shape change.
 - 2026-10-15 — A `manifests/covers.yaml` entry replaces the list screenshot and repo preview
   image too (section "Screenshots"). No shape change.
 - 2026-10-14 — SteamGridDB covers as the third `screenshot_url` source, and the builder's
