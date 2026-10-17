@@ -1,0 +1,243 @@
+/* Based on the client tokens (client/docs/ui.md), with a purple accent for the site. */
+:root {
+  --bg: #0f0e17;
+  --surface-1: #15131f;
+  --surface-2: #1a1726;
+  --surface-3: #242036;
+  --border: #2a2640;
+  --border-strong: #3a3354;
+  --text: #e8eaee;
+  --text-2: #aeb6c4;
+  --text-3: #9aa3b2;
+  --text-4: #7e8798;
+  --accent: #a78bfa;
+  --on-accent: #160f2e;
+  --status-perfect: #4cc38a;
+  --status-playable: #7fb6ff;
+  --status-in-progress: #d9a441;
+  --status-boots: #e07a5f;
+  --status-not-playable: #5a6272;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-pill: 999px;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --max: 1120px;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  color: var(--accent);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-s);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-secondary {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-3);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  background: var(--surface-3);
+  padding: 8px 12px;
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Port rows (src/lib/port-card.ts). Global because the catalog renders them from an HTML
+   string, on the server and in the browser, so Astro's scoped styles don't reach them. */
+.port {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  padding: 14px 20px 14px 14px;
+}
+.port .main {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+/* The picture, or the app's generated cover under it when there is none. */
+.port .cover {
+  position: relative;
+  flex: 0 0 176px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-s);
+  background-color: var(--surface-3);
+  display: flex;
+  align-items: flex-end;
+}
+.port .cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.port .cover .name {
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: rgb(255 255 255 / 0.92);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 560px) {
+  .port {
+    padding: 0 0 16px;
+    overflow: hidden;
+  }
+  .port .cover {
+    flex-basis: 100%;
+    border-radius: 0;
+  }
+  .port .main,
+  .port .status {
+    padding: 0 16px;
+  }
+}
+.port h2 {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
+}
+.port .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  color: var(--text-3);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.port .archived {
+  color: var(--status-boots);
+}
+.port .status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.port .os {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.port .play {
+  font-size: 0.9rem;
+}
+
+/* Status badge: a label always accompanies the color. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.badge .prefix {
+  color: var(--text);
+}
+.badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.s-perfect { --c: var(--status-perfect); }
+.s-playable { --c: var(--status-playable); }
+.s-in_progress { --c: var(--status-in-progress); }
+.s-boots { --c: var(--status-boots); }
+.s-not_playable { --c: var(--status-not-playable); }

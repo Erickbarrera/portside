@@ -1,0 +1,216 @@
+---
+import Base from "../layouts/Base.astro";
+import { type CatalogSnapshot, fetchSnapshot, searchPorts } from "../lib/catalog";
+import { portCardHtml } from "../lib/port-card";
+
+// The first page is rendered at build time (every request in `astro dev`) from the static
+// catalog. In the browser the page script loads the live catalog once and then searches and
+// pages through it locally; see the script below. If the catalog can't be reached at build
+// time the page still builds, and the browser tries again.
+const PAGE_SIZE = 50;
+let snapshot: CatalogSnapshot | null = null;
+try {
+  snapshot = await fetchSnapshot();
+} catch (err) {
+  console.warn(`catalog: ${(err as Error).message}`);
+}
+const ports = snapshot ? searchPorts(snapshot.ports, "").slice(0, PAGE_SIZE) : [];
+const total = snapshot?.ports.length ?? 0;
+---
+
+<Base
+  title="Catalog · Portside"
+  description="Community game ports with their playable status on each operating system."
+>
+  <div class="wrap">
+    <header class="head">
+      <h1>Catalog</h1>
+      <p>Community ports and their playable status on each operating system.</p>
+    </header>
+
+    <div
+      id="catalog"
+      data-page-size={PAGE_SIZE}
+      data-rev={snapshot?.rev ?? ""}
+    >
+      <form class="search" role="search" action="" method="get">
+        <label for="catalog-q" class="visually-hidden">Search ports</label>
+        <input
+          id="catalog-q"
+          name="q"
+          type="search"
+          placeholder="Search by game or port name"
+          autocomplete="off"
+          maxlength="200"
+        />
+      </form>
+      <p class="count" aria-live="polite">
+        {!snapshot
+          ? "Loading ports…"
+          : total === 0
+            ? "No ports found."
+            : `Showing ${ports.length} of ${total} ${total === 1 ? "port" : "ports"}`}
+      </p>
+      <ul class="list" set:html={ports.map(portCardHtml).join("")} />
+      <div class="more">
+        <button type="button" class="load-more" hidden={ports.length >= total}>
+          Load more
+        </button>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import type { PortSummary } from "../lib/catalog";
+  import { fetchSnapshot, searchPorts } from "../lib/catalog";
+  import { portCardHtml } from "../lib/port-card";
+
+  const root = document.getElementById("catalog");
+  if (root) {
+    const pageSize = Number(root.dataset.pageSize) || 50;
+    const form = root.querySelector("form") as HTMLFormElement;
+    const input = root.querySelector("input") as HTMLInputElement;
+    const list = root.querySelector(".list") as HTMLUListElement;
+    const count = root.querySelector(".count") as HTMLParagraphElement;
+    const more = root.querySelector(".load-more") as HTMLButtonElement;
+
+    let all: PortSummary[] | null = null;
+    let query = "";
+    let hits: PortSummary[] = [];
+    let shown = list.children.length;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const render = (append: boolean) => {
+      const next = hits.slice(append ? shown : 0, (append ? shown : 0) + pageSize);
+      const html = next.map(portCardHtml).join("");
+      if (append) list.insertAdjacentHTML("beforeend", html);
+      else list.innerHTML = html;
+      shown = append ? shown + next.length : next.length;
+      more.hidden = shown >= hits.length;
+      const noun = hits.length === 1 ? "port" : "ports";
+      count.textContent =
+        hits.length === 0
+          ? query
+            ? `No ports match "${query}".`
+            : "No ports found."
+          : `Showing ${shown} of ${hits.length} ${noun}${query ? ` matching "${query}"` : ""}`;
+    };
+
+    const update = () => {
+      if (!all) return;
+      hits = searchPorts(all, query);
+      render(false);
+    };
+
+    // The live catalog: newer than the build when it changed since. One download (gzip'd by
+    // GitHub Pages), then everything runs locally.
+    const load = async () => {
+      root.setAttribute("aria-busy", "true");
+      more.disabled = true;
+      try {
+        const snapshot = await fetchSnapshot();
+        all = snapshot.ports;
+        if (query || String(snapshot.rev) !== root.dataset.rev) update();
+        else hits = searchPorts(all, "");
+      } catch (err) {
+        if (!list.children.length) count.textContent = "Couldn't load the catalog. Try again in a moment.";
+        console.error(err);
+      } finally {
+        root.removeAttribute("aria-busy");
+        more.disabled = false;
+      }
+    };
+
+    const search = (q: string) => {
+      q = q.trim();
+      if (q === query) return;
+      query = q;
+      const url = new URL(window.location.href);
+      if (q) url.searchParams.set("q", q);
+      else url.searchParams.delete("q");
+      history.replaceState(null, "", url);
+      update();
+    };
+
+    input.addEventListener("input", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => search(input.value), 150);
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearTimeout(timer);
+      search(input.value);
+    });
+    more.addEventListener("click", () => {
+      if (all) render(true);
+    });
+
+    // A link like /catalog?q=zelda opens with that search.
+    const initial = new URLSearchParams(window.location.search).get("q");
+    if (initial) {
+      input.value = initial;
+      query = initial.trim();
+    }
+    void load();
+  }
+</script>
+
+<style>
+  .head {
+    padding: 56px 0 24px;
+  }
+  .head p,
+  .count {
+    color: var(--text-2);
+  }
+  .search input {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-m);
+    padding: 12px 16px;
+  }
+  .search input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  #catalog[aria-busy="true"] .list {
+    opacity: 0.6;
+  }
+  .more {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0 8px;
+  }
+  .load-more {
+    font: inherit;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: 0;
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    cursor: pointer;
+  }
+  .load-more:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>
