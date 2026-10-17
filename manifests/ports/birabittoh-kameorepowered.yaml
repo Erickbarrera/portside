@@ -1,0 +1,22 @@
+# Generated from the release files of v0.2.1 and install-checked on 2026-10-16.
+schema: 1
+id: birabittoh-kameorepowered
+game_key: kameoelementsofpower
+status: playable
+source:
+  type: github_releases
+  repo: birabittoh/KameoRePowered
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "kameorepowered-tu-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "kameorepowered.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "kameorepowered-tu-*-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "kameorepowered" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

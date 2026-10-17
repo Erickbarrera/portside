@@ -1,0 +1,27 @@
+# Generated from the release files of v0.5.1b and install-checked on 2026-10-16.
+schema: 1
+id: blacklabelhq-symphonyrecomp
+game_key: castlevaniasymphonyofthenight
+status: playable
+source:
+  type: github_releases
+  repo: BlackLabelHQ/SymphonyRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SymphonyRecomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "sotn.exe" }
+  - os: windows
+    arch: arm64
+    asset: "SymphonyRecomp-*-windows-arm64.zip"
+    archive: zip
+    launch: { exe: "sotn.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SymphonyRecomp-*-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "sotn" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

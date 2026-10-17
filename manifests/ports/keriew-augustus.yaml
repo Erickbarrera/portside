@@ -1,0 +1,29 @@
+# Generated from the release files of v4.0.0 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: keriew-augustus
+game_key: caesariiiaugustus
+status: playable
+source:
+  type: github_releases
+  repo: Keriew/augustus
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "augustus-*-windows.zip"
+    archive: zip
+    launch: { exe: "augustus.exe" }
+  - os: macos
+    arch: universal
+    asset: "augustus-*-mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "augustus.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "augustus-*-linux.AppImage"
+    archive: appimage
+    launch: { exe: "augustus-linux.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

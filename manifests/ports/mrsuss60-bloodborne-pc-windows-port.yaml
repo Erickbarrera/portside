@@ -1,0 +1,18 @@
+# Generated from the release files of v0.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: mrsuss60-bloodborne-pc-windows-port
+game_key: bloodbornebloodbornepcwindowsport
+status: playable
+source:
+  type: github_releases
+  repo: Mrsuss60/bloodborne_pc_windows_port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bloodborne_pc_windows_port_*_release.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "BloodborneLauncher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

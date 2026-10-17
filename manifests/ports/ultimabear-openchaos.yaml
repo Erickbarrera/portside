@@ -1,0 +1,24 @@
+# Generated from the release files of v1.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: ultimabear-openchaos
+game_key: urbanchaosopenchaos
+status: playable
+source:
+  type: github_releases
+  repo: UltimaBeaR/OpenChaos
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenChaos-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenChaos.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "OpenChaos-*-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenChaos" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

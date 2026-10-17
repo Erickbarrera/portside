@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.0-alpha and install-checked on 2026-10-16.
+schema: 1
+id: mstan-pokemonstadiumrecomp
+game_key: pokemonstadium
+status: playable
+source:
+  type: github_releases
+  repo: mstan/PokemonStadiumRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "PokemonStadiumRecomp-windows-x64.zip"
+    archive: zip
+    launch: { exe: "PokemonStadiumRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

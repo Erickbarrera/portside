@@ -1,0 +1,29 @@
+# Generated from the release files of v0.9.65 and install-checked on 2026-10-16.
+schema: 1
+id: freefrank-lostodysseyrecomp
+game_key: lostodyssey
+status: playable
+source:
+  type: github_releases
+  repo: freefrank/LostOdysseyRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "LostOdysseyRecomp-windows-x64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "LostOdysseyRecomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "LostOdysseyRecomp-macos-arm64-*.dmg"
+    archive: dmg
+    launch: { app_bundle: "LostOdysseyRecomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "LostOdysseyRecomp-linux-x64-*.AppImage"
+    archive: appimage
+    launch: { exe: "LostOdysseyRecomp-linux-x64-AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

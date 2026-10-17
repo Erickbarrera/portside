@@ -1,0 +1,18 @@
+# Generated from the release files of v1.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: kraftmacandchee-mercenaries-recompiled
+game_key: mercenariesplaygroundofdestruction
+status: in_progress
+source:
+  type: github_releases
+  repo: KraftMacAndChee/Mercenaries-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Mercenaries.Recompiled.Public.*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Mercenaries Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

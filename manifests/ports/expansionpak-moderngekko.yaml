@@ -1,0 +1,24 @@
+# Generated from the release files of kirby and install-checked on 2026-10-16.
+schema: 1
+id: expansionpak-moderngekko
+game_key: kirbysreturntodreamlandkirbywii
+status: in_progress
+source:
+  type: github_releases
+  repo: ExpansionPak/ModernGekko
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*WiiRecomp-Windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "KirbyWiiRecomp/KirbyRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "*WiiRecomp-Linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "KirbyRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

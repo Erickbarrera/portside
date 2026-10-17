@@ -1,0 +1,20 @@
+# Generated from the release files of v0.0.2-alpha and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: nolffan-nolf2src
+game_key: noonelivesforever2nolf2src
+status: in_progress
+source:
+  type: github_releases
+  repo: nolffan/nolf2src
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "nolf2-modern-release-public.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "NOLF2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

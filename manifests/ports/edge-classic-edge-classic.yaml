@@ -1,0 +1,22 @@
+# Generated from the release files of 1.53 and install-checked on 2026-10-16.
+schema: 1
+id: edge-classic-edge-classic
+game_key: edgeclassic
+status: playable
+source:
+  type: github_releases
+  repo: edge-classic/EDGE-classic
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "edge-classic-win64.zip"
+    archive: zip
+    launch: { exe: "edge-classic.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "edge-classic-linux.zip"
+    archive: zip
+    launch: { exe: "edge-classic-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

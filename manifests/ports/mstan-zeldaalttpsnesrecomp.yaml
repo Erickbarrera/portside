@@ -1,0 +1,17 @@
+# Generated from the release files of v0.6.4 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-zeldaalttpsnesrecomp
+game_key: thelegendofzeldaalinktothepast
+status: playable
+source:
+  type: github_releases
+  repo: mstan/ZeldaAlttPSNESRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ZeldaALttPSNESRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "ZeldaALttPSNESRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

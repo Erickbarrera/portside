@@ -1,0 +1,17 @@
+# Generated from the release files of v0.34 and install-checked on 2026-10-16.
+schema: 1
+id: djyt-cannonball
+game_key: outruncannonball
+status: playable
+source:
+  type: github_releases
+  repo: djyt/cannonball
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "cannonball-v034-w64.zip"
+    archive: zip
+    launch: { exe: "cannonball.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

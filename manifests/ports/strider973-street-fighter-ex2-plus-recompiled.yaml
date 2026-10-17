@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: strider973-street-fighter-ex2-plus-recompiled
+game_key: streetfighterex2plus
+status: in_progress
+source:
+  type: github_releases
+  repo: strider973/Street-Fighter-EX2-Plus-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "sfex2p-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Street_Fighter_EX2_Plus.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "sfex2p-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Street_Fighter_EX2_Plus" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

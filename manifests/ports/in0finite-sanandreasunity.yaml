@@ -1,0 +1,22 @@
+# Generated from the release files of v4.0 and install-checked on 2026-10-16.
+schema: 1
+id: in0finite-sanandreasunity
+game_key: sanandreasunity
+status: playable
+source:
+  type: github_releases
+  repo: in0finite/SanAndreasUnity
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SanAndreasUnity-*-windows.zip"
+    archive: zip
+    launch: { exe: "SanAndreasUnity.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SanAndreasUnity-*-linux.zip"
+    archive: zip
+    launch: { exe: "SanAndreasUnity.x86_64", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

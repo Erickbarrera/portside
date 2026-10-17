@@ -1,0 +1,30 @@
+# Generated from the release files of release-1.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: clover-moe-spearmint
+game_key: spearmint
+status: playable
+source:
+  type: github_releases
+  repo: clover-moe/spearmint
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "spearmint-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "spearmint_x86_64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "spearmint-*-macosx.dmg"
+    archive: dmg
+    launch: { app_bundle: "spearmint-1.0.3-macosx/Spearmint.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "spearmint-*-linux.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "spearmint_x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

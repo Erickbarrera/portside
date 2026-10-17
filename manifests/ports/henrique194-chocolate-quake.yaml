@@ -1,0 +1,17 @@
+# Generated from the release files of chocolate-quake-2.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: henrique194-chocolate-quake
+game_key: chocolatequake
+status: playable
+source:
+  type: github_releases
+  repo: Henrique194/chocolate-quake
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "chocolate-quake.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

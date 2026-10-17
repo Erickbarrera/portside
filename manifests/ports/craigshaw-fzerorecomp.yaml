@@ -1,0 +1,24 @@
+# Generated from the release files of v0.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: craigshaw-fzerorecomp
+game_key: fzero
+status: playable
+source:
+  type: github_releases
+  repo: craigshaw/FZeroRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "FZeroRecomp-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "fzero_recomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "FZeroRecomp-*-macOS-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "F-Zero Recomp.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

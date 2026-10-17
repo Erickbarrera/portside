@@ -1,0 +1,37 @@
+# Generated from the release files of rolling-pre-release and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: crowded-street-3sx
+game_key: streetfighteriii3rdstrike3sx
+status: in_progress
+source:
+  type: github_releases
+  repo: crowded-street/3sx
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "3SX-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "3sx.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "3SX-*-macos.dmg"
+    archive: dmg
+    launch: { app_bundle: "3SX.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "3SX-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "bin/3sx" }
+  - os: linux
+    arch: arm64
+    asset: "3SX-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "bin/3sx" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

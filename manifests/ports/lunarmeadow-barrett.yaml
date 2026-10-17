@@ -1,0 +1,24 @@
+# Generated from the release files of v1.3-beta and install-checked on 2026-10-16.
+schema: 1
+id: lunarmeadow-barrett
+game_key: barrett
+status: playable
+source:
+  type: github_releases
+  repo: lunarmeadow/barrett
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "barrett-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "barrett.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "barrett-linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "barrett" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

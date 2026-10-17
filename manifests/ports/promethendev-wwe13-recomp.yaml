@@ -1,0 +1,24 @@
+# Generated from the release files of v1.5 and install-checked on 2026-10-16.
+schema: 1
+id: promethendev-wwe13-recomp
+game_key: wwe13wwe13
+status: playable
+source:
+  type: github_releases
+  repo: PromethenDev/wwe13-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "WWE13-Recomp-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "WWE13 Launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "WWE13-Recomp-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Linux-x86_64/wwe13-launcher" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

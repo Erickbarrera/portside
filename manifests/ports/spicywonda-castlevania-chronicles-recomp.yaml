@@ -1,0 +1,31 @@
+# Generated from the release files of v0.3.10 and install-checked on 2026-10-16.
+schema: 1
+id: spicywonda-castlevania-chronicles-recomp
+game_key: castlevaniachronicles
+status: in_progress
+source:
+  type: github_releases
+  repo: Spicywonda/castlevania-chronicles-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "CastlevaniaChronicles-*-win-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Play.exe" }
+  - os: macos
+    arch: arm64
+    asset: "CastlevaniaChronicles-*-osx-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Castlevania Chronicles.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "CastlevaniaChronicles-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Play" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

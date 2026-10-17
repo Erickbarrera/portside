@@ -1,0 +1,36 @@
+# Generated from the release files of 0.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: sonicdcer-dnzhrecomp
+game_key: dukenukemzerohour
+status: playable
+source:
+  type: github_releases
+  repo: sonicdcer/DNZHRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DNZHRecompiled-*-Windows-RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "DNZHRecompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "DNZHRecompiled-*-macOS-Release.zip"
+    archive: zip
+    nested: { file: "DNZHRecompiled.zip", archive: zip }
+    launch: { app_bundle: "DNZHRecompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "DNZHRecompiled-*-Linux-X64-Release.zip"
+    archive: zip
+    nested: { file: "DNZHRecompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "DNZHRecompiled" }
+  - os: linux
+    arch: arm64
+    asset: "DNZHRecompiled-*-Linux-ARM64-Release.zip"
+    archive: zip
+    nested: { file: "DNZHRecompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "DNZHRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

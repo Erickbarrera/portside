@@ -1,0 +1,23 @@
+# Generated from the release files of Release-31-main and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: hankmorgan-underworldgodot
+game_key: underworldgodot
+status: in_progress
+source:
+  type: github_releases
+  repo: hankmorgan/UnderworldGodot
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "UnderworldWindows.zip"
+    archive: zip
+    launch: { exe: "Underworld.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "UnderworldLinux.zip"
+    archive: zip
+    launch: { exe: "Underworld.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

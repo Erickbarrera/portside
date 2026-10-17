@@ -1,0 +1,22 @@
+# Generated from the release files of ICHGYTW_0.1.93 and install-checked on 2026-10-16.
+schema: 1
+id: riseio-twipe-00sheven
+game_key: theworldisnotenoughicouldhavegivenyoutheworld
+status: playable
+source:
+  type: github_releases
+  repo: riseio/TWIPE_00Sheven
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ICHGYTW-Portable.exe"
+    archive: none
+    launch: { exe: "ICHGYTW-Portable.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ICHGYTW-SteamDeck-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "ICHGYTW-SteamDeck-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

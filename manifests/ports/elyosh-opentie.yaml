@@ -1,0 +1,24 @@
+# Generated from the release files of v0.0.7 and install-checked on 2026-10-16.
+schema: 1
+id: elyosh-opentie
+game_key: opentie
+status: playable
+source:
+  type: github_releases
+  repo: elyosh/OpenTIE
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "opentie-*-windows-x86_64-release.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenTIE.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "opentie-*-linux-x86_64-release.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "OpenTIE" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

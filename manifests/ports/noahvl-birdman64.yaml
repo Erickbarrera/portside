@@ -1,0 +1,23 @@
+# Generated from the release files of v1.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: noahvl-birdman64
+game_key: pilotwings64birdman64
+status: in_progress
+source:
+  type: github_releases
+  repo: NoahVl/Birdman64
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Birdman64-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Birdman64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Birdman64-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "Birdman64-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

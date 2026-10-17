@@ -1,0 +1,17 @@
+# Generated from the release files of crispy-doom-7.2 and install-checked on 2026-10-16.
+schema: 1
+id: fabiangreffrath-crispy-doom
+game_key: crispydoom
+status: playable
+source:
+  type: github_releases
+  repo: fabiangreffrath/crispy-doom
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "crispy-doom-7.2.0-win64.zip"
+    archive: zip
+    launch: { exe: "crispy-doom.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

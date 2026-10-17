@@ -1,0 +1,18 @@
+# Generated from the release files of v2.5 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: azmawee-emperorreborn
+game_key: emperorreborn
+status: playable
+source:
+  type: github_releases
+  repo: azmawee/EmperorReborn
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "EmperorReborn-*.zip"
+    archive: zip
+    launch: { exe: "EmperorReborn.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

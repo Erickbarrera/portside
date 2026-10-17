@@ -1,0 +1,37 @@
+# Generated from the release files of v1.1.4 and install-checked on 2026-10-16.
+schema: 1
+id: jackandbeans-snap64recomp
+game_key: pokemonsnap
+status: playable
+source:
+  type: github_releases
+  repo: JackandBeans/Snap64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Snap64Recomp-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Snap64Recomp.exe" }
+  - os: macos
+    arch: universal
+    asset: "Snap64Recomp-*-macos-universal.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Snap64Recomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Snap64Recomp-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Snap64Recomp" }
+  - os: linux
+    arch: arm64
+    asset: "Snap64Recomp-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Snap64Recomp" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of v0.0.17 and install-checked on 2026-10-16.
+schema: 1
+id: elyosh-openxwa
+game_key: openxwa
+status: playable
+source:
+  type: github_releases
+  repo: elyosh/OpenXWA
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openxwa-*-windows-x86_64-release.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenXWA.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openxwa-*-linux-x86_64-release.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "OpenXWA" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

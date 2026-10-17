@@ -1,0 +1,18 @@
+# Generated from the release files of v0.9.5 and install-checked on 2026-10-16.
+schema: 1
+id: caiuscodes-goldeneye-007-xbla-pc-recomp
+game_key: goldeneye007xblapc
+status: playable
+source:
+  type: github_releases
+  repo: CaiusCodes/GoldenEye-007-XBLA-PC-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "GoldenEye-007-XBLA-PC-Recomp-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "GoldenEye 007.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

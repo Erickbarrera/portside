@@ -1,0 +1,44 @@
+# Generated from the release files of release_26_2_0-RC1 and install-checked on 2026-10-16.
+schema: 1
+id: scp-fs2open-fs2open-github-com
+game_key: fs2open
+status: playable
+source:
+  type: github_releases
+  repo: scp-fs2open/fs2open.github.com
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "fs2_open_*-builds-x64-AVX.zip"
+    archive: zip
+    launch: { exe: "fs2_open_26_2_0_RC1_x64_AVX.exe" }
+  - os: windows
+    arch: arm64
+    asset: "fs2_open_*-builds-ARM64.zip"
+    archive: zip
+    launch: { exe: "fs2_open_26_2_0_RC1_arm64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "fs2_open_*-builds-Mac-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { app_bundle: "fs2_open_26_2_0_RC1_x64.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "fs2_open_*-builds-Mac-arm64.tar.gz"
+    archive: tar.gz
+    launch: { app_bundle: "fs2_open_26_2_0_RC1_arm64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "fs2_open_*-builds-Linux-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "fs2_open_26_2_0_RC1_x64_SSE2.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "fs2_open_*-builds-Linux-arm64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "fs2_open_26_2_0_RC1_arm64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

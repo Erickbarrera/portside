@@ -1,0 +1,44 @@
+# Generated from the release files of v1.6.4 and install-checked on 2026-10-16.
+schema: 1
+id: gameflorist-dunedynasty
+game_key: duneiithebuildingofadynastydunedynasty
+status: playable
+source:
+  type: github_releases
+  repo: gameflorist/dunedynasty
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dunedynasty-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "dunedynasty.exe" }
+  - os: windows
+    arch: arm64
+    asset: "dunedynasty-*-windows-arm64.zip"
+    archive: zip
+    launch: { exe: "dunedynasty.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "dunedynasty-*-macos-x86-64.zip"
+    archive: zip
+    launch: { app_bundle: "Dune Dynasty.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "dunedynasty-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "Dune Dynasty.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "dunedynasty-*-linux-x86-64.zip"
+    archive: zip
+    launch: { exe: "dunedynasty" }
+  - os: linux
+    arch: arm64
+    asset: "dunedynasty-*-linux-arm64.zip"
+    archive: zip
+    launch: { exe: "dunedynasty" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

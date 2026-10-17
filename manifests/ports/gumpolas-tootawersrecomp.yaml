@@ -1,0 +1,24 @@
+# Generated from the release files of 1.9.1 and install-checked on 2026-10-16.
+schema: 1
+id: gumpolas-tootawersrecomp
+game_key: thelordoftheringsthetwotowers
+status: playable
+source:
+  type: github_releases
+  repo: Gumpolas/TooTawersRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "TwoTowers-Recompiled-v*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "The Two Towers Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "TwoTowers-Recompiled-v*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "twotowers_recomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,18 @@
+# Generated from the release files of v0.8.98 and install-checked on 2026-10-16.
+schema: 1
+id: hero88go-melee-unlocked
+game_key: supersmashbrosmeleemeleeunlocked
+status: playable
+source:
+  type: github_releases
+  repo: Hero88go/melee-unlocked
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MeleeUnlocked-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "MeleeUnlockedLauncher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

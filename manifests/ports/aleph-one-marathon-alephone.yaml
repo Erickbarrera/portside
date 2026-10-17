@@ -1,0 +1,23 @@
+# Generated from the release files of release-20260930 and install-checked on 2026-10-16.
+schema: 1
+id: aleph-one-marathon-alephone
+game_key: alephone
+status: playable
+source:
+  type: github_releases
+  repo: Aleph-One-Marathon/alephone
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "AlephOne-*-Win.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Aleph One.exe" }
+  - os: macos
+    arch: universal
+    asset: "AlephOne-*-Mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "Aleph One.app" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

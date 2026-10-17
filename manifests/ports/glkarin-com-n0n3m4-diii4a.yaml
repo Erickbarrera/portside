@@ -1,0 +1,18 @@
+# Generated from the release files of v1.1.0harmattan70 and install-checked on 2026-10-16.
+schema: 1
+id: glkarin-com-n0n3m4-diii4a
+game_key: idtech4aharmattanedition
+status: playable
+source:
+  type: github_releases
+  repo: glKarin/com.n0n3m4.diii4a
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "idTech4A++_*-win_x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "doom3/Doom3.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

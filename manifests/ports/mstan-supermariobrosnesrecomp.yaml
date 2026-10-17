@@ -1,0 +1,17 @@
+# Generated from the release files of v1.12.0 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-supermariobrosnesrecomp
+game_key: supermariobros
+status: playable
+source:
+  type: github_releases
+  repo: mstan/SuperMarioBrosNESRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SuperMarioBrosRecomp-widescreen-windows-x64.zip"
+    archive: zip
+    launch: { exe: "SuperMarioBrosRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

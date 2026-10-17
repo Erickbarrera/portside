@@ -1,0 +1,34 @@
+# Generated from the release files of Version1.0.6 and install-checked on 2026-10-16.
+schema: 1
+id: thatguymcd-dkr-r
+game_key: diddykongracing
+status: playable
+source:
+  type: github_releases
+  repo: ThatGuyMcd/DKR-R
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DKR-R-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "DKR-R.exe" }
+  - os: macos
+    arch: arm64
+    asset: "DKR-R-*-macOS-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "DKR-R.app" }
+  - os: linux
+    arch: x86_64
+    asset: "DKR-R-*-Linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "DKR-R-Linux-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "DKR-R-*-Linux-aarch64.AppImage"
+    archive: appimage
+    launch: { exe: "DKR-R-Linux-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

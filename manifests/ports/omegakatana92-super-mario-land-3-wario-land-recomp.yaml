@@ -1,0 +1,18 @@
+# Generated from the release files of recomp and install-checked on 2026-10-16.
+schema: 1
+id: omegakatana92-super-mario-land-3-wario-land-recomp
+game_key: supermarioland3warioland
+status: in_progress
+source:
+  type: github_releases
+  repo: omegakatana92/Super-Mario-Land-3-Wario-Land-Recomp-
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Super.Mario.Land.3.-.Wario.Land.USA.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Super_Mario_Land_3___Wario_Land__USA_.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

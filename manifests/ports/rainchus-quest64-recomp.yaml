@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1 and install-checked on 2026-10-16.
+schema: 1
+id: rainchus-quest64-recomp
+game_key: quest64
+status: in_progress
+source:
+  type: github_releases
+  repo: Rainchus/Quest64-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Quest64Recompiled*.zip"
+    archive: zip
+    launch: { exe: "Quest64Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

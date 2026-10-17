@@ -1,0 +1,28 @@
+# Generated from the release files of v0.1.1-dev.20261002 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: fataldecomp-roller
+game_key: roller
+status: playable
+source:
+  type: github_releases
+  repo: FatalDecomp/ROLLER
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "roller-windows-x86_64-*.zip"
+    archive: zip
+    launch: { exe: "roller.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "roller-linux-x86_64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "roller" }
+  - os: linux
+    arch: arm64
+    asset: "roller-linux-aarch64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "roller" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

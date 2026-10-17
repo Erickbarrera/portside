@@ -1,0 +1,24 @@
+# Generated from the release files of 0.4 and install-checked on 2026-10-16.
+schema: 1
+id: therunaway5-phase-distorter
+game_key: earthboundphasedistorter
+status: playable
+source:
+  type: github_releases
+  repo: TheRunaway5/Phase-Distorter
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Phase-Distorter-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Phase Distorter.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Phase-Distorter-*-linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Phase Distorter" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

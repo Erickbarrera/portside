@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: christianortel-skate2-recompile-pc
+game_key: skate2
+status: in_progress
+source:
+  type: github_releases
+  repo: christianortel/skate2-recompile-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Skate2-PC-*-Windows-x64.zip"
+    archive: zip
+    launch: { exe: "skate2.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

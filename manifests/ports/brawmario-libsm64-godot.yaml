@@ -1,0 +1,29 @@
+# Generated from the release files of v2.7.2 and install-checked on 2026-10-16.
+schema: 1
+id: brawmario-libsm64-godot
+game_key: supermario64libsm64godot
+status: playable
+source:
+  type: github_releases
+  repo: Brawmario/libsm64-godot
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "libsm64-godot-demo.*.windows.zip"
+    archive: zip
+    launch: { exe: "libsm64-godot-demo.exe" }
+  - os: macos
+    arch: universal
+    asset: "libsm64-godot-demo.*.mac.zip"
+    archive: zip
+    nested: { file: "libsm64-godot-demo.zip", archive: zip }
+    launch: { app_bundle: "LibSM64 Godot Demo.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "libsm64-godot-demo.*.linux.zip"
+    archive: zip
+    launch: { exe: "libsm64-godot-demo.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of crossplatform-beta and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: slickamogus-silent-hill-decomp
+game_key: silenthill
+status: in_progress
+source:
+  type: github_releases
+  repo: SlickAmogus/silent-hill-decomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SHPC_beta-2026.10.12.1.zip"
+    archive: zip
+    launch: { exe: "SilentHillPC_Launcher.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SHPC-linux-x64_*.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "SilentHillPC" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

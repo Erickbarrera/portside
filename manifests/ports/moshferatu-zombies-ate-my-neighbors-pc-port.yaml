@@ -1,0 +1,17 @@
+# Generated from the release files of 20260929 and install-checked on 2026-10-16.
+schema: 1
+id: moshferatu-zombies-ate-my-neighbors-pc-port
+game_key: zombiesatemyneighborszombiesatemyneighborspc
+status: in_progress
+source:
+  type: github_releases
+  repo: moshferatu/zombies-ate-my-neighbors-pc-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "zamn.zip"
+    archive: zip
+    launch: { exe: "zamn_launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,28 @@
+# Generated from the release files of v1.1.2 and install-checked on 2026-10-16.
+schema: 1
+id: sdw-community-sheep-dog-n-wolf-rewooled
+game_key: sheepdognwolfrewooled
+status: playable
+source:
+  type: github_releases
+  repo: SDW-Community/Sheep-Dog-n-Wolf-Rewooled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Rewooled-Windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "SheepLauncher.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Rewooled-macOS-arm64-*.zip"
+    archive: zip
+    launch: { app_bundle: "Rewooled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Rewooled-Linux-x86_64-*.zip"
+    archive: zip
+    launch: { exe: "SheepLauncher" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

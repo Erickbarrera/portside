@@ -1,0 +1,24 @@
+# Generated from the release files of 1.0.1 and install-checked on 2026-10-16.
+schema: 1
+id: ianitsky-gt2-multiplayer
+game_key: granturismo2gt2multiplayer
+status: in_progress
+source:
+  type: github_releases
+  repo: ianitsky/gt2-multiplayer
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*-game-win.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "GT2Port.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "*-relay-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "gt2relay", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

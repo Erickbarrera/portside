@@ -1,0 +1,36 @@
+# Generated from the release files of v0.9.2 and install-checked on 2026-10-16.
+schema: 1
+id: sonicdcer-mariokart64recomp
+game_key: mariokart64
+status: in_progress
+source:
+  type: github_releases
+  repo: sonicdcer/MarioKart64Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MarioKart64Recompiled-*-Windows-RelWithDebInfo.zip"
+    archive: zip
+    launch: { exe: "MarioKart64Recompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "MarioKart64Recompiled-*-macOS-Release.zip"
+    archive: zip
+    nested: { file: "MarioKart64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "MarioKart64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "MarioKart64Recompiled-*-Linux-X64-Release.zip"
+    archive: zip
+    nested: { file: "MarioKart64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "MarioKart64Recompiled" }
+  - os: linux
+    arch: arm64
+    asset: "MarioKart64Recompiled-*-Linux-ARM64-Release.zip"
+    archive: zip
+    nested: { file: "MarioKart64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "MarioKart64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

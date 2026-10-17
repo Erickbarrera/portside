@@ -1,0 +1,35 @@
+# Generated from the release files of v0.19.0 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: zeranemesis-marioparty4
+game_key: marioparty4marioparty4zeranemesis
+status: playable
+source:
+  type: github_releases
+  repo: zeranemesis/Marioparty4
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "PartyBoard-win-x64.zip"
+    archive: zip
+    launch: { exe: "partyboard.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "PartyBoard-*-macos-x86_64.zip"
+    archive: zip
+    launch: { app_bundle: "PartyBoard.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "PartyBoard-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "PartyBoard.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "PartyBoard-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "PartyBoard-linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,18 @@
+# Generated from the release files of 0.9.2 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: goshavindtburg-nx1recomp
+game_key: callofdutyfuturewarfare
+status: playable
+source:
+  type: github_releases
+  repo: goshavindtburg/NX1recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "nx1_mp.exe"
+    archive: none
+    launch: { exe: "nx1_mp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

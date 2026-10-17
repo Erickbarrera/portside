@@ -1,0 +1,30 @@
+# Generated from the release files of v1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: danisandoval-fukami
+game_key: ridgeracerv
+status: in_progress
+source:
+  type: github_releases
+  repo: danisandoval/fukami
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Fukami-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Fukami.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Fukami-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "Fukami.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Fukami-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "bin/Fukami" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

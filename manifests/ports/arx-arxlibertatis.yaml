@@ -1,0 +1,18 @@
+# Generated from the release files of 1.2.1 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: arx-arxlibertatis
+game_key: arxlibertatis
+status: playable
+source:
+  type: github_releases
+  repo: arx/ArxLibertatis
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "arx-libertatis-*-windows.zip"
+    archive: zip
+    launch: { exe: "arx.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

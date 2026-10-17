@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: rsdkmodding-rsdkv2-decompilation
+game_key: sonicnexusrsdkv2
+status: boots
+source:
+  type: github_releases
+  repo: RSDKModding/RSDKv2-Decompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "win_x64.zip"
+    archive: zip
+    launch: { exe: "Nexus_64.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

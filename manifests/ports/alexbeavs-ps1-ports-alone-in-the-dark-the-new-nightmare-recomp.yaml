@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.6 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-alone-in-the-dark-the-new-nightmare-recomp
+game_key: aloneinthedarkthenewnightmare
+status: playable
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/alone-in-the-dark-the-new-nightmare-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Alone-in-the-Dark-The-New-Nightmare-Recompiled-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Alone_in_the_Dark__The_New_Nightmare.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Alone-in-the-Dark-The-New-Nightmare-Recompiled-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Alone_in_the_Dark__The_New_Nightmare" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

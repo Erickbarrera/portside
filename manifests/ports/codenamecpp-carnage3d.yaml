@@ -1,0 +1,20 @@
+# Generated from the release files of test_2 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: codenamecpp-carnage3d
+game_key: carnage3d
+status: playable
+source:
+  type: github_releases
+  repo: codenamecpp/carnage3d
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bin_windows.7z"
+    archive: 7z
+    strip_root: true
+    launch: { exe: "bin/Carnage3D.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,18 @@
+# Generated from the release files of v0.6.0-alpha and install-checked on 2026-10-16.
+schema: 1
+id: iexplosiverage-dbz-burst-limit-recompiled
+game_key: dragonballzburstlimit
+status: playable
+source:
+  type: github_releases
+  repo: iExplosiveRage/DBZ-Burst-Limit-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DBZ-Burst-Limit-Recompiled-*-linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "burstlimit.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

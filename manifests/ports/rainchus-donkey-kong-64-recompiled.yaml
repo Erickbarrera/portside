@@ -1,0 +1,36 @@
+# Generated from the release files of v1.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: rainchus-donkey-kong-64-recompiled
+game_key: donkeykong64
+status: playable
+source:
+  type: github_releases
+  repo: Rainchus/Donkey-Kong-64-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DK64Recompiled-Windows-Release-*.zip"
+    archive: zip
+    launch: { exe: "DK64Recompiled.exe" }
+  - os: macos
+    arch: arm64
+    asset: "DK64Recompiled-macOS-ARM64-Release-*.zip"
+    archive: zip
+    nested: { file: "DK64Recompiled.zip", archive: zip }
+    launch: { app_bundle: "DK64Recompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "DK64Recompiled-Linux-X64-Release-*.zip"
+    archive: zip
+    nested: { file: "DK64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "DK64Recompiled" }
+  - os: linux
+    arch: arm64
+    asset: "DK64Recompiled-Linux-ARM64-Release-*.zip"
+    archive: zip
+    nested: { file: "DK64Recompiled.tar.gz", archive: tar.gz }
+    launch: { exe: "DK64Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

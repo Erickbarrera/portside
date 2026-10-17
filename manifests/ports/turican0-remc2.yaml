@@ -1,0 +1,18 @@
+# Generated from the release files of 0.99 and install-checked on 2026-10-16.
+schema: 1
+id: turican0-remc2
+game_key: remc2
+status: playable
+source:
+  type: github_releases
+  repo: turican0/remc2
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Release_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "remc2_x64.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

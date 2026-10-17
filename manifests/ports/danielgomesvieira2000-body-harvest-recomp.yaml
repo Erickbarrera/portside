@@ -1,0 +1,23 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: danielgomesvieira2000-body-harvest-recomp
+game_key: bodyharvest
+status: in_progress
+source:
+  type: github_releases
+  repo: danielgomesvieira2000/body-harvest-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "body-harvest-recomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "body-harvest-recomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "body-harvest-recomp-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "body-harvest-recomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

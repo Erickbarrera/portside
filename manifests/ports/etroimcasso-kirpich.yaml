@@ -1,0 +1,41 @@
+# Generated from the release files of v0.10.1 and install-checked on 2026-10-16.
+schema: 1
+id: etroimcasso-kirpich
+game_key: tetriskirpich
+status: playable
+source:
+  type: github_releases
+  repo: etroimcasso/Kirpich
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Kirpich-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Kirpich.exe" }
+  - os: windows
+    arch: arm64
+    asset: "Kirpich-windows-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Kirpich.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Kirpich-macOS-arm64.dmg"
+    archive: dmg
+    launch: { app_bundle: "Kirpich.app" }
+  - os: linux
+    arch: x86_64
+    asset: "Kirpich-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Kirpich" }
+  - os: linux
+    arch: arm64
+    asset: "Kirpich-linux-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Kirpich" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

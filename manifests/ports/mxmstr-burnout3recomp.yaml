@@ -1,0 +1,17 @@
+# Generated from the release files of poc and install-checked on 2026-10-16.
+schema: 1
+id: mxmstr-burnout3recomp
+game_key: burnout3
+status: in_progress
+source:
+  type: github_releases
+  repo: mxmstr/Burnout3Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "B3Recomp.zip"
+    archive: zip
+    launch: { exe: "xdelta.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

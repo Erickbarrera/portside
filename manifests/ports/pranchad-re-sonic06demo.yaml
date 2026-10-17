@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1 and install-checked on 2026-10-16.
+schema: 1
+id: pranchad-re-sonic06demo
+game_key: sonic06demo
+status: in_progress
+source:
+  type: github_releases
+  repo: PranchaD/re-Sonic06Demo
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "sonic06demo.exe"
+    archive: none
+    launch: { exe: "sonic06demo.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

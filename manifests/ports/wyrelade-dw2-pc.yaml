@@ -1,0 +1,24 @@
+# Generated from the release files of v1.0.0-beta and install-checked on 2026-10-16.
+schema: 1
+id: wyrelade-dw2-pc
+game_key: digimonworld2
+status: in_progress
+source:
+  type: github_releases
+  repo: Wyrelade/DW2-PC
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DW2-PC-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dw2.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "DW2-PC-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dw2" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

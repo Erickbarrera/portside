@@ -1,0 +1,24 @@
+# Generated from the release files of v0.2 and install-checked on 2026-10-16.
+schema: 1
+id: urxp-drally
+game_key: drally
+status: in_progress
+source:
+  type: github_releases
+  repo: urxp/dRally
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dRally_Windows_x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dRally.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "dRally_Linux_x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "dRally" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

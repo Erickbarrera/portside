@@ -1,0 +1,18 @@
+# Generated from the release files of 1.05v and install-checked on 2026-10-16.
+schema: 1
+id: sonyentertainmentnetwork-bbpsx-decompilation
+game_key: bloodbornepsxbbpsx
+status: in_progress
+source:
+  type: github_releases
+  repo: SonyEntertainmentNetwork/BBPSX-Decompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BBPSX_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "WindowsNoEditor/BBPSX.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

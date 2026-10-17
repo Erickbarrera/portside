@@ -1,0 +1,22 @@
+# Generated from the release files of v0.6.2 and install-checked on 2026-10-16.
+schema: 1
+id: alondero-aerogauge-recomp
+game_key: aerogauge
+status: playable
+source:
+  type: github_releases
+  repo: alondero/aerogauge-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "aerogauge-recomp-windows-x64.zip"
+    archive: zip
+    launch: { exe: "aerogauge_modern.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "aerogauge-recomp-linux-x64.zip"
+    archive: zip
+    launch: { exe: "aerogauge_modern" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

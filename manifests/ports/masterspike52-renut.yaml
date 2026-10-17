@@ -1,0 +1,17 @@
+# Generated from the release files of texturereplacements and install-checked on 2026-10-16.
+schema: 1
+id: masterspike52-renut
+game_key: banjokazooienutsandbolts
+status: playable
+source:
+  type: github_releases
+  repo: masterspike52/reNut
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "renut-win-x64.zip"
+    archive: zip
+    launch: { exe: "renut.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

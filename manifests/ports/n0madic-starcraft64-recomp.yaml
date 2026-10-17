@@ -1,0 +1,31 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: n0madic-starcraft64-recomp
+game_key: starcraft64
+status: in_progress
+source:
+  type: github_releases
+  repo: n0madic/StarCraft64-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "StarCraft64-*-launcher-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "StarCraft64.exe" }
+  - os: macos
+    arch: arm64
+    asset: "StarCraft64-*-launcher-macos-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "StarCraft64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "StarCraft64-*-launcher-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "StarCraft64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

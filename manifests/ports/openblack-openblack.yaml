@@ -1,0 +1,29 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: openblack-openblack
+game_key: openblack
+status: playable
+source:
+  type: github_releases
+  repo: openblack/openblack
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openblack-*-windows-x64-release.zip"
+    archive: zip
+    launch: { exe: "openblack.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openblack-*-linux-x64-release.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "openblack", chmod_x: true }
+  - os: linux
+    arch: arm64
+    asset: "openblack-*-linux-arm64-release.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "openblack", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,18 @@
+# Generated from the release files of v0.1.5 and install-checked on 2026-10-16.
+schema: 1
+id: sirhalo23-ridgeracer6-recompilation
+game_key: ridgeracer6
+status: playable
+source:
+  type: github_releases
+  repo: Sirhalo23/RidgeRacer6-Recompilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "RidgeRacer6-PC-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "RR6 Launcher.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

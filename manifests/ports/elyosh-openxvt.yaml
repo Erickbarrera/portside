@@ -1,0 +1,24 @@
+# Generated from the release files of v0.0.5 and install-checked on 2026-10-16.
+schema: 1
+id: elyosh-openxvt
+game_key: openxvt
+status: playable
+source:
+  type: github_releases
+  repo: elyosh/OpenXvT
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openxvt-*-windows-x86_64-release.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenXvT.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openxvt-*-linux-x86_64-release.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "OpenXvT" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

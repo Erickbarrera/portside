@@ -1,0 +1,28 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: cellenseres-sssv-recomp
+game_key: spacestationsiliconvalley
+status: playable
+source:
+  type: github_releases
+  repo: Cellenseres/SSSV_Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SSSVRecompiled_*_Windows.zip"
+    archive: zip
+    launch: { exe: "SSSVRecompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "SSSVRecompiled_*_macOS.zip"
+    archive: zip
+    launch: { app_bundle: "SSSVRecompiled.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "SSSVRecompiled_*_Linux.tar.gz"
+    archive: tar.gz
+    launch: { exe: "SSSVRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

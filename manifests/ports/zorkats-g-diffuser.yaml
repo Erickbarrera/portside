@@ -1,0 +1,24 @@
+# Generated from the release files of v1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: zorkats-g-diffuser
+game_key: fzeroxgdiffuser
+status: in_progress
+source:
+  type: github_releases
+  repo: Zorkats/G-Diffuser
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "G-Diffuser-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "G-Diffuser.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "G-Diffuser-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "G-Diffuser" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

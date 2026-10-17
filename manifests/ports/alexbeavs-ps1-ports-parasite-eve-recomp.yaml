@@ -1,0 +1,22 @@
+# Generated from the release files of v0.4.0 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-parasite-eve-recomp
+game_key: parasiteeve
+status: playable
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/parasite-eve-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Parasite-Eve-Recompiled-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Parasite_Eve.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Parasite-Eve-Recompiled-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Parasite_Eve" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

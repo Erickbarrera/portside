@@ -1,0 +1,17 @@
+# Generated from the release files of v7533 and install-checked on 2026-10-16.
+schema: 1
+id: dcurrent-openbor
+game_key: beatsofrageopenbor
+status: playable
+source:
+  type: github_releases
+  repo: DCurrent/openbor
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "OpenBOR-Linux-x64-*.Build.*.AppImage"
+    archive: appimage
+    launch: { exe: "OpenBOR-Linux-x64-Build-AppImage" }
+changelog:
+  - "2026-10-16: initial (Linux)"

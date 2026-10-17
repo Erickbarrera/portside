@@ -1,0 +1,17 @@
+# Generated from the release files of v0.0.6 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-megamanzerorecomp
+game_key: megamanzero
+status: playable
+source:
+  type: github_releases
+  repo: mstan/MegaManZeroRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MegaManZeroRecomp-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "MegaManZeroRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

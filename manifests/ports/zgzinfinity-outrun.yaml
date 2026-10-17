@@ -1,0 +1,19 @@
+# Generated from the release files of v5.0-Windows and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: zgzinfinity-outrun
+game_key: outrun
+status: playable
+source:
+  type: github_releases
+  repo: ZgzInfinity/OutRun
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "outrun-*-W64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Outrun.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

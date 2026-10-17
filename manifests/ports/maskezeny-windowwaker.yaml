@@ -1,0 +1,17 @@
+# Generated from the release files of v1.0.0-win and install-checked on 2026-10-16.
+schema: 1
+id: maskezeny-windowwaker
+game_key: thelegendofzeldathewindwakerwindowwaker
+status: in_progress
+source:
+  type: github_releases
+  repo: MaskeZenY/WindowWaker
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SwitchWaker-Windows-x64.zip"
+    archive: zip
+    launch: { exe: "switchwaker.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

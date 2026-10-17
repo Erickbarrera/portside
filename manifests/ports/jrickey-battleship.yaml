@@ -1,0 +1,27 @@
+# Generated from the release files of v1.6 and install-checked on 2026-10-16.
+schema: 1
+id: jrickey-battleship
+game_key: supersmashbrosbattleship
+status: in_progress
+source:
+  type: github_releases
+  repo: JRickey/BattleShip
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BattleShip-JP-windows.zip"
+    archive: zip
+    launch: { exe: "BattleShip-JP.exe" }
+  - os: macos
+    arch: arm64
+    asset: "BattleShip-JP.dmg"
+    archive: dmg
+    launch: { app_bundle: "BattleShip-JP.app" }
+  - os: linux
+    arch: x86_64
+    asset: "BattleShip-JP-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "BattleShip-JP-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

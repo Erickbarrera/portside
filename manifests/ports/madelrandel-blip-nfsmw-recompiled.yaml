@@ -1,0 +1,18 @@
+# Generated from the release files of NFSMW-Recompiled-0.0.2 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: madelrandel-blip-nfsmw-recompiled
+game_key: needforspeedmostwanted
+status: playable
+source:
+  type: github_releases
+  repo: madelrandel-blip/NFSMW-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "win-amd64-release.zip"
+    archive: zip
+    launch: { exe: "NFS_Most_Wanted.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

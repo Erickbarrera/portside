@@ -1,0 +1,28 @@
+# Generated from the release files of 3.6.9 and install-checked on 2026-10-16.
+schema: 1
+id: qw-group-ezquake-source
+game_key: ezquake
+status: playable
+source:
+  type: github_releases
+  repo: QW-Group/ezquake-source
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ezQuake-windows-x64.zip"
+    archive: zip
+    launch: { exe: "ezquake.exe" }
+  - os: macos
+    arch: universal
+    asset: "ezQuake-macOS-universal.zip"
+    archive: zip
+    launch: { app_bundle: "ezQuake.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "ezQuake-linux-x86_64.zip"
+    archive: zip
+    launch: { exe: "ezQuake-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

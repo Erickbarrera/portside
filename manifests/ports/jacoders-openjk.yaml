@@ -1,0 +1,34 @@
+# Generated from the release files of latest and install-checked on 2026-10-16.
+schema: 1
+id: jacoders-openjk
+game_key: openjk
+status: playable
+source:
+  type: github_releases
+  repo: JACoders/OpenJK
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenJK-windows-x86_64.zip"
+    archive: zip
+    launch: { exe: "openjk_sp.x86_64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "OpenJK-macos-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { app_bundle: "openjk_sp.x86_64.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "OpenJK-macos-arm64.tar.gz"
+    archive: tar.gz
+    launch: { app_bundle: "openjk_sp.arm64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "OpenJK-linux-x86_64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "openjk_sp.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

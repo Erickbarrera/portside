@@ -1,0 +1,17 @@
+# Generated from the release files of ddr-1st-recomp-0.4.0 and install-checked on 2026-10-16.
+schema: 1
+id: bmbelo87-ddr-1st-recomp
+game_key: dancedancerevolution1stmix
+status: playable
+source:
+  type: github_releases
+  repo: bmbelo87/ddr-1st-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ddr1st-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Dance_Dance_Revolution_1st_Mix_Recompiled.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

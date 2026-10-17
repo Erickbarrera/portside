@@ -1,0 +1,42 @@
+# Generated from the release files of v1.7.4 and install-checked on 2026-10-16.
+schema: 1
+id: thextech-thextech
+game_key: supermariobrosxthextech
+status: playable
+source:
+  type: github_releases
+  repo: TheXTech/TheXTech
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "adventures-of-demo-thextech-*-win64.7z"
+    archive: 7z
+    strip_root: true
+    launch: { exe: "advdemo-win64.exe" }
+  - os: windows
+    arch: arm64
+    asset: "adventures-of-demo-thextech-*-win-arm64.7z"
+    archive: 7z
+    strip_root: true
+    launch: { exe: "advdemo-arm64.exe" }
+  - os: macos
+    arch: universal
+    asset: "thextech-game-template-*-macOS.zip"
+    archive: zip
+    launch: { app_bundle: "TheXTech.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "adventures-of-demo-thextech-*-linux-generic-u14.04-amd64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "advdemo" }
+  - os: linux
+    arch: arm64
+    asset: "adventures-of-demo-thextech-*-linux-generic-u20.04-aarch64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "advdemo" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

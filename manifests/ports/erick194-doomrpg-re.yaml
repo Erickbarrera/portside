@@ -1,0 +1,19 @@
+# Generated from the release files of v.0.2.2 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: erick194-doomrpg-re
+game_key: doomrpgdoomrpgre
+status: boots
+source:
+  type: github_releases
+  repo: Erick194/DoomRPG-RE
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DoomRPG_Port.-.*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "DoomRPG.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

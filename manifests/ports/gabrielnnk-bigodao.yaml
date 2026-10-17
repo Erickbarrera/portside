@@ -1,0 +1,24 @@
+# Generated from the release files of 0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: gabrielnnk-bigodao
+game_key: wariolandsupermarioland3
+status: playable
+source:
+  type: github_releases
+  repo: GABRIELNNK/Bigodao
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bigodao_win_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wario_land_port.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "bigodao_linux_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "wario_land_port", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

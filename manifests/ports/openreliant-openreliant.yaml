@@ -1,0 +1,36 @@
+# Generated from the release files of v0.18.0 and install-checked on 2026-10-16.
+schema: 1
+id: openreliant-openreliant
+game_key: openreliant
+status: playable
+source:
+  type: github_releases
+  repo: OpenReliant/openreliant
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openreliant-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "openreliant.exe" }
+  - os: windows
+    arch: arm64
+    asset: "openreliant-*-windows-aarch64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "openreliant.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "openreliant-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "openreliant" }
+  - os: linux
+    arch: arm64
+    asset: "openreliant-*-linux-aarch64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "openreliant" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

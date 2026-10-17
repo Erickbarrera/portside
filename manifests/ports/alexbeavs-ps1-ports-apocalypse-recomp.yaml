@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-apocalypse-recomp
+game_key: apocalypse
+status: in_progress
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/apocalypse-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "apocalypse-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Apocalypse_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "apocalypse-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Apocalypse_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

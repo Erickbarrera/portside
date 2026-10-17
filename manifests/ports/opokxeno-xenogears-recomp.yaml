@@ -1,0 +1,25 @@
+# Generated from the release files of v0.10.4 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: opokxeno-xenogears-recomp
+game_key: xenogears
+status: playable
+source:
+  type: github_releases
+  repo: OpokXeno/xenogears-recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "XenogearsRecomp-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "XenogearsRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "XenogearsRecomp-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "XenogearsRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

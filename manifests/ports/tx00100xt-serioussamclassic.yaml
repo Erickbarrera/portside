@@ -1,0 +1,30 @@
+# Generated from the release files of 1.10.7 and install-checked on 2026-10-16.
+schema: 1
+id: tx00100xt-serioussamclassic
+game_key: serioussamthefirstencounterserioussamclassictx00100xtcecilbotmod
+status: playable
+source:
+  type: github_releases
+  repo: tx00100xt/SeriousSamClassic
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SeriousSamClassic-*-directx9-win64-bin.7z"
+    archive: 7z
+    strip_root: true
+    launch: { exe: "SamTFE/Bin/SeriousSam.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SeriousSamClassic-*-alpine-musl-x86_64-bin.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "SamTFE/Bin/SeriousSam" }
+  - os: linux
+    arch: arm64
+    asset: "SeriousSamClassic-*-lnx-aarch64-bin.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "SamTFE/Bin/SeriousSam" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

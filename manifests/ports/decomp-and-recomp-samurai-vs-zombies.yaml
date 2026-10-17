@@ -1,0 +1,18 @@
+# Generated from the release files of 1.2 and install-checked on 2026-10-16.
+schema: 1
+id: decomp-and-recomp-samurai-vs-zombies
+game_key: samuraivszombies
+status: playable
+source:
+  type: github_releases
+  repo: Decomp-And-Recomp/Samurai-Vs-Zombies
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Samurai.Vs.Zombies.PC.7z"
+    archive: 7z
+    strip_root: true
+    launch: { exe: "Samurai Vs Zombies.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

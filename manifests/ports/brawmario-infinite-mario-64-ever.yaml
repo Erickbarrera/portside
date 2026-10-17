@@ -1,0 +1,29 @@
+# Generated from the release files of v0.1.5 and install-checked on 2026-10-16.
+schema: 1
+id: brawmario-infinite-mario-64-ever
+game_key: supermario64infinitemario64ever
+status: playable
+source:
+  type: github_releases
+  repo: Brawmario/infinite-mario-64-ever
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "infinite-mario-64-ever.*.windows.zip"
+    archive: zip
+    launch: { exe: "Infinite Mario 64.exe" }
+  - os: macos
+    arch: universal
+    asset: "infinite-mario-64-ever.*.mac.zip"
+    archive: zip
+    nested: { file: "infinite-mario-64.zip", archive: zip }
+    launch: { app_bundle: "Infinite Mario 64.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "infinite-mario-64-ever.*.linux.zip"
+    archive: zip
+    launch: { exe: "infinite-mario-64.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,23 @@
+# Generated from the release files of v1.8.3 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-fzerosnesrecomp
+game_key: fzero
+status: playable
+source:
+  type: github_releases
+  repo: mstan/FZeroSNESRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "FZeroSNESRecomp-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "FZeroSNESRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "FZeroSNESRecomp-linux-*-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "FZeroSNESRecomp-linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

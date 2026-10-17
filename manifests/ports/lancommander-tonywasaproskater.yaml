@@ -1,0 +1,22 @@
+# Generated from the release files of v1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: lancommander-tonywasaproskater
+game_key: tonyhawksproskatertonywasaproskater
+status: in_progress
+source:
+  type: github_releases
+  repo: LANCommander/TonyWasAProSkater
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "thps-windows-x64-*.zip"
+    archive: zip
+    launch: { exe: "thps.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "thps-linux-x64-*.tar.gz"
+    archive: tar.gz
+    launch: { exe: "thps" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

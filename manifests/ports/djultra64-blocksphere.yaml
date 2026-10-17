@@ -1,0 +1,24 @@
+# Generated from the release files of v1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: djultra64-blocksphere
+game_key: tetrisphere
+status: in_progress
+source:
+  type: github_releases
+  repo: djultra64/Blocksphere
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "blocksphere-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "tetrisphere.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "blocksphere-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "tetrisphere" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

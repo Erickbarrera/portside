@@ -1,0 +1,17 @@
+# Generated from the release files of v0.2 and install-checked on 2026-10-16.
+schema: 1
+id: 0c0de-splatterhouse-decomp
+game_key: splatterhouse
+status: boots
+source:
+  type: github_releases
+  repo: 0c0de/splatterhouse-decomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "splatterhouse-decomp-release.zip"
+    archive: zip
+    launch: { exe: "splatterhouse.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

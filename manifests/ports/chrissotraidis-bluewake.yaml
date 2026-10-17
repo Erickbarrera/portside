@@ -1,0 +1,18 @@
+# Generated from the release files of v0.7.0 and install-checked on 2026-10-16.
+schema: 1
+id: chrissotraidis-bluewake
+game_key: thelegendofzeldathewindwakerbluewake
+status: playable
+source:
+  type: github_releases
+  repo: chrissotraidis/bluewake
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "BlueWake-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "BlueWake.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

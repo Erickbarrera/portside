@@ -1,0 +1,24 @@
+# Generated from the release files of v0.3-db4dbc9 and install-checked on 2026-10-16.
+schema: 1
+id: afwbkbc-glsmac
+game_key: glsmac
+status: playable
+source:
+  type: github_releases
+  repo: afwbkbc/glsmac
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "glsmac-win64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "GLSMAC.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "glsmac-ubuntu64-*.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "GLSMAC" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

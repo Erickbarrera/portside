@@ -1,0 +1,23 @@
+# Generated from the release files of v0.9.1 and install-checked on 2026-10-16.
+schema: 1
+id: lethal-guitar-rigelengine
+game_key: rigelengine
+status: playable
+source:
+  type: github_releases
+  repo: lethal-guitar/RigelEngine
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "rigelengine_win_x64.zip"
+    archive: zip
+    launch: { exe: "RigelEngine.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "rigelengine_mac_x64.dmg"
+    archive: dmg
+    launch: { app_bundle: "RigelEngine.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

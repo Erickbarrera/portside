@@ -1,0 +1,19 @@
+# Generated from the release files of v0.1.7-diagnostic-playtest and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: samsteprojects-legend-of-legaia-recomp
+game_key: legendoflegaia
+status: playable
+source:
+  type: github_releases
+  repo: SamSteProjects/legend-of-legaia-recomp
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "LegaiaRecomp-windows-x64-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "LegaiaRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

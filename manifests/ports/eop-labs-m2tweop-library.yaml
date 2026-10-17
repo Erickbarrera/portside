@@ -1,0 +1,18 @@
+# Generated from the release files of M2TWEOP-3.3.1 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: eop-labs-m2tweop-library
+game_key: medievaliitotalwarm2tweop
+status: in_progress
+source:
+  type: github_releases
+  repo: EOP-Labs/M2TWEOP-library
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "*.zip"
+    archive: zip
+    launch: { exe: "M2TWEOP GUI.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,17 @@
+# Generated from the release files of v1.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: ronniecloud-re-wor
+game_key: guitarherowarriorsofrock
+status: in_progress
+source:
+  type: github_releases
+  repo: ronniecloud/re-wor
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "re-wor-*.zip"
+    archive: zip
+    launch: { exe: "Guitar Hero Warriors of Rock.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

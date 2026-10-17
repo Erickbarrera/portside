@@ -1,0 +1,22 @@
+# Generated from the release files of v0.9.0 and install-checked on 2026-10-16.
+schema: 1
+id: cruxxxxxx-gdx-3ds
+game_key: fzeroxgdx3ds
+status: boots
+source:
+  type: github_releases
+  repo: cruxxxxxx/gdx-3ds
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "gdx-extract-windows-x64.zip"
+    archive: zip
+    launch: { exe: "gdx-extract.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "gdx-extract-linux-x64.zip"
+    archive: zip
+    launch: { exe: "gdx-extract" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

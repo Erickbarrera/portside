@@ -1,0 +1,17 @@
+# Generated from the release files of new and install-checked on 2026-10-16.
+schema: 1
+id: masterspike52-redahm
+game_key: destroyallhumanspathofthefuron
+status: playable
+source:
+  type: github_releases
+  repo: masterspike52/reDAHM
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "redahm-win-x64.zip"
+    archive: zip
+    launch: { exe: "redahm.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

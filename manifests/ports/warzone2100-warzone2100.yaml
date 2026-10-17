@@ -1,0 +1,28 @@
+# Generated from the release files of 4.7.0 and install-checked on 2026-10-16.
+schema: 1
+id: warzone2100-warzone2100
+game_key: warzone2100
+status: perfect
+source:
+  type: github_releases
+  repo: Warzone2100/warzone2100
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "warzone2100_win_x64_archive.zip"
+    archive: zip
+    launch: { exe: "bin/warzone2100.exe" }
+  - os: windows
+    arch: arm64
+    asset: "warzone2100_win_arm64_archive.zip"
+    archive: zip
+    launch: { exe: "bin/warzone2100.exe" }
+  - os: macos
+    arch: universal
+    asset: "warzone2100_macOS_universal.zip"
+    archive: zip
+    launch: { app_bundle: "Warzone 2100.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

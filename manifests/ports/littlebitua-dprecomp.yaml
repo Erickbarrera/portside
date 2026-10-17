@@ -1,0 +1,18 @@
+# Generated from the release files of v2.0.14 and install-checked on 2026-10-16.
+schema: 1
+id: littlebitua-dprecomp
+game_key: deadlypremonition
+status: playable
+source:
+  type: github_releases
+  repo: LittleBitUA/DPRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DPRecomp-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "PlayDeadlyPremonition.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

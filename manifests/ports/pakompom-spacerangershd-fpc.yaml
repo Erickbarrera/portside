@@ -1,0 +1,24 @@
+# Generated from the release files of build-20261015-163828-1d1835a1e6b3 and install-checked on 2026-10-16.
+schema: 1
+id: pakompom-spacerangershd-fpc
+game_key: spacerangershdawarapartspacerangershdfpc
+status: in_progress
+source:
+  type: github_releases
+  repo: pakompom/SpaceRangersHD_FPC
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SpaceRangersHD-Windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Rangers.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "SpaceRangersHD-Linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "Rangers" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

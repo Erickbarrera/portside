@@ -1,0 +1,35 @@
+# Generated from the release files of Nightly and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: simutrans-simutrans
+game_key: simutrans
+status: playable
+source:
+  type: github_releases
+  repo: simutrans/simutrans
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "makeobj-win-*.zip"
+    archive: zip
+    launch: { exe: "makeobj.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "simumac-intel-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "simutrans.app" }
+  - os: macos
+    arch: arm64
+    asset: "simumac-arm-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "simutrans.app" }
+  - os: linux
+    arch: x86_64
+    asset: "makeobj_linux-x64-*.zip"
+    archive: zip
+    launch: { exe: "makeobj" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

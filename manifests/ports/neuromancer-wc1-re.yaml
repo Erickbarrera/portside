@@ -1,0 +1,22 @@
+# Generated from the release files of v0.0.13 and install-checked on 2026-10-16.
+schema: 1
+id: neuromancer-wc1-re
+game_key: wc1re
+status: playable
+source:
+  type: github_releases
+  repo: neuromancer/wc1-re
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "wc1-re-*-windows-x86_64-sdl2.zip"
+    archive: zip
+    launch: { exe: "wc1-modern.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "wc1-re-*-linux-x86_64-sdl2.zip"
+    archive: zip
+    launch: { exe: "wc1-modern" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

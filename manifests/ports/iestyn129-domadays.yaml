@@ -1,0 +1,23 @@
+# Generated from the release files of 1.02 and install-checked on 2026-10-16.
+schema: 1
+id: iestyn129-domadays
+game_key: domadays
+status: boots
+source:
+  type: github_releases
+  repo: iestyn129/DOMADays
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DOMADays.v*.zip"
+    archive: zip
+    launch: { exe: "DOMADays.exe" }
+  - os: macos
+    arch: universal
+    asset: "DOMADays.v*.zip"
+    archive: zip
+    launch: { app_bundle: "DOMADays.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

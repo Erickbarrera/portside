@@ -1,0 +1,43 @@
+# Generated from the release files of v0.8.1 and install-checked on 2026-10-16.
+# The Windows program is 32-bit; it runs on 64-bit Windows.
+schema: 1
+id: open-annihilation-open-annihilation
+game_key: openannihilation
+status: playable
+source:
+  type: github_releases
+  repo: open-annihilation/open-annihilation
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "open-annihilation-*-windows-95.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "open-annihilation.exe" }
+  - os: windows
+    arch: arm64
+    asset: "open-annihilation-*-windows-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "open-annihilation.exe" }
+  - os: macos
+    arch: universal
+    asset: "open-annihilation-*-macos-universal.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Open Annihilation.app" }
+  - os: linux
+    arch: x86_64
+    asset: "open-annihilation-*-linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "open-annihilation" }
+  - os: linux
+    arch: arm64
+    asset: "open-annihilation-*-linux-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "open-annihilation" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

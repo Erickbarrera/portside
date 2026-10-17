@@ -1,0 +1,22 @@
+# Generated from the release files of 3.8.0 and install-checked on 2026-10-16.
+schema: 1
+id: deathkiller-jazz2
+game_key: jazzresurrection
+status: playable
+source:
+  type: github_releases
+  repo: deathkiller/jazz2
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Jazz2_*_Windows.zip"
+    archive: zip
+    launch: { exe: "x64/Jazz2.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Jazz2_*_Linux.zip"
+    archive: zip
+    launch: { exe: "x64/jazz2", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

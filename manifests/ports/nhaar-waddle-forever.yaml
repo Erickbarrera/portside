@@ -1,0 +1,23 @@
+# Generated from the release files of v1.5.1 and install-checked on 2026-10-16.
+schema: 1
+id: nhaar-waddle-forever
+game_key: clubpenguinwaddleforever
+status: playable
+source:
+  type: github_releases
+  repo: nhaar/Waddle-Forever
+  channel: stable
+builds:
+  - os: macos
+    arch: x86_64
+    asset: "WaddleForever-*.dmg"
+    archive: dmg
+    launch: { app_bundle: "Waddle Forever.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "WaddleForeverClient-*.AppImage"
+    archive: appimage
+    launch: { exe: "WaddleForeverClient-AppImage" }
+changelog:
+  - "2026-10-16: initial (macOS, Linux)"

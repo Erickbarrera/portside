@@ -1,0 +1,27 @@
+# Generated from the release files of 1.1.17 and install-checked on 2026-10-16.
+schema: 1
+id: ihhub-fheroes2
+game_key: fheroes2
+status: playable
+source:
+  type: github_releases
+  repo: ihhub/fheroes2
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "fheroes2_windows_x64_SDL2.zip"
+    archive: zip
+    launch: { exe: "fheroes2.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "fheroes2_ubuntu_x86-64_SDL2.zip"
+    archive: zip
+    launch: { exe: "fheroes2" }
+  - os: linux
+    arch: arm64
+    asset: "fheroes2_ubuntu_arm64_SDL2.zip"
+    archive: zip
+    launch: { exe: "fheroes2" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

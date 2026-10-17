@@ -1,0 +1,30 @@
+# Generated from the release files of v7.2.2 and install-checked on 2026-10-16.
+schema: 1
+id: sergiou87-open-supaplex
+game_key: supaplexopensupaplex
+status: in_progress
+source:
+  type: github_releases
+  repo: sergiou87/open-supaplex
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenSupaplex-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenSupaplex.exe" }
+  - os: macos
+    arch: universal
+    asset: "OpenSupaplex-macOS.zip"
+    archive: zip
+    launch: { app_bundle: "OpenSupaplex.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "OpenSupaplex-linux.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OpenSupaplex" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

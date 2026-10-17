@@ -1,0 +1,18 @@
+# Generated from the release files of 0.1.0 and install-checked on 2026-10-16.
+# Upstream publishes prereleases only, so this follows them.
+schema: 1
+id: 3dge7161-jiggle-or-physics
+game_key: deadoralivejiggleorphysics
+status: in_progress
+source:
+  type: github_releases
+  repo: 3dge7161/Jiggle-or-Physics
+  channel: prerelease
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Jiggle.or.Physics.v*.zip"
+    archive: zip
+    launch: { exe: "Jiggle or Physics.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

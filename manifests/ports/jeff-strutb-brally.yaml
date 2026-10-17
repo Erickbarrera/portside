@@ -1,0 +1,24 @@
+# Generated from the release files of v0.88 and install-checked on 2026-10-16.
+schema: 1
+id: jeff-strutb-brally
+game_key: bossrally
+status: boots
+source:
+  type: github_releases
+  repo: jeff-strutb/brally
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "RallyBuilder-*-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "RallyBuilder.exe" }
+  - os: macos
+    arch: universal
+    asset: "RallyBuilder-*-macOS.zip"
+    archive: zip
+    launch: { app_bundle: "Rally Builder.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

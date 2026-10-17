@@ -1,0 +1,29 @@
+# Generated from the release files of v2.6.5-1 and install-checked on 2026-10-16.
+schema: 1
+id: nxengine-nxengine-evo
+game_key: nxengineevo
+status: playable
+source:
+  type: github_releases
+  repo: nxengine/nxengine-evo
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "NXEngine-Evo-*-Win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "nx.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "NXEngine-Evo-*-OSX.dmg"
+    archive: dmg
+    launch: { app_bundle: "NXEngine.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "NXEngine-Evo-*-Linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "NXEngine-Evo-Linux-x86_64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

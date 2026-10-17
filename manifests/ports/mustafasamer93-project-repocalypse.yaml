@@ -1,0 +1,24 @@
+# Generated from the release files of v1.0 and install-checked on 2026-10-16.
+schema: 1
+id: mustafasamer93-project-repocalypse
+game_key: apocalypseprojectrepocalypse
+status: playable
+source:
+  type: github_releases
+  repo: MustafaSamer93/Project_Repocalypse
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Repocalypse-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "repocalypse.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Repocalypse-*-linux-x64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "repocalypse" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

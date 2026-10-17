@@ -1,0 +1,23 @@
+# Generated from the release files of 0.7.0 and install-checked on 2026-10-16.
+schema: 1
+id: opencrystalcaves-opencrystalcaves
+game_key: opencrystalcaves
+status: playable
+source:
+  type: github_releases
+  repo: OpenCrystalCaves/OpenCrystalCaves
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OpenCrystalCaves-*-win64-occ.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "occ.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "OpenCrystalCaves-*-Linux-occ.tar.gz"
+    archive: tar.gz
+    launch: { exe: "occ" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

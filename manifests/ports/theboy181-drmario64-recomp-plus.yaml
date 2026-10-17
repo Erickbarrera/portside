@@ -1,0 +1,18 @@
+# Generated from the release files of 1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: theboy181-drmario64-recomp-plus
+game_key: drmario64
+status: in_progress
+source:
+  type: github_releases
+  repo: theboy181/drmario64_recomp_plus
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Dr.Mario.64.Recompiled-v*-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "drmario64_recomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,17 @@
+# Generated from the release files of V1 and install-checked on 2026-10-16.
+schema: 1
+id: smiluredev-sonicadvancerecomp
+game_key: sonicadvance
+status: in_progress
+source:
+  type: github_releases
+  repo: smiluredev/SonicAdvanceRecomp
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "SonicAdvanceRecomp_Linux1-0-0.tar.xz"
+    archive: tar.xz
+    launch: { exe: "SonicAdvance" }
+changelog:
+  - "2026-10-16: initial (Linux)"

@@ -1,0 +1,17 @@
+# Generated from the release files of v0.1.13 and install-checked on 2026-10-16.
+schema: 1
+id: lordingard-sacredstonesrecomp
+game_key: fireemblemthesacredstones
+status: playable
+source:
+  type: github_releases
+  repo: Lordingard/SacredStonesRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SacredStonesRecomp-*-win64.zip"
+    archive: zip
+    launch: { exe: "SacredStonesRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

@@ -1,0 +1,22 @@
+# Generated from the release files of v1.4.5.2 and install-checked on 2026-10-16.
+schema: 1
+id: novapowers0-dbz-budokai-3-hd-collection
+game_key: dragonballzbudokai3hdbudokai3hd
+status: playable
+source:
+  type: github_releases
+  repo: novapowers0/DBZ-Budokai-3-HD-Collection
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DBZ-Budokai-3-HD-Collection-*.zip"
+    archive: zip
+    launch: { exe: "dbz3.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "DBZ-Budokai-3-HD-Collection-*-linux-amd64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "dbz3" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

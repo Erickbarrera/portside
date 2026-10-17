@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.4 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-alien-resurrection-recomp
+game_key: alienresurrection
+status: playable
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/alien-resurrection-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "alien-resurrection-recomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Alien_Resurrection_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "alien-resurrection-recomp-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Alien_Resurrection_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

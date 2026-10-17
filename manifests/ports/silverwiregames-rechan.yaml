@@ -1,0 +1,22 @@
+# Generated from the release files of v1.0.1 and install-checked on 2026-10-16.
+schema: 1
+id: silverwiregames-rechan
+game_key: jackiechanstuntmasterrechan
+status: playable
+source:
+  type: github_releases
+  repo: SilverwireGames/ReChan
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "rechan-win64.zip"
+    archive: zip
+    launch: { exe: "rechan.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "rechan-linux64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "rechan" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

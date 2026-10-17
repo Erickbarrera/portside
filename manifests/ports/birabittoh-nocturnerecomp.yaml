@@ -1,0 +1,27 @@
+# Generated from the release files of v1.4.5 and install-checked on 2026-10-16.
+schema: 1
+id: birabittoh-nocturnerecomp
+game_key: castlevaniasymphonyofthenightnocturnerecomp
+status: playable
+source:
+  type: github_releases
+  repo: birabittoh/NocturneRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "nocturnerecomp-tu-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "nocturnerecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "nocturnerecomp-tu-*-linux-x64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "nocturnerecomp" }
+  - os: linux
+    arch: arm64
+    asset: "nocturnerecomp-tu-*-linux-arm64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "nocturnerecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

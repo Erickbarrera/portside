@@ -1,0 +1,35 @@
+# Generated from the release files of v0.0.8.6 and install-checked on 2026-10-16.
+schema: 1
+id: kandowontu2-starfox-enhanced
+game_key: starfox
+status: boots
+source:
+  type: github_releases
+  repo: kandowontu2/starfox-enhanced
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "StarFoxAssetBuilder-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "starfox_asset_builder.exe" }
+  - os: macos
+    arch: universal
+    asset: "StarFoxEnhanced-*-macos-universal.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "StarFoxEnhanced.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "StarFoxEnhanced-*-linux-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "StarFoxEnhanced-linux-x64/starfox_pc" }
+  - os: linux
+    arch: arm64
+    asset: "StarFoxEnhanced-*-steam-frame-arm64.zip"
+    archive: zip
+    launch: { exe: "starfox_steamframe" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

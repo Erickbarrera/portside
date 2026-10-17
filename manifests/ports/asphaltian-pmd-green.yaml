@@ -1,0 +1,30 @@
+# Generated from the release files of v0.1.0 and install-checked on 2026-10-16.
+schema: 1
+id: asphaltian-pmd-green
+game_key: pokemonmysterydungeonredrescueteam
+status: in_progress
+source:
+  type: github_releases
+  repo: Asphaltian/pmd-green
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "GreenRescueTeam-*-Windows.zip"
+    archive: zip
+    launch: { exe: "pmd_green.exe" }
+  - os: macos
+    arch: arm64
+    asset: "GreenRescueTeam-*-macOS.zip"
+    archive: zip
+    nested: { file: "pmd_green.zip", archive: zip }
+    launch: { app_bundle: "Green Rescue Team.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "GreenRescueTeam-*-Linux.zip"
+    archive: zip
+    nested: { file: "pmd_green.tar.gz", archive: tar.gz }
+    launch: { exe: "pmd_green" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

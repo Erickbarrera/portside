@@ -1,0 +1,29 @@
+# Generated from the release files of 1.0.3 and install-checked on 2026-10-16.
+schema: 1
+id: harbourmasters-paperboat
+game_key: papermario64paperboat
+status: in_progress
+source:
+  type: github_releases
+  repo: HarbourMasters/PaperBoat
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Paperboat-Mulberry-Delta-Win64.zip"
+    archive: zip
+    launch: { exe: "Paperboat.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Paperboat-Mulberry-Delta-Mac.zip"
+    archive: zip
+    nested: { file: "Paperboat.dmg", archive: dmg }
+    launch: { app_bundle: "Paperboat.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "Paperboat-Mulberry-Delta-Linux.zip"
+    archive: zip
+    launch: { exe: "Paperboat.AppImage", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

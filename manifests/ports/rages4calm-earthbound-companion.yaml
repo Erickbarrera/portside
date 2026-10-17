@@ -1,0 +1,18 @@
+# Generated from the release files of v1.0.8 and install-checked on 2026-10-16.
+schema: 1
+id: rages4calm-earthbound-companion
+game_key: earthboundcompanion
+status: playable
+source:
+  type: github_releases
+  repo: rages4calm/earthbound-companion
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "EarthBound-Companion-Windows-*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "EarthBound Companion.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

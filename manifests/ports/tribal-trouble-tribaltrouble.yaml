@@ -1,0 +1,33 @@
+# Generated from the release files of v2.1.96-103.1009 and install-checked on 2026-10-16.
+schema: 1
+id: tribal-trouble-tribaltrouble
+game_key: tribaltrouble
+status: playable
+source:
+  type: github_releases
+  repo: Tribal-Trouble/tribaltrouble
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "tribal-trouble-windows_*.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "TribalTrouble.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "tribal-trouble-mac-x86_*.dmg"
+    archive: dmg
+    launch: { app_bundle: "TribalTrouble.app" }
+  - os: macos
+    arch: arm64
+    asset: "tribal-trouble-mac-arm64_*.dmg"
+    archive: dmg
+    launch: { app_bundle: "TribalTrouble.app" }
+  - os: linux
+    arch: x86_64
+    asset: "tribal-trouble-linux-appimage_*.AppImage"
+    archive: appimage
+    launch: { exe: "tribal-trouble-linux-appimage-AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

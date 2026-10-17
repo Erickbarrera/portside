@@ -1,0 +1,17 @@
+# Generated from the release files of 2.4.0.1008 and install-checked on 2026-10-16.
+schema: 1
+id: spacefarergames-aloneinthedarkrehaunted
+game_key: aloneinthedarkaloneinthedarkrehaunted
+status: playable
+source:
+  type: github_releases
+  repo: spacefarergames/AloneInTheDarkReHaunted
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "AITD_REHAUNTED_*_Win64.zip"
+    archive: zip
+    launch: { exe: "Tatou.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

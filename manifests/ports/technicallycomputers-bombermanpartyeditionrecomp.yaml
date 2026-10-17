@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.18 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-bombermanpartyeditionrecomp
+game_key: bombermanpartyeditionbombermanpartyedition
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/BombermanPartyEditionRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "bpe-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Bomberman_Party_Edition_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "bpe-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Bomberman_Party_Edition_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,19 @@
+# Generated from the release files of 20251222 and install-checked on 2026-10-16.
+schema: 1
+id: fabiangreffrath-taradino
+game_key: taradino
+status: playable
+source:
+  type: github_releases
+  repo: fabiangreffrath/taradino
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "taradino-*-win64.zip"
+    archive: zip
+    nested: { file: "build-registered/taradino-*-win64.zip", archive: zip }
+    strip_root: true
+    launch: { exe: "taradino.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

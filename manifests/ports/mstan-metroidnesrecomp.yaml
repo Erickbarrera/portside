@@ -1,0 +1,17 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: mstan-metroidnesrecomp
+game_key: metroid
+status: playable
+source:
+  type: github_releases
+  repo: mstan/MetroidNESRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "MetroidNESRecomp-Europe-PAL-cycle-preview-windows-x64.zip"
+    archive: zip
+    launch: { exe: "MetroidNESRecomp.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

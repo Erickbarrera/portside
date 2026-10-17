@@ -1,0 +1,22 @@
+# Generated from the release files of v1.0.1 and install-checked on 2026-10-16.
+schema: 1
+id: ed1z19-valkyrierecomp
+game_key: valkyrieprofile
+status: in_progress
+source:
+  type: github_releases
+  repo: Ed1z19/ValkyrieRecomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ValkyrieRecomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "ValkyrieRecomp.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ValkyrieRecomp-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "ValkyrieRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

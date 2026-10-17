@@ -1,0 +1,27 @@
+# Generated from the release files of v1.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: exok-celeste64
+game_key: celeste64fragmentsofthemountain
+status: playable
+source:
+  type: github_releases
+  repo: EXOK/Celeste64
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Celeste64-*-Windows-x64.zip"
+    archive: zip
+    launch: { exe: "Celeste64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Celeste64-*-Linux-x64.zip"
+    archive: zip
+    launch: { exe: "Celeste64" }
+  - os: linux
+    arch: arm64
+    asset: "Celeste64-*-Linux-arm64.zip"
+    archive: zip
+    launch: { exe: "Celeste64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,24 @@
+# Generated from the release files of ci-dev-build and install-checked on 2026-10-16.
+schema: 1
+id: perfect-dark-pc-port-perfect-dark
+game_key: perfectdark
+status: playable
+source:
+  type: github_releases
+  repo: perfect-dark-pc-port/perfect_dark
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "pd-x86_64-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "pd.x86_64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "pd-x86_64-linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "pd.x86_64", chmod_x: true }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

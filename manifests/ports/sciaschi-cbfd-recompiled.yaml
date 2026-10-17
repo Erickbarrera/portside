@@ -1,0 +1,30 @@
+# Generated from the release files of V0.1.6 and install-checked on 2026-10-16.
+schema: 1
+id: sciaschi-cbfd-recompiled
+game_key: conkersbadfurday
+status: playable
+source:
+  type: github_releases
+  repo: sciaschi/CBFD-Recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ConkerRecompiled-*-Windows.zip"
+    archive: zip
+    launch: { exe: "ConkerRecomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "ConkerRecompiled-*-macOS.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "ConkerRecomp.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "ConkerRecompiled-*-Linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ConkerRecomp" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

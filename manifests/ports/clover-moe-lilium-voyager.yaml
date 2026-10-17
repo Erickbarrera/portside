@@ -1,0 +1,30 @@
+# Generated from the release files of v1.40 and install-checked on 2026-10-16.
+schema: 1
+id: clover-moe-lilium-voyager
+game_key: liliumvoyager
+status: in_progress
+source:
+  type: github_releases
+  repo: clover-moe/lilium-voyager
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "liliumvoyager-*-windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "liliumvoyhm.x86_64.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "liliumvoyager-*-macosx.dmg"
+    archive: dmg
+    launch: { app_bundle: "liliumvoyager-1.40-macosx/Lilium Voyager.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "liliumvoyager-*-linux.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "liliumvoyhm.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

@@ -1,0 +1,22 @@
+# Generated from the release files of v0.2.16 and install-checked on 2026-10-16.
+schema: 1
+id: technicallycomputers-street-fighter-alpha-3-recomp
+game_key: streetfighteralpha3
+status: playable
+source:
+  type: github_releases
+  repo: TechnicallyComputers/Street-Fighter-Alpha-3-Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "sfa-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Street_Fighter_Alpha_3__Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "sfa-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Street_Fighter_Alpha_3__Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

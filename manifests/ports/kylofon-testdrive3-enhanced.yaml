@@ -1,0 +1,18 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: kylofon-testdrive3-enhanced
+game_key: testdriveiiienhanced
+status: playable
+source:
+  type: github_releases
+  repo: kylofon/testdrive3-enhanced
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "testdrive3-enhanced-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "testdrive3-enhanced.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

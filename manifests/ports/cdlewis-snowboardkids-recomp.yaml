@@ -1,0 +1,32 @@
+# Generated from the release files of v1.0.6 and install-checked on 2026-10-16.
+schema: 1
+id: cdlewis-snowboardkids-recomp
+game_key: snowboardkidssnowboardkids
+status: in_progress
+source:
+  type: github_releases
+  repo: cdlewis/snowboardkids-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "SnowboardKidsRecompiled-Windows.zip"
+    archive: zip
+    launch: { exe: "SnowboardKidsRecompiled.exe" }
+  - os: macos
+    arch: universal
+    asset: "SnowboardKidsRecompiled-macOS.zip"
+    archive: zip
+    launch: { app_bundle: "SnowboardKidsRecompiled.app" }
+  - os: linux
+    arch: x86_64
+    asset: "SnowboardKidsRecompiled-Linux-X64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "SnowboardKidsRecompiled" }
+  - os: linux
+    arch: arm64
+    asset: "SnowboardKidsRecompiled-Linux-ARM64.tar.gz"
+    archive: tar.gz
+    launch: { exe: "SnowboardKidsRecompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

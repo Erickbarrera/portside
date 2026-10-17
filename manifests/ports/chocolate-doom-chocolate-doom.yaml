@@ -1,0 +1,29 @@
+# Generated from the release files of chocolate-doom-3.1.1 and install-checked on 2026-10-16.
+schema: 1
+id: chocolate-doom-chocolate-doom
+game_key: chocolatedoom
+status: playable
+source:
+  type: github_releases
+  repo: chocolate-doom/chocolate-doom
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "chocolate-doom-3.1.1-win64.zip"
+    archive: zip
+    launch: { exe: "chocolate-doom.exe" }
+  - os: macos
+    arch: x86_64
+    asset: "*-x86.dmg"
+    archive: dmg
+    launch: { app_bundle: "Chocolate Doom.app" }
+    unsigned: true
+  - os: macos
+    arch: arm64
+    asset: "*-arm64.dmg"
+    archive: dmg
+    launch: { app_bundle: "Chocolate Doom.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

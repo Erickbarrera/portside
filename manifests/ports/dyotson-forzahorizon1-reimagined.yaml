@@ -1,0 +1,18 @@
+# Generated from the release files of v0.1.8 and install-checked on 2026-10-16.
+schema: 1
+id: dyotson-forzahorizon1-reimagined
+game_key: forzahorizonforzahorizon1reimagined
+status: playable
+source:
+  type: github_releases
+  repo: Dyotson/ForzaHorizon1-ReImagined
+  channel: stable
+builds:
+  - os: linux
+    arch: x86_64
+    asset: "ForzaHorizon1-ReImagined-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "forza-launcher" }
+changelog:
+  - "2026-10-16: initial (Linux)"

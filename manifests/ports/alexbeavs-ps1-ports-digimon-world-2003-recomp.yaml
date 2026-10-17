@@ -1,0 +1,22 @@
+# Generated from the release files of v0.3.6 and install-checked on 2026-10-16.
+schema: 1
+id: alexbeavs-ps1-ports-digimon-world-2003-recomp
+game_key: digimonworld2003
+status: playable
+source:
+  type: github_releases
+  repo: alexbeavs-ps1-ports/digimon-world-2003-recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Digimon-World-2003-Recomp-*-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Digimon_World_2003_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "Digimon-World-2003-Recomp-*-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Digimon_World_2003_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

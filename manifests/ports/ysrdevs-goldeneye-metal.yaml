@@ -1,0 +1,17 @@
+# Generated from the release files of v0.5.1 and install-checked on 2026-10-16.
+schema: 1
+id: ysrdevs-goldeneye-metal
+game_key: goldeneye007goldeneyemetal
+status: playable
+source:
+  type: github_releases
+  repo: ysrdevs/goldeneye-metal
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "GoldenEye-Metal-*-macos-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "GoldenEye Metal.app" }
+changelog:
+  - "2026-10-16: initial (macOS)"

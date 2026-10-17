@@ -1,0 +1,17 @@
+# Generated from the release files of v0.0.2 and install-checked on 2026-10-16.
+schema: 1
+id: wistfulhopes-dbz1
+game_key: dragonballzbudokaihdcollection
+status: in_progress
+source:
+  type: github_releases
+  repo: WistfulHopes/DBZ1
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "dbz1.exe"
+    archive: none
+    launch: { exe: "dbz1.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

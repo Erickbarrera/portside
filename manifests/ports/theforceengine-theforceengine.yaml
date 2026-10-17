@@ -1,0 +1,17 @@
+# Generated from the release files of v1.22.420 and install-checked on 2026-10-16.
+schema: 1
+id: theforceengine-theforceengine
+game_key: theforceengine
+status: playable
+source:
+  type: github_releases
+  repo: TheForceEngine/TheForceEngine
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "TheForceEngine-v1.22.420.zip"
+    archive: zip
+    launch: { exe: "TheForceEngine.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

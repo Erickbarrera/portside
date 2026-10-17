@@ -1,0 +1,25 @@
+# Generated from the release files of v0.0.17 and install-checked on 2026-10-16.
+schema: 1
+id: elliotttate-dkc1recomp
+game_key: donkeykongcountry
+status: playable
+source:
+  type: github_releases
+  repo: elliotttate/DKC1Recomp
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "DKC1Recomp-*-Windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "DKC1Recomp.exe" }
+  - os: macos
+    arch: arm64
+    asset: "DKC1Recomp-*-macOS-arm64-HD-Preview.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "DKC1Recomp-HD.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (Windows, macOS)"

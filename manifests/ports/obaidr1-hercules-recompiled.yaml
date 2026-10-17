@@ -1,0 +1,22 @@
+# Generated from the release files of v0.5.4 and install-checked on 2026-10-16.
+schema: 1
+id: obaidr1-hercules-recompiled
+game_key: disneysherculesactiongamehercules
+status: playable
+source:
+  type: github_releases
+  repo: obaidr1/hercules-recompiled
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "hercules-recompiled-windows-x64.zip"
+    archive: zip
+    launch: { exe: "Hercules_Recompiled.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "hercules-recompiled-linux-x64.zip"
+    archive: zip
+    launch: { exe: "Hercules_Recompiled" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

@@ -1,0 +1,33 @@
+# Generated from the release files of 4.0.1 and install-checked on 2026-10-16.
+schema: 1
+id: jorio-ottomatic
+game_key: ottomatic
+status: in_progress
+source:
+  type: github_releases
+  repo: jorio/OttoMatic
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "OttoMatic-*-windows-x64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "OttoMatic.exe" }
+  - os: macos
+    arch: universal
+    asset: "OttoMatic-*-mac.dmg"
+    archive: dmg
+    launch: { app_bundle: "Otto Matic.app" }
+  - os: linux
+    arch: x86_64
+    asset: "OttoMatic-*-linux-x86_64.AppImage"
+    archive: appimage
+    launch: { exe: "OttoMatic-linux-x86_64.AppImage" }
+  - os: linux
+    arch: arm64
+    asset: "OttoMatic-*-linux-aarch64.AppImage"
+    archive: appimage
+    launch: { exe: "OttoMatic-linux-aarch64.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

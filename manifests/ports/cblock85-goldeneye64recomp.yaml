@@ -1,0 +1,18 @@
+# Generated from the release files of v1.0.0 and install-checked on 2026-10-16.
+schema: 1
+id: cblock85-goldeneye64recomp
+game_key: goldeneye007
+status: in_progress
+source:
+  type: github_releases
+  repo: cblock85/GoldenEye64Recomp
+  channel: stable
+builds:
+  - os: macos
+    arch: arm64
+    asset: "GoldenEye64Recomp-*-macOS-arm64.zip"
+    archive: zip
+    launch: { app_bundle: "GoldenEye 007 Recompiled.app" }
+    unsigned: true
+changelog:
+  - "2026-10-16: initial (macOS)"

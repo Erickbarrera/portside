@@ -1,0 +1,24 @@
+# Generated from the release files of v1.3.6 and install-checked on 2026-10-16.
+schema: 1
+id: dahsidiabdallah-conkerbfdreloaded
+game_key: conkersbadfurdayreloaded
+status: playable
+source:
+  type: github_releases
+  repo: DahSidiAbdallah/ConkerBFDReloaded
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "ConkerBFDReloaded-*-Windows.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ConkerBFDReloaded.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "ConkerBFDReloaded-*-Linux.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ConkerBFDReloaded" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

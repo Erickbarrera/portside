@@ -1,0 +1,36 @@
+# Generated from the release files of jgrpp-0.73.4 and install-checked on 2026-10-16.
+schema: 1
+id: jgrennison-openttd-patches
+game_key: openttdopenttdpatches
+status: playable
+source:
+  type: github_releases
+  repo: JGRennison/OpenTTD-patches
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "openttd-*-windows-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "openttd.exe" }
+  - os: windows
+    arch: arm64
+    asset: "openttd-*-windows-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "openttd.exe" }
+  - os: macos
+    arch: universal
+    asset: "openttd-*-macos-universal.dmg"
+    archive: dmg
+    launch: { app_bundle: "OpenTTD.app" }
+    unsigned: true
+  - os: linux
+    arch: x86_64
+    asset: "openttd-*-linux-generic-amd64.tar.xz"
+    archive: tar.xz
+    strip_root: true
+    launch: { exe: "openttd" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"

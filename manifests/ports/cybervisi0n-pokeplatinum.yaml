@@ -1,0 +1,22 @@
+# Generated from the release files of v0.1.12 and install-checked on 2026-10-16.
+schema: 1
+id: cybervisi0n-pokeplatinum
+game_key: pokemonplatinumpokeplatinum
+status: in_progress
+source:
+  type: github_releases
+  repo: cybervisi0n/pokeplatinum
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "release_win64.zip"
+    archive: zip
+    launch: { exe: "main.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "release_linux.zip"
+    archive: zip
+    launch: { exe: "pokeplatinum.AppImage" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

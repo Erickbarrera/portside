@@ -1,0 +1,24 @@
+# Generated from the release files of v0.5.0 and install-checked on 2026-10-16.
+schema: 1
+id: jkdansereau-goldeneye-pc-port
+game_key: goldeneyepc
+status: playable
+source:
+  type: github_releases
+  repo: jkdansereau/goldeneye-pc-port
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "goldeneye-pc-port-*-win64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "ge007.x86_64.exe" }
+  - os: linux
+    arch: x86_64
+    asset: "goldeneye-pc-port-*-linux-x86_64.tar.gz"
+    archive: tar.gz
+    strip_root: true
+    launch: { exe: "ge007.x86_64" }
+changelog:
+  - "2026-10-16: initial (Windows, Linux)"

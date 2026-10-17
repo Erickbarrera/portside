@@ -1,0 +1,17 @@
+# Generated from the release files of v0.2.0 and install-checked on 2026-10-16.
+schema: 1
+id: faligame-lost-odyssey-hd-remaster
+game_key: lostodyssey
+status: playable
+source:
+  type: github_releases
+  repo: faligame/lost-odyssey-hd-remaster
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "LostOdysseyHD-*-win64.zip"
+    archive: zip
+    launch: { exe: "lostodyssey.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

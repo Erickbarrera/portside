@@ -1,0 +1,18 @@
+# Generated from the release files of v2.0.0-beta.5 and install-checked on 2026-10-16.
+schema: 1
+id: genrythefox0-project-2099
+game_key: spidermanedgeoftime
+status: playable
+source:
+  type: github_releases
+  repo: GenryTheFox0/Project-2099
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Project2099-Beta5-Payload.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "port/Project 2099.exe" }
+changelog:
+  - "2026-10-16: initial (Windows)"

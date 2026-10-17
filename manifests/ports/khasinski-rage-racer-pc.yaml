@@ -1,0 +1,30 @@
+# Generated from the release files of 0.6.5-alpha and install-checked on 2026-10-16.
+schema: 1
+id: khasinski-rage-racer-pc
+game_key: rageracerrageracerpc
+status: in_progress
+source:
+  type: github_releases
+  repo: khasinski/rage-racer-pc
+  channel: stable
+builds:
+  - os: windows
+    arch: x86_64
+    asset: "Rage-Racer-*-windows-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "Rage-Racer.exe" }
+  - os: macos
+    arch: arm64
+    asset: "Rage-Racer-*-macos-arm64.zip"
+    archive: zip
+    strip_root: true
+    launch: { app_bundle: "Rage Racer.app" }
+  - os: linux
+    arch: x86_64
+    asset: "Rage-Racer-*-linux-x86_64.zip"
+    archive: zip
+    strip_root: true
+    launch: { exe: "rage-racer" }
+changelog:
+  - "2026-10-16: initial (Windows, macOS, Linux)"
