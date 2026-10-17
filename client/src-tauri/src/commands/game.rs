@@ -39,11 +39,13 @@ pub fn games_running(state: State<'_, AppState>) -> Vec<GameChanged> {
     state.games.running()
 }
 
-/// Play time for every game ever played from Portside.
+/// Play time for every game ever played from Portside, on this device and, with cloud
+/// saves on, on the player's other devices.
 #[tauri::command]
 #[specta::specta]
 pub fn play_stats(state: State<'_, AppState>) -> Result<Vec<PlayStats>, CommandError> {
-    Ok(state.installs.installer().library().play_stats()?)
+    let local = state.installs.installer().library().play_stats()?;
+    Ok(state.playtime.all(local))
 }
 
 /// Shows the output of a game's last run in Finder, Explorer or the file manager.

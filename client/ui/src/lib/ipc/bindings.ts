@@ -82,7 +82,10 @@ export const commands = {
 	gameStop: (portId: string) => __TAURI_INVOKE<boolean>("game_stop", { portId }),
 	/**  Games running now. */
 	gamesRunning: () => __TAURI_INVOKE<GameChanged[]>("games_running"),
-	/**  Play time for every game ever played from Portside. */
+	/**
+	 *  Play time for every game ever played from Portside, on this device and, with cloud
+	 *  saves on, on the player's other devices.
+	 */
 	playStats: () => typedError<PlayStats[], CommandError>(__TAURI_INVOKE("play_stats")),
 	/**  Shows the output of a game's last run in Finder, Explorer or the file manager. */
 	gameRevealLog: (portId: string) => typedError<null, CommandError>(__TAURI_INVOKE("game_reveal_log", { portId })),
@@ -185,6 +188,7 @@ export const events = {
 	gameChanged: makeEvent<GameChanged>("game-changed"),
 	gamepadInput: makeEvent<GamepadInput>("gamepad-input"),
 	installChanged: makeEvent<InstallChanged_Deserialize>("install-changed"),
+	playtimeChanged: makeEvent<PlaytimeChanged>("playtime-changed"),
 	savesChanged: makeEvent<SavesChanged>("saves-changed"),
 };
 
@@ -875,6 +879,12 @@ export type PlayStats = {
 
 /**  Playable status, in order from best to worst (docs/specs/catalog.md). */
 export type PlayableStatus = "perfect" | "playable" | "in_progress" | "boots" | "not_playable";
+
+/**  Sent when play time from other devices changes what the UI shows. */
+export type PlaytimeChanged = {
+	/**  Every game ever played, on any device. */
+	stats: PlayStats[],
+};
 
 export type PortDetail = PortDetail_Serialize | PortDetail_Deserialize;
 

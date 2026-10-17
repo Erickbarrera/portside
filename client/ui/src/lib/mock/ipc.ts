@@ -134,6 +134,15 @@ if (params.has("mock-installed")) {
   ports.forEach((port, i) => {
     try {
       installed.set(port.id, installedEntry(port.id, Date.now() / 1000 - (i + 1) * 86400));
+      // Every other game has been played, the later ones more recently.
+      if (i % 2 === 1) {
+        played.set(port.id, {
+          port_id: port.id,
+          total_secs: (i + 1) * 47 * 60,
+          last_played: Math.floor(Date.now() / 1000 - (12 - i) * 3600),
+          sessions: i + 1,
+        });
+      }
     } catch {
       // No build for this system.
     }

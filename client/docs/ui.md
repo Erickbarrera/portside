@@ -8,7 +8,8 @@ https://claude.ai/artifact/NyBGECoCXEh8HJtVj5ixeu
 Sidebar: Library · Discover · Community · Friends · Downloads · Cloud saves · Collections ·
 profile (avatar and name, or Sign in) · Settings.
 Built so far: Library (a grid of cover cards with play time, last played and Play/Stop;
-installs in progress), Discover (a grid of cover cards; search + system/status/type filters
+installs in progress; sorted by Recently played or Title, remembered per device; play time
+adds up every device with cloud saves on), Discover (a grid of cover cards; search + system/status/type filters
 kept in the URL, plus a freshness/offline line for the saved catalog), `/port/:id` (cover
 image at the top; offline banner
 when only the saved summary is available; install panel: confirm with size, source and

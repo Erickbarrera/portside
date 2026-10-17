@@ -232,6 +232,7 @@ pub fn launch(app: &AppHandle, port_id: String) -> Result<(), CommandError> {
                 ..PlayStats::default()
             }
         });
+        let stats = state.playtime.with_others(stats);
         emit(
             &app,
             &port_id,

@@ -1,10 +1,12 @@
 //! Two devices sharing one vault folder, as two computers sharing a synced cloud folder.
 
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 use portside_core::Os;
 use portside_sync::{
-    Device, FolderStorage, LocalState, SaveRules, SyncError, SyncState, Syncer, Vault,
+    Device, FolderStorage, LocalState, PlaytimeEntry, PlaytimeRecord, SaveRules, SyncError,
+    SyncState, Syncer, Vault,
 };
 
 const PORT: &str = "example-port";
@@ -230,4 +232,60 @@ fn walk(dir: &Path) -> Vec<PathBuf> {
         }
     }
     out
+}
+
+#[test]
+fn each_device_writes_only_its_own_play_time() {
+    let dir = tempfile::tempdir().expect("tmp");
+    let (mac, deck) = two_pcs(dir.path());
+    let record = |pc: &Pc, secs: u64| PlaytimeRecord {
+        device_id: pc.device.id.clone(),
+        device_name: pc.device.name.clone(),
+        updated_at: "2026-10-17T22:00:00Z".to_owned(),
+        games: BTreeMap::from([(
+            PORT.to_owned(),
+            PlaytimeEntry {
+                total_secs: secs,
+                last_played: 1_000 + secs,
+                sessions: 1,
+            },
+        )]),
+    };
+    mac.vault.write_playtime(&record(&mac, 60)).expect("write");
+    mac.vault
+        .write_playtime(&record(&mac, 120))
+        .expect("rewrite");
+    deck.vault
+        .write_playtime(&record(&deck, 300))
+        .expect("write");
+
+    let mut found = deck.vault.playtime().expect("read");
+    found.sort_by_key(|r| r.games[PORT].total_secs);
+    assert_eq!(found.len(), 2);
+    assert_eq!(found[0], record(&mac, 120));
+    assert_eq!(found[1], record(&deck, 300));
+
+    // A file under another device's name, or a game that isn't a port id, doesn't count.
+    let root = dir.path().join("cloud").join(portside_sync::VAULT_DIR);
+    let mut forged = record(&mac, 999);
+    forged
+        .games
+        .insert("../escape".to_owned(), forged.games[PORT]);
+    std::fs::write(
+        root.join("playtime/01JOTHER.json"),
+        serde_json::to_vec(&forged).expect("json"),
+    )
+    .expect("forge");
+    let mut stray = record(&deck, 5);
+    stray
+        .games
+        .insert("../escape".to_owned(), stray.games[PORT]);
+    deck.vault.write_playtime(&stray).expect("write");
+    let found = mac.vault.playtime().expect("read");
+    assert_eq!(found.len(), 2);
+    assert!(found.iter().all(|r| !r.games.contains_key("../escape")));
+
+    let mut bad = record(&mac, 1);
+    bad.device_id = "../x".to_owned();
+    assert!(mac.vault.write_playtime(&bad).is_err());
 }

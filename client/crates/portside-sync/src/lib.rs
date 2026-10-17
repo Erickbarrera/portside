@@ -14,4 +14,4 @@ pub use error::{Result, SyncError};
 pub use scan::{SaveRules, prune_trash};
 pub use state::{GameRow, LocalState, SaveTemplate};
 pub use storage::{FolderStorage, Storage, VAULT_DIR};
-pub use vault::{DeviceRecord, Snapshot, Vault, VaultInfo};
+pub use vault::{DeviceRecord, PlaytimeEntry, PlaytimeRecord, Snapshot, Vault, VaultInfo};

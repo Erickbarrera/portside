@@ -9,6 +9,7 @@ use portside_core::paths::AppPaths;
 use crate::error::CommandError;
 use crate::games::Games;
 use crate::installs::Installs;
+use crate::playtime::Playtime;
 use crate::saves::Saves;
 use crate::social::Social;
 
@@ -30,6 +31,8 @@ pub struct AppState {
     pub games: Games,
     pub social: Social,
     pub saves: Saves,
+    /// Play time from the player's other devices.
+    pub playtime: Playtime,
     /// Held while a catalog sync runs, so only one runs at a time.
     pub sync_lock: tokio::sync::Mutex<()>,
     /// Outcome of the last sync attempt, for the UI.
@@ -81,6 +84,7 @@ impl AppState {
             games: Games::new(paths.logs_dir.clone()),
             social,
             saves,
+            playtime: Playtime::default(),
             sync_lock: tokio::sync::Mutex::new(()),
             last_sync_error: Mutex::new(None),
             paths,

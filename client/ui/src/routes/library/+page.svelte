@@ -1,7 +1,7 @@
 <script lang="ts">
   import Cover from "$lib/components/Cover.svelte";
   import PlayButton from "$lib/components/PlayButton.svelte";
-  import { crashed, formatPlaytime, games } from "$lib/games.svelte";
+  import { byRecent, crashed, formatPlaytime, games } from "$lib/games.svelte";
   import { fraction, installs } from "$lib/installs.svelte";
   import { formatDate } from "$lib/labels";
   import { summaries as saved } from "$lib/summaries.svelte";
@@ -13,7 +13,33 @@
 
   const day = (unix: number) => formatDate(new Date(unix * 1000).toISOString());
 
-  const list = $derived(Object.values(installs.installed).sort((a, b) => a.title.localeCompare(b.title)));
+  type Order = "recent" | "title";
+  const ORDER_KEY = "portside.libraryOrder";
+  let order = $state<Order>(savedOrder());
+  function savedOrder(): Order {
+    try {
+      return localStorage.getItem(ORDER_KEY) === "title" ? "title" : "recent";
+    } catch {
+      return "recent";
+    }
+  }
+  function setOrder(value: string) {
+    order = value === "title" ? "title" : "recent";
+    try {
+      localStorage.setItem(ORDER_KEY, order);
+    } catch {
+      // Private window or blocked storage: the order just isn't remembered.
+    }
+  }
+
+  // A game playing now counts as played this moment.
+  const lastPlayed = (id: string) =>
+    id in games.running ? Number.MAX_SAFE_INTEGER : (games.stats[id]?.last_played ?? null);
+  const list = $derived(
+    Object.values(installs.installed).sort((a, b) =>
+      order === "recent" ? byRecent(a, b, lastPlayed) : a.title.localeCompare(b.title),
+    ),
+  );
   // Installs still running for games that aren't installed yet.
   const pending = $derived(Object.keys(installs.active).filter((id) => !(id in installs.installed)));
 
@@ -31,7 +57,18 @@
 
 <svelte:head><title>Library · Portside</title></svelte:head>
 
-<h1>Library</h1>
+<header class="top">
+  <h1>Library</h1>
+  {#if list.length > 1}
+    <label>
+      <span class="visually-hidden">Sort</span>
+      <select value={order} onchange={(e) => setOrder(e.currentTarget.value)}>
+        <option value="recent">Recently played</option>
+        <option value="title">Title</option>
+      </select>
+    </label>
+  {/if}
+</header>
 
 {#if installs.loaded && list.length === 0 && pending.length === 0}
   <div class="empty">
@@ -87,6 +124,28 @@
 {/if}
 
 <style>
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 0.5em;
+  }
+  .top h1 {
+    margin: 0;
+  }
+  select {
+    height: 38px;
+    padding: 0 36px 0 12px;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-s);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23aeb6c4' stroke-width='1.6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
   .empty {
     max-width: 520px;
     margin-top: 24px;

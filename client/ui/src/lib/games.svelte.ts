@@ -40,6 +40,10 @@ export const games = {
   start(): Promise<void> {
     started ??= (async () => {
       await events.gameChanged.listen(({ payload }) => apply(payload.port_id, payload.state));
+      // Play time from the player's other devices, through cloud saves.
+      await events.playtimeChanged.listen(({ payload }) => {
+        for (const s of payload.stats) stats[s.port_id] = s;
+      });
       const [list, live] = await Promise.all([commands.playStats(), commands.gamesRunning()]);
       if (list.status === "ok") {
         for (const s of list.data) stats[s.port_id] = s;
@@ -67,6 +71,17 @@ export const games = {
 /** A run that ended on its own with a failure code, worth pointing at the log. */
 export function crashed(state: Ended | undefined): boolean {
   return !!state && !state.stopped && state.code !== null && state.code !== 0;
+}
+
+/** Library order: recently played first (playing now on top, never played last, by title). */
+export function byRecent(
+  a: { port_id: string; title: string },
+  b: { port_id: string; title: string },
+  last: (portId: string) => number | null,
+): number {
+  const la = last(a.port_id) ?? -1;
+  const lb = last(b.port_id) ?? -1;
+  return lb - la || a.title.localeCompare(b.title);
 }
 
 /** "12 minutes", "3.5 hours"; null when never played. */
