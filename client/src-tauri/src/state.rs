@@ -12,12 +12,12 @@ use crate::installs::Installs;
 use crate::saves::Saves;
 use crate::social::Social;
 
-/// Where the static catalog is published (docs/specs/static-catalog.md): GitHub Pages of the
-/// public `portside-catalog` repository. A release build can bake in another address with
+/// Where the static catalog is published (docs/specs/static-catalog.md): GitHub Pages of this
+/// repository. A release build can bake in another address with
 /// `PORTSIDE_DEFAULT_CATALOG_URL` at compile time. [TBD: custom domain]
 pub const DEFAULT_CATALOG_URL: &str = match option_env!("PORTSIDE_DEFAULT_CATALOG_URL") {
     Some(url) => url,
-    None => "https://erickbarrera.github.io/portside-catalog",
+    None => "https://erickbarrera.github.io/portside",
 };
 
 pub struct AppState {

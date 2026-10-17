@@ -13,7 +13,7 @@ pub struct Invite {
 }
 
 /// Builds and recognises invite links for one website, e.g.
-/// `https://erickbarrera.github.io/portside-catalog/`.
+/// `https://erickbarrera.github.io/portside/`.
 #[derive(Debug, Clone)]
 pub struct InviteLinks {
     page: Url,

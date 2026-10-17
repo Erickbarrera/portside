@@ -1,0 +1,187 @@
+name: catalog
+
+# Checks the catalog builder, the manifests and the website; on main, rebuilds the static catalog
+# every hour and deploys it, with the website, to this repository's GitHub Pages
+# (docs/specs/static-catalog.md, docs/publishing.md).
+on:
+  pull_request:
+    paths: ["catalog/**", "manifests/**", "web/**", "docs/specs/static-catalog/**", ".github/workflows/catalog.yml"]
+  push:
+    branches: [main]
+    paths: ["catalog/**", "manifests/**", "web/**", "docs/specs/static-catalog/**", ".github/workflows/catalog.yml"]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: catalog-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    working-directory: catalog
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: catalog/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: catalog/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm validate
+      - name: Generated files are current
+        run: |
+          pnpm schema:gen && pnpm contract:write
+          git diff --exit-code schemas ../docs/specs/static-catalog
+
+  web:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm build
+        env:
+          PORTSIDE_SITE_BASE: /portside
+
+  publish:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: [check, web]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    concurrency:
+      group: catalog-publish
+      cancel-in-progress: false
+    env:
+      CATALOG_URL: ${{ vars.PORTSIDE_CATALOG_URL || 'https://erickbarrera.github.io/portside' }}
+      # The old address, read by app releases up to 0.2.0: the catalog is copied there too, and
+      # its other pages forward to the new site. Pushes only once CATALOG_DEPLOY_KEY is set.
+      OLD_REPO: ${{ vars.CATALOG_OLD_REPO || 'Erickbarrera/portside-catalog' }}
+      OLD_URL: https://erickbarrera.github.io/portside-catalog
+      # Where the website lives: the same GitHub Pages site, under the repository's path.
+      # For a custom domain set the SITE_URL variable to https://<domain> and SITE_BASE to /.
+      PORTSIDE_SITE_URL: ${{ vars.SITE_URL || 'https://erickbarrera.github.io' }}
+      PORTSIDE_SITE_BASE: ${{ vars.SITE_BASE || '/portside' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: catalog/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: catalog/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      # The builder keeps releases, covers and `rev` from the published catalog. Until the first
+      # deploy here, that is the copy at the old address.
+      - id: previous
+        name: Find the published catalog
+        run: |
+          if curl -fsS -o /dev/null "$CATALOG_URL/v1/index.json"; then
+            echo "url=$CATALOG_URL" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=$OLD_URL" >> "$GITHUB_OUTPUT"
+          fi
+      - id: build
+        name: Build the catalog
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          STEAMGRIDDB_API_KEY: ${{ secrets.STEAMGRIDDB_API_KEY }}
+          CATALOG_PREVIOUS_URL: ${{ steps.previous.outputs.url }}
+        run: pnpm build --out ../_catalog
+      # Hourly runs publish only when the catalog changed; pushes to main (a website or builder
+      # change) and manual runs always publish.
+      - id: publish
+        name: Decide whether to publish
+        working-directory: .
+        run: echo "go=${{ steps.build.outputs.changed == 'true' || github.event_name != 'schedule' }}" >> "$GITHUB_OUTPUT"
+      # The website renders the catalog's first page from the files just built, served locally.
+      - name: Build the website
+        if: steps.publish.outputs.go == 'true'
+        working-directory: web
+        env:
+          # Reads the app's latest release for the download button (public data; raises the
+          # GitHub API rate limit).
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          pnpm install --frozen-lockfile
+          python3 -m http.server 8090 --directory ../_catalog >/dev/null 2>&1 &
+          trap 'kill $!' EXIT
+          sleep 1
+          PORTSIDE_CATALOG_URL=http://localhost:8090 pnpm build
+          mkdir -p ../_site
+          cp -R ../_catalog/. ../_site/
+          cp -R dist/. ../_site/
+      - if: steps.publish.outputs.go == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        if: steps.publish.outputs.go == 'true'
+        uses: actions/deploy-pages@v4
+
+      # The old address: the catalog files, and a page that forwards everything else.
+      - id: key
+        name: Check the old address's deploy key
+        if: steps.publish.outputs.go == 'true'
+        working-directory: .
+        env:
+          KEY: ${{ secrets.CATALOG_DEPLOY_KEY }}
+        run: |
+          if [ -n "$KEY" ]; then echo "set=true" >> "$GITHUB_OUTPUT"; else echo "set=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Prepare the old address
+        if: steps.key.outputs.set == 'true'
+        working-directory: .
+        run: |
+          mkdir _old
+          cp -R _catalog/. _old/
+          site="${PORTSIDE_SITE_URL%/}${PORTSIDE_SITE_BASE%/}"
+          cat > _old/index.html <<EOF
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Portside has moved</title>
+          <meta name="robots" content="noindex">
+          <script>location.replace("$site" + location.pathname.replace(/^\/portside-catalog/, "") + location.search + location.hash);</script>
+          <p>Portside has moved to <a href="$site/">$site/</a>.</p>
+          EOF
+          cp _old/index.html _old/404.html
+      - name: Push to the old address
+        if: steps.key.outputs.set == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.CATALOG_DEPLOY_KEY }}
+          external_repository: ${{ env.OLD_REPO }}
+          publish_branch: gh-pages
+          publish_dir: ./_old
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          full_commit_message: "catalog: publish"

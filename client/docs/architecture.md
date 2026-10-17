@@ -72,7 +72,7 @@ host), `E_NO_MANIFEST`, `E_MANIFEST_SCHEMA`, `E_NO_BUILD`, `E_RELEASE_MISMATCH`,
 `E_NEEDS_ROSETTA`, `E_SIGNED_OUT`, `E_AUTH`, `E_KEYCHAIN`, `E_SOCIAL_UNREACHABLE`,
 `E_SOCIAL`, `E_CHAT_NOT_ALLOWED`, `E_INVALID`, `E_SAVES_OFF`, `E_SAVES_UNAVAILABLE`,
 `E_SAVES_CONFLICT`, `E_SAVES`. Catalog address: `PORTSIDE_CATALOG_URL`, default
-`https://erickbarrera.github.io/portside-catalog` (or `PORTSIDE_DEFAULT_CATALOG_URL` at build
+`https://erickbarrera.github.io/portside` (or `PORTSIDE_DEFAULT_CATALOG_URL` at build
 time) [TBD: custom domain].
 Planned commands: `asset_import`, `update_check`, `rollback`,
 `record_put`, `settings_get/set`.
