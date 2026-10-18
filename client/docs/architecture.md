@@ -71,12 +71,13 @@ host), `E_NO_MANIFEST`, `E_MANIFEST_SCHEMA`, `E_NO_BUILD`, `E_RELEASE_MISMATCH`,
 `E_NOT_INSTALLED`, `E_INSTALL_RUNNING`, `E_LIBRARY`, `E_GAME_RUNNING`, `E_LAUNCH`,
 `E_NEEDS_ROSETTA`, `E_SIGNED_OUT`, `E_AUTH`, `E_KEYCHAIN`, `E_SOCIAL_UNREACHABLE`,
 `E_SOCIAL`, `E_CHAT_NOT_ALLOWED`, `E_INVALID`, `E_SAVES_OFF`, `E_SAVES_UNAVAILABLE`,
-`E_SAVES_CONFLICT`, `E_SAVES`. Catalog address: `PORTSIDE_CATALOG_URL`, default
+`E_SAVES_CONFLICT`, `E_SAVES`, `E_APP_UPDATE`. Updating Portside itself (`app_update.rs`):
+`app_update_status`, `app_update_check`, `app_update_install`, event `AppUpdateChanged`
+(docs/build-release.md, "Auto-update"). Catalog address: `PORTSIDE_CATALOG_URL`, default
 `https://erickbarrera.github.io/portside` (or `PORTSIDE_DEFAULT_CATALOG_URL` at build
 time) [TBD: custom domain].
 Planned commands: `asset_import`, `update_check`, `rollback`,
 `record_put`, `settings_get/set`.
-Planned events: `update://available`.
 
 ## Error handling
 Every user-visible failure maps to an error code (`E_DOWNLOAD_HTTP`, `E_ASSET_HASH_MISMATCH`,

@@ -130,6 +130,9 @@ pub enum ErrorCode {
     /// The game only has a Windows build, and Proton isn't installed in Steam to run it.
     #[serde(rename = "E_NO_PROTON")]
     NoProton,
+    /// Portside couldn't update itself (the update's signature didn't match, installing failed).
+    #[serde(rename = "E_APP_UPDATE")]
+    AppUpdate,
 }
 
 /// What a failed command returns to the UI.

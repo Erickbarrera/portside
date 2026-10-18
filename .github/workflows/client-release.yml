@@ -131,13 +131,36 @@ jobs:
         env:
           URL: ${{ vars.PORTSIDE_DEFAULT_CATALOG_URL }}
         run: echo "PORTSIDE_DEFAULT_CATALOG_URL=$URL" >> "$GITHUB_ENV"
+      # In-app updates (client/docs/build-release.md, "Auto-update"): with the updater key
+      # set up, builds carry its public key and are signed, and tauri-action attaches the
+      # signatures and `latest.json` to the release. Without it, builds can't update themselves.
+      - name: Updater signing
+        id: updater
+        env:
+          PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          PUBKEY: ${{ vars.PORTSIDE_UPDATER_PUBKEY }}
+        run: |
+          if [ -z "$PRIVATE_KEY" ] && [ -z "$PUBKEY" ]; then
+            echo "::notice::No updater key set up: this build won't update itself."
+            exit 0
+          fi
+          if [ -z "$PRIVATE_KEY" ] || [ -z "$PUBKEY" ]; then
+            echo "::error::Set both the TAURI_SIGNING_PRIVATE_KEY secret and the PORTSIDE_UPDATER_PUBKEY variable (or neither)."
+            exit 1
+          fi
+          jq -n --arg pubkey "$PUBKEY" \
+            '{bundle: {createUpdaterArtifacts: true}, plugins: {updater: {pubkey: $pubkey}}}' \
+            > updater.conf.json
+          echo "args=--config updater.conf.json" >> "$GITHUB_OUTPUT"
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           projectPath: client
           tauriScript: pnpm tauri
-          args: ${{ matrix.args }}
+          args: ${{ matrix.args }} ${{ steps.updater.outputs.args }}
           # Empty on pull requests and manual runs: build only, no upload.
           releaseId: ${{ needs.release.outputs.id }}
       # A Mac app may only link system libraries: anything from Homebrew (/opt/homebrew,

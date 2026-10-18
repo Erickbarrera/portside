@@ -14,7 +14,7 @@ kept in the URL, plus a freshness/offline line for the saved catalog), `/port/:i
 image at the top; offline banner
 when only the saved summary is available; install panel: confirm with size, source and
 warnings, progress with Cancel, then Play/Stop, play time, Show in Finder/Explorer and Uninstall; a crash shows its exit
-code and a link to the log), Settings (Bluesky account and Sign out, saved catalog, "Check for changes"). Social
+code and a link to the log), Settings (Bluesky account and Sign out, Updates with "Check for updates", saved catalog, "Check for changes"). A newer Portside shows a banner above every screen ("Update and restart", "Later"; `components/AppUpdate.svelte`). Social
 (2026-10-14): `/signin`; Friends (messages with unread counts, add a friend, friends with
 Message/Unfollow, Follows you); `/chat/:id` (bubbles, invite cards with Play or Get the
 game, Invite to play, message requests); Community (All discussions, Portside help, Feature requests; New thread on the last two); the game

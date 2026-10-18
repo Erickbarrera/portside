@@ -8,7 +8,7 @@ Rust stable (pinned), Node 22, pnpm 9+, Tauri CLI 2.x. Android: SDK, NDK, Java 1
   `ui/src/lib/ipc/bindings.ts` is current), Biome, svelte-check, vitest, UI build, on
   ubuntu-24.04 with the WebKitGTK packages. [TBD: debug app build in CI]
 - Release: `.github/workflows/client-release.yml`, see "Publishing a release" below.
-  Android (apk) and the updater manifest come later.
+  Android (apk) comes later.
 
 ## Publishing a release
 1. Bump the version in `src-tauri/tauri.conf.json` **and** `[workspace.package]` in
@@ -38,8 +38,7 @@ pass Gatekeeper by hand, Windows users click through SmartScreen. What each secr
   warning. Secrets `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`,
   `APPLE_ID`, `APPLE_PASSWORD` (app-specific), `APPLE_TEAM_ID`, passed as env to tauri-action.
 - **Windows code signing** ([TBD: Azure Trusted Signing or OV cert]): fewer SmartScreen warnings.
-- **Tauri updater key** (free, `pnpm tauri signer generate`): enables in-app auto-update;
-  secrets `TAURI_SIGNING_PRIVATE_KEY` (+ password), and tauri-action then uploads `latest.json`.
+- **Tauri updater key** (free): enables in-app updates, see "Auto-update" below.
 
 The app reads the static catalog from `https://erickbarrera.github.io/portside`
 (docs/specs/static-catalog.md). A build can bake in another address from the repository
@@ -47,13 +46,46 @@ variable `PORTSIDE_DEFAULT_CATALOG_URL` (Settings → Secrets and variables → 
 Variables); `PORTSIDE_CATALOG_URL` still overrides it at run time.
 
 ## Versioning
-SemVer, `client-vX.Y.Z` tags. Channels: stable, beta (updater endpoint per channel).
+SemVer, `client-vX.Y.Z` tags. One channel for now: every published release counts as an
+update, pre-releases included (all 0.x releases are pre-releases). [TBD: a stable/beta choice
+once 1.0 ships]
 
 ## Auto-update
-`tauri-plugin-updater` with Ed25519-signed manifests. Private key in CI secrets only.
-Flatpak/F-Droid builds disable the in-app updater (store updates instead).
+`tauri-plugin-updater` with Ed25519-signed updates (`src-tauri/src/app_update.rs`).
+- **Finding an update.** On start (after a few seconds), every 6 hours, and from Settings →
+  Updates → Check for updates, the app lists this repository's releases through the GitHub API
+  (anonymous, one request) and takes `latest.json` from the newest published `client-v*`
+  release that has one. GitHub's `releases/latest/download/` link can't be used: it skips
+  pre-releases. The plugin then compares versions, so an older or equal release is no update.
+- **Installing.** A banner offers "Update and restart" (or Later; Settings keeps offering
+  it). It refuses while a game runs or installs. The plugin downloads the file for this
+  install type, checks its signature against the public key built into the app
+  (`requireSignedVersion` on, so an old signed build can't be passed off as a new version),
+  installs and restarts: macOS replaces the `.app`, Windows runs the NSIS/MSI installer
+  (passive), Linux rewrites the AppImage in place (Steam Deck: Add to Steam shortcuts keep
+  working) or installs the `.deb`/`.rpm` through pkexec (asks for the password).
+- **Which builds update.** Only release builds with the public key. `pnpm tauri dev`, debug
+  builds and builds made without the key say so in Settings and never check.
+- **Signing releases.** The release workflow's "Updater signing" step, when the key is set up,
+  passes `--config updater.conf.json` (`bundle.createUpdaterArtifacts` and
+  `plugins.updater.pubkey`) to the build; tauri-action then uploads the `.sig` files and
+  `latest.json` to the release. Releases from before the key (up to 0.2.0) have no
+  `latest.json`: players on them update by hand once.
+
+### Setting up the updater key (once)
+1. On your computer: `pnpm tauri signer generate -w ~/.tauri/portside-updater.key` (in
+   `client/`), with a password. Keep the private key file and password somewhere safe: losing
+   them means no installed copy can update again until players reinstall by hand.
+2. Repository → Settings → Secrets and variables → Actions:
+   - secret `TAURI_SIGNING_PRIVATE_KEY`: the contents of `~/.tauri/portside-updater.key`;
+   - secret `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`: its password;
+   - variable `PORTSIDE_UPDATER_PUBKEY`: the contents of `~/.tauri/portside-updater.key.pub`.
+3. The next release is signed and carries `latest.json`; copies from that release on update
+   themselves.
+
+Flatpak/F-Droid builds would disable the in-app updater (store updates instead).
 
 ## Secrets needed [TBD]
-Apple Developer ID cert + notarization creds, Windows signing, Tauri updater key, Android
-keystore.
+Apple Developer ID cert + notarization creds, Windows signing, Tauri updater key (steps above),
+Android keystore.
 

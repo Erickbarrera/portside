@@ -1,8 +1,10 @@
 use portside_core::{Arch, Os};
 use serde::Serialize;
 use specta::Type;
-use tauri::State;
+use tauri::{AppHandle, State};
 
+use crate::app_update::{self, AppUpdateStatus, AppUpdater};
+use crate::error::CommandError;
 use crate::state::AppState;
 
 #[derive(Debug, Clone, Serialize, Type)]
@@ -30,4 +32,25 @@ pub fn app_info(state: State<'_, AppState>) -> AppInfo {
         big_screen: crate::steam::big_screen(),
         steam_deck: portside_core::paths::is_steam_deck(),
     }
+}
+
+/// Whether Portside can update itself and what the last check found.
+#[tauri::command]
+#[specta::specta]
+pub fn app_update_status(updater: State<'_, AppUpdater>) -> AppUpdateStatus {
+    updater.status()
+}
+
+/// Checks GitHub for a newer Portside now.
+#[tauri::command]
+#[specta::specta]
+pub async fn app_update_check(app: AppHandle) -> AppUpdateStatus {
+    app_update::check(&app).await
+}
+
+/// Downloads and installs the update found by the last check, then restarts Portside.
+#[tauri::command]
+#[specta::specta]
+pub async fn app_update_install(app: AppHandle) -> Result<(), CommandError> {
+    app_update::install(&app).await
 }
