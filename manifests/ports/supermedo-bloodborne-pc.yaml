@@ -1,8 +1,22 @@
-# Generated from the release files of windows-v1.8.2 and install-checked on 2026-10-16.
+# Release files checked by hand against windows-v1.9.1 on 2026-10-18 (generated from
+# windows-v1.8.2 and install-checked on 2026-10-16). One zip with a single bbport-windows\
+# folder (entries use `\`). bbport's Windows build: "Play Bloodborne.exe" starts the game with
+# the settings saved in the launcher, and opens the launcher (Bloodborne.exe) while no game
+# folder is chosen. Saves, shader caches and the prepared game image live in the install
+# folder (user\, out\), settings in bbport.ini next to the exe.
 schema: 1
 id: supermedo-bloodborne-pc
 game_key: bloodborneforwindows
+display_name: "Bloodborne (bbport for Windows)"
 status: playable
+status_notes: >-
+  Windows 10 (1903+) or 11, 64-bit, a Vulkan 1.3 GPU and a Haswell-or-newer Intel or any Ryzen
+  CPU. Needs your own decrypted PS4 dump of Bloodborne updated to 1.09 (the `CUSA03173` or
+  `CUSA00900` folder with `eboot.bin`, `sce_sys` and `dvdroot_ps4`). The first start opens
+  bbport's launcher: pick that folder on "Game & effects", then press PLAY; later starts go
+  straight into the game. To change settings, open `Bloodborne.exe` in the install folder.
+  Saves stay in that folder's `user\`; a Portside update installs into a new folder, so copy
+  `user\` across from the old one. Experimental: no full play-through verified upstream.
 source:
   type: github_releases
   repo: Supermedo/bloodborne_pc
@@ -14,5 +28,15 @@ builds:
     archive: zip
     strip_root: true
     launch: { exe: "Play Bloodborne.exe" }
+saves:
+  # Same runtime as bbport on Linux: <user>/savedata/<user id>/<title id>/ (src/runtime_savedata.c),
+  # with <user> = user\ in the install folder. A save folder chosen in the launcher is not followed.
+  root:
+    windows: "{install}/user/savedata/"
+  include: ["**/*"]
+  portable: true
+links:
+  homepage: "https://github.com/Supermedo/bloodborne_pc"
 changelog:
   - "2026-10-16: initial (Windows)"
+  - "2026-10-18: checked by hand; notes on the game files and the launcher, save folder"
