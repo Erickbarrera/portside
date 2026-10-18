@@ -138,14 +138,15 @@ jobs:
         id: updater
         env:
           PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          PUBKEY: ${{ vars.PORTSIDE_UPDATER_PUBKEY }}
+          # A variable, as documented; a secret of the same name works too (it isn't secret).
+          PUBKEY: ${{ vars.PORTSIDE_UPDATER_PUBKEY || secrets.PORTSIDE_UPDATER_PUBKEY }}
         run: |
           if [ -z "$PRIVATE_KEY" ] && [ -z "$PUBKEY" ]; then
             echo "::notice::No updater key set up: this build won't update itself."
             exit 0
           fi
           if [ -z "$PRIVATE_KEY" ] || [ -z "$PUBKEY" ]; then
-            echo "::error::Set both the TAURI_SIGNING_PRIVATE_KEY secret and the PORTSIDE_UPDATER_PUBKEY variable (or neither)."
+            echo "::error::Set both the TAURI_SIGNING_PRIVATE_KEY secret and PORTSIDE_UPDATER_PUBKEY (a repository variable or secret, not an environment one), or neither."
             exit 1
           fi
           jq -n --arg pubkey "$PUBKEY" \
