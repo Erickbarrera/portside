@@ -78,7 +78,7 @@ in (start `pnpm --filter @portside/ui dev` in `../client` first; Playwright need
 - Downloads (the home page's button and `#download` section): `src/lib/releases.ts` reads the
   newest published release of this repository (`Erickbarrera/portside`)
   (pre-releases included) at build time and again in the browser, and maps its files to
-  macOS, Windows and Linux. The button detects the visitor's OS and links straight to that
+  macOS, Windows, Linux and Android (`*_android.apk`). The button detects the visitor's OS and links straight to that
   file, so the download starts without leaving the site; the section lists every system,
   detected one first. `src/lib/download-html.ts` renders it for build and browser alike.
   Later: Flathub, F-Droid, Obtainium.

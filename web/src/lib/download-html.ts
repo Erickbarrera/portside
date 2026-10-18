@@ -20,6 +20,8 @@ export const FIRST_RUN: Record<Os, string> = {
   windows:
     "The alpha isn't signed yet. If SmartScreen warns about an unknown publisher, choose More info → Run anyway.",
   linux: "Make the AppImage executable (chmod +x) and run it, or install the .deb or .rpm.",
+  android:
+    "Open the APK and allow your browser to install apps when Android asks. Portside installs games that publish an Android build.",
 };
 
 export function releaseLabel(r: AppRelease): string {
