@@ -81,7 +81,7 @@
     <InstallPanel portId={port.id} {os} />
   {/if}
 
-  {#if port.id in installs.installed}
+  {#if port.id in installs.installed && os !== "android"}
     <CloudSaves portId={port.id} title={port.title} {os} />
   {/if}
 

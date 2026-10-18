@@ -3647,10 +3647,12 @@ name = "portside-core"
 version = "0.3.0"
 dependencies = [
  "directories",
+ "reqwest",
  "serde",
  "serde_json",
  "specta",
  "thiserror 2.0.21",
+ "webpki-root-certs",
 ]
 
 [[package]]

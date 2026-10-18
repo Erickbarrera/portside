@@ -5,7 +5,8 @@ coverage/
 *.tsbuildinfo
 client/target/
 client/src-tauri/target/
-client/src-tauri/gen/
+client/src-tauri/gen/*
+!client/src-tauri/gen/android/
 .env
 .env.*
 !.env.example

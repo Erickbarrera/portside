@@ -79,7 +79,7 @@ impl Github {
             "X-GitHub-Api-Version",
             HeaderValue::from_static("2022-11-28"),
         );
-        let http = reqwest::Client::builder()
+        let http = portside_core::http::client_builder()
             .user_agent(user_agent)
             .default_headers(headers)
             .timeout(std::time::Duration::from_secs(20))

@@ -1,10 +1,11 @@
 // Mock answers for Add to Steam (src-tauri/src/steam.rs). `?mock-steam=running` starts with
 // Steam open, `?mock-steam=launched` as if Steam started Portside, `?mock-steam=none` without
-// Steam. `?mock-play=<port>` starts as if Steam asked for that game (`--play`).
+// Steam (the default with `?mock-os=android`). `?mock-play=<port>` starts as if Steam asked
+// for that game (`--play`).
 import type { CommandError, SteamStatus } from "../ipc";
 
 const params = new URLSearchParams(location.search);
-const mode = params.get("mock-steam");
+const mode = params.get("mock-steam") ?? (params.get("mock-os") === "android" ? "none" : null);
 let playRequest = params.get("mock-play");
 const steamRunning = mode === "running" || mode === "launched";
 const added = new Set<string>();

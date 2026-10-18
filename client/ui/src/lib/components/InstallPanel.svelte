@@ -86,7 +86,8 @@
     const result = await installs.uninstall(portId);
     busy = false;
     confirmRemove = false;
-    if (result.status === "error") planError = result.error;
+    // On Android the player can keep the game in Android's own screen.
+    if (result.status === "error" && result.error.code !== "E_CANCELLED") planError = result.error;
   }
 
   function phase(state: NonNullable<typeof running>): string {
@@ -98,7 +99,8 @@
       case "verifying":
         return "Checking the download…";
       case "unpacking":
-        return "Unpacking…";
+        // On Android this is Android's own install screen, which the player confirms.
+        return os === "android" ? "Installing… Confirm in Android's screen." : "Unpacking…";
       default:
         return "Working…";
     }
@@ -191,11 +193,16 @@
           · installed {formatDate(new Date(installed.installed_at * 1000).toISOString())}{onCard ? " on the SD card" : ""}.
         </p>
       </div>
-      <button class="btn btn-secondary" onclick={() => installs.reveal(portId)}>{revealLabel[os]}</button>
+      {#if os !== "android"}
+        <!-- Android keeps a game's files to itself. -->
+        <button class="btn btn-secondary" onclick={() => installs.reveal(portId)}>{revealLabel[os]}</button>
+      {/if}
       {#if playing}
         <!-- Files can't change under a running game. -->
       {:else if confirmRemove}
-        <button class="btn btn-danger" disabled={busy} onclick={remove}>Delete files</button>
+        <button class="btn btn-danger" disabled={busy} onclick={remove}>
+          {os === "android" ? "Uninstall" : "Delete files"}
+        </button>
         <button class="btn btn-secondary" onclick={() => (confirmRemove = false)}>Keep</button>
       {:else}
         <button class="btn btn-secondary" onclick={() => (confirmRemove = true)}>Uninstall</button>

@@ -122,6 +122,12 @@ impl AppUpdater {
 
 /// Why this copy can't update itself, if it can't.
 fn off_reason(app: &AppHandle) -> Option<String> {
+    if cfg!(target_os = "android") {
+        return Some(
+            "Portside doesn't update itself on Android yet. Download new versions from the website."
+                .to_owned(),
+        );
+    }
     if cfg!(debug_assertions) || tauri::utils::platform::bundle_type().is_none() {
         return Some(
             "This copy of Portside wasn't installed from a release, so it doesn't update itself."

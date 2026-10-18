@@ -1,11 +1,11 @@
-// Desktop app downloads: the newest published release of this repository on GitHub,
+// App downloads: the newest published release of this repository on GitHub,
 // pre-releases (alpha) included. Read at build time and again in the browser, so the download
 // button follows a new release without a site rebuild. Shared by both (no Astro imports).
 
 export const APP_REPO = "Erickbarrera/portside";
 export const RELEASES_PAGE = `https://github.com/${APP_REPO}/releases`;
 
-export type Os = "macos" | "windows" | "linux";
+export type Os = "macos" | "windows" | "linux" | "android";
 
 export interface Download {
   os: Os;
@@ -50,8 +50,9 @@ export const OS_LABEL: Record<Os, string> = {
   macos: "macOS",
   windows: "Windows",
   linux: "Linux",
+  android: "Android",
 };
-export const OS_ORDER: Os[] = ["macos", "windows", "linux"];
+export const OS_ORDER: Os[] = ["macos", "windows", "linux", "android"];
 
 // File name → download. Order within an OS is the order shown; the first rule per OS is the
 // one the big button offers. Updater archives and signatures are left out.
@@ -62,6 +63,7 @@ const KINDS: { test: RegExp; os: Os; label: string; note: string }[] = [
   { test: /\.AppImage$/i, os: "linux", label: "AppImage", note: "Any distribution, Steam Deck" },
   { test: /\.deb$/i, os: "linux", label: "Debian package (.deb)", note: "Debian, Ubuntu, Mint" },
   { test: /\.rpm$/i, os: "linux", label: "RPM package (.rpm)", note: "Fedora, openSUSE" },
+  { test: /_android\.apk$/i, os: "android", label: "APK", note: "Android 7 and newer" },
 ];
 
 export function toDownloads(assets: GhAsset[]): Download[] {
@@ -123,17 +125,19 @@ export async function fetchAppRelease(token?: string): Promise<AppRelease | null
   return pickRelease((await res.json()) as GhRelease[]);
 }
 
-/** The visitor's desktop OS, or null for phones, tablets and anything unrecognised. */
+/** The visitor's OS, or null for iPhones, iPads and anything unrecognised. */
 export function detectOs(nav: {
   userAgent: string;
   platform?: string;
   userAgentData?: { platform?: string; mobile?: boolean };
 }): Os | null {
   const uaData = nav.userAgentData;
-  if (uaData?.mobile) return null;
   const hint = `${uaData?.platform ?? ""} ${nav.platform ?? ""} ${nav.userAgent}`.toLowerCase();
+  // Before the Linux test: Android's user agent says Linux too.
+  if (/android/.test(hint)) return "android";
+  if (uaData?.mobile) return null;
   // iPadOS reports a Mac user agent; touch support gives it away in the browser (see caller).
-  if (/android|iphone|ipad|ipod|cros/.test(hint)) return null;
+  if (/iphone|ipad|ipod|cros/.test(hint)) return null;
   if (/mac/.test(hint)) return "macos";
   if (/win/.test(hint)) return "windows";
   if (/linux|x11|freebsd/.test(hint)) return "linux";

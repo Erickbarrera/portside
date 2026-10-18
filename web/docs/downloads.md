@@ -2,7 +2,7 @@
 
 - Build-time: `lib/releases.ts` fetches latest `client-v*` release via GitHub API
   (token in CI env) and maps assets: `*_x64-setup.exe` → Windows, `*_universal.dmg` → macOS,
-  `*_amd64.AppImage`/`.deb` → Linux, `*.apk` → Android [match final Tauri asset names].
+  `*_amd64.AppImage`/`.deb` → Linux, `*_android.apk` → Android.
 - Rebuild the site on each client release (GitHub Actions `repository_dispatch` or
   workflow in the same repo triggered by the release).
 - Client-side island: detect OS/arch via `navigator.userAgentData.getHighEntropyValues`

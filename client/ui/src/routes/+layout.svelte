@@ -193,6 +193,53 @@
     overflow-y: auto;
     padding: 32px 40px;
   }
+  /* Phones (Android): the sidebar becomes a tab bar along the bottom, without the installed
+     list (Library has it). The insets keep clear of Android's status and navigation bars. */
+  @media (max-width: 720px) {
+    .shell {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      height: 100dvh;
+    }
+    .sidebar {
+      order: 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+      padding: 4px 4px calc(4px + env(safe-area-inset-bottom));
+      border-right: 0;
+      border-top: 1px solid var(--border);
+    }
+    .brand,
+    .sidebar :global(.installed),
+    .sidebar a.me {
+      display: none;
+    }
+    ul {
+      flex: 1;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    .bottom {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    .sidebar a:not(.brand) {
+      padding: 10px 8px;
+      font-size: 0.9rem;
+    }
+    .sidebar a[aria-current="page"] {
+      box-shadow: inset 0 -3px 0 var(--accent);
+    }
+    .badge {
+      float: none;
+      margin-left: 4px;
+    }
+    main {
+      padding: calc(16px + env(safe-area-inset-top)) 16px 24px;
+    }
+  }
   .skip {
     position: absolute;
     left: -9999px;

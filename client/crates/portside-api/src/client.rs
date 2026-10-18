@@ -56,7 +56,7 @@ impl Client {
             let path = format!("{}/", base.path());
             base.set_path(&path);
         }
-        let http = reqwest::Client::builder()
+        let http = portside_core::http::client_builder()
             .user_agent(user_agent)
             .connect_timeout(Duration::from_secs(10))
             .timeout(Duration::from_secs(30))

@@ -1,4 +1,5 @@
 # Release files checked against 1.5.5 on 2026-10-13 (Linux on 2026-10-15).
+# Android APK checked against 1.5.5 on 2026-10-18 (package from android-project/app/build.gradle).
 schema: 1
 id: diasurgical-devilutionx
 game_key: diablo
@@ -30,6 +31,11 @@ builds:
     asset: "devilutionx-linux-aarch64.tar.xz"
     archive: tar.xz
     launch: { exe: "devilutionx", chmod_x: true }
+  - os: android
+    arch: universal
+    asset: "devilutionx-android.apk"
+    archive: apk
+    android_package: "org.diasurgical.devilutionx"
 saves:
   # DevilutionX's documented save folders; [TBD: confirm on a real install].
   root:
@@ -43,3 +49,4 @@ changelog:
   - "2026-10-13: initial (macOS and Windows)"
   - "2026-10-14: save folders for cloud saves"
   - "2026-10-15: Linux (x86_64 AppImage, arm64)"
+  - "2026-10-18: Android (APK)"

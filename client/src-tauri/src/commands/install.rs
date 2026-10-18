@@ -69,10 +69,18 @@ pub fn installs_active(state: State<'_, AppState>) -> Vec<InstallChanged> {
     state.installs.active()
 }
 
-/// Everything installed, by title.
+/// Everything installed, by title. On Android, games the player removed in Android's
+/// settings are forgotten first.
 #[tauri::command]
 #[specta::specta]
-pub fn library_list(state: State<'_, AppState>) -> Result<Vec<Installed>, CommandError> {
+pub async fn library_list(
+    app: AppHandle,
+    state: State<'_, AppState>,
+) -> Result<Vec<Installed>, CommandError> {
+    #[cfg(target_os = "android")]
+    crate::android::forget_removed(&app).await;
+    #[cfg(not(target_os = "android"))]
+    let _ = app;
     Ok(state.installs.installer().library().list()?)
 }
 
@@ -86,7 +94,8 @@ pub fn library_get(
     Ok(state.installs.installer().library().current(&port_id)?)
 }
 
-/// Deletes a port's installed files. Saves stored outside the install folder stay.
+/// Deletes a port's installed files. Saves stored outside the install folder stay. On
+/// Android, Android asks the player to confirm removing the game first.
 #[tauri::command]
 #[specta::specta]
 pub async fn uninstall(
@@ -101,6 +110,8 @@ pub async fn uninstall(
         });
     }
     state.games.check_not_running(&port_id)?;
+    #[cfg(target_os = "android")]
+    crate::android::before_uninstall(&app, &port_id).await?;
     state.installs.installer().uninstall(&port_id).await?;
     installs::announce_uninstall(&app, &port_id);
     Ok(())

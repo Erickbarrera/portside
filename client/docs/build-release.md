@@ -1,14 +1,16 @@
 # Build & release
 
 ## Toolchain
-Rust stable (pinned), Node 22, pnpm 9+, Tauri CLI 2.x. Android: SDK, NDK, Java 17.
+Rust stable (pinned), Node 22, pnpm 9+, Tauri CLI 2.x. Android: SDK, NDK, Java 21, and
+`rustup target add aarch64-linux-android x86_64-linux-android`.
 
 ## CI (GitHub Actions, `.github/workflows/client.yml`, path filter `client/**`)
 - PR (built): fmt, clippy, cargo test (incl. the catalog contract test and a check that
   `ui/src/lib/ipc/bindings.ts` is current), Biome, svelte-check, vitest, UI build, on
-  ubuntu-24.04 with the WebKitGTK packages. [TBD: debug app build in CI]
+  ubuntu-24.04 with the WebKitGTK packages; the `android` job runs clippy for
+  `aarch64-linux-android` with the runner's NDK. [TBD: debug app build in CI]
 - Release: `.github/workflows/client-release.yml`, see "Publishing a release" below.
-  Android (apk) comes later.
+  It builds Android too (below).
 
 ## Publishing a release
 1. Bump the version in `src-tauri/tauri.conf.json` **and** `[workspace.package]` in
@@ -21,6 +23,7 @@ Rust stable (pinned), Node 22, pnpm 9+, Tauri CLI 2.x. Android: SDK, NDK, Java 1
    - macOS universal (arm64 + x86_64): `.dmg` (macos-latest)
    - Windows x64: NSIS `-setup.exe` and `.msi` (windows-latest)
    - Linux x64: `.AppImage`, `.deb`, `.rpm` (ubuntu-22.04 for older glibc / Steam Deck)
+   - Android: `Portside_<version>_android.apk`, arm64 + x86_64 (ubuntu-24.04, see "Android")
 4. When every build succeeded, the `publish` job publishes the release: 0.x versions and
    versions with a pre-release part (`-beta.1`) as **pre-releases**, the rest as the latest
    release. Edit "What's new" on GitHub afterwards if needed. If a build fails, the release
@@ -44,6 +47,27 @@ The app reads the static catalog from `https://erickbarrera.github.io/portside`
 (docs/specs/static-catalog.md). A build can bake in another address from the repository
 variable `PORTSIDE_DEFAULT_CATALOG_URL` (Settings → Secrets and variables → Actions →
 Variables); `PORTSIDE_CATALOG_URL` still overrides it at run time.
+
+## Android
+`pnpm tauri android build --apk --target aarch64 --target x86_64` builds an unsigned
+release APK from `src-tauri/gen/android` (committed; regenerate with `pnpm tauri android
+init` only when Tauri asks, then put back `AppsPlugin.kt` and the manifest changes). The
+workflow aligns it and signs it with `apksigner`. On a phone with USB debugging:
+`pnpm tauri android dev` (needs `ANDROID_HOME`, `NDK_HOME`).
+
+Android installs an update only when it is signed with the same key as the installed copy,
+so every release has to be signed with one key that is never lost:
+1. Once, on your computer: `keytool -genkeypair -keystore portside-release.jks -alias
+   portside -keyalg RSA -keysize 4096 -validity 10000 -dname "CN=Portside"`, with a password.
+   Keep the file and password somewhere safe: without them no installed copy can update
+   again until players uninstall and reinstall.
+2. Repository → Settings → Secrets and variables → Actions → secrets:
+   `ANDROID_KEYSTORE` (`base64 -i portside-release.jks`), `ANDROID_KEYSTORE_PASSWORD`, and
+   `ANDROID_KEY_ALIAS` if it isn't `portside`.
+
+Without `ANDROID_KEYSTORE` the workflow signs with a throwaway key made for that run and
+warns: the APK installs, but the next release can't update it in place.
+No in-app updates on Android yet: players download new APKs (or use Obtainium).
 
 ## Versioning
 SemVer, `client-vX.Y.Z` tags. One channel for now: every published release counts as an
@@ -87,5 +111,5 @@ Flatpak/F-Droid builds would disable the in-app updater (store updates instead).
 
 ## Secrets needed [TBD]
 Apple Developer ID cert + notarization creds, Windows signing, Tauri updater key (steps above),
-Android keystore.
+Android keystore (steps above).
 

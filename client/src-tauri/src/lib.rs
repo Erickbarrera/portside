@@ -1,5 +1,11 @@
-//! Portside desktop app: wires the feature crates to the webview through typed commands.
+//! Portside app: wires the feature crates to the webview through typed commands.
 
+// Android starts games through Android (android.rs), so running them as processes, and what
+// hangs off that (play time, saves around a run, Steam's --play), is unused there.
+#![cfg_attr(target_os = "android", allow(dead_code))]
+
+#[cfg(target_os = "android")]
+mod android;
 mod app_update;
 mod catalog_sync;
 mod commands;
@@ -109,25 +115,37 @@ pub fn export_bindings(path: &str) -> Result<(), String> {
         .map_err(|e| e.to_string())
 }
 
+#[cfg_attr(target_os = "android", tauri::mobile_entry_point)]
 pub fn run() {
     let builder = specta_builder();
 
-    let state = match state::AppState::from_env() {
-        Ok(state) => state,
+    let app = tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init());
+    // Desktop: the state is ready before the window opens. Android: in setup, which knows
+    // the app's private folder.
+    #[cfg(not(target_os = "android"))]
+    let app = match state::AppState::from_env(None) {
+        Ok(state) => app
+            .plugin(tauri_plugin_updater::Builder::new().build())
+            .manage(state),
         Err(e) => {
             eprintln!("Portside could not start: {e:#}");
             std::process::exit(1);
         }
     };
+    #[cfg(target_os = "android")]
+    let app = app.plugin(android::plugin());
 
-    let result = tauri::Builder::default()
-        .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
-        .manage(state)
+    let result = app
         .manage(steam::PlayRequest::from_args(std::env::args().skip(1)))
         .invoke_handler(builder.invoke_handler())
         .setup(move |app| {
+            #[cfg(target_os = "android")]
+            {
+                let dir = tauri::Manager::path(app).app_data_dir()?;
+                tauri::Manager::manage(app, state::AppState::from_env(Some(dir))?);
+            }
             builder.mount_events(app);
             tauri::Manager::manage(app, app_update::AppUpdater::new(app.handle()));
             app_update::spawn_checks(app.handle().clone());

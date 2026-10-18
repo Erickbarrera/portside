@@ -1,5 +1,6 @@
 # Generated from the release files of v4.0.0 and install-checked on 2026-10-16.
 # The Windows program is 32-bit; it runs on 64-bit Windows.
+# Android APK checked against v4.0.0 on 2026-10-18 (package from android/augustus/build.gradle).
 schema: 1
 id: keriew-augustus
 game_key: caesariiiaugustus
@@ -25,5 +26,11 @@ builds:
     asset: "augustus-*-linux.AppImage"
     archive: appimage
     launch: { exe: "augustus-linux.AppImage" }
+  - os: android
+    arch: universal
+    asset: "augustus-*-android.apk"
+    archive: apk
+    android_package: "com.github.Keriew.augustus"
 changelog:
   - "2026-10-16: initial (Windows, macOS, Linux)"
+  - "2026-10-18: Android (APK)"

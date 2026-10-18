@@ -1,4 +1,5 @@
 # Release files checked against 1.7.5 on 2026-10-14 (Linux on 2026-10-15).
+# Android APKs checked against 1.7.5 on 2026-10-18 (package from android/vcmi-app/build.gradle).
 schema: 1
 id: vcmi-vcmi
 game_key: heroesofmightandmagiciii
@@ -34,9 +35,20 @@ builds:
     asset: "VCMI-Linux-arm64.AppImage"
     archive: appimage
     launch: { exe: "VCMI.AppImage" }
+  - os: android
+    arch: arm64
+    asset: "VCMI-Android-arm64-v8a.apk"
+    archive: apk
+    android_package: "is.xyz.vcmi"
+  - os: android
+    arch: x86_64
+    asset: "VCMI-Android-x86_64.apk"
+    archive: apk
+    android_package: "is.xyz.vcmi"
 multiplayer: online_pvp
 links:
   homepage: "https://vcmi.eu"
 changelog:
   - "2026-10-14: initial (macOS and Windows)"
   - "2026-10-15: Linux"
+  - "2026-10-18: Android (arm64 and x86_64 APKs)"
