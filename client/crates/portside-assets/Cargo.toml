@@ -1,0 +1,27 @@
+[package]
+name = "portside-assets"
+description = "Finds the player's own copy of a game (Steam, GOG, Epic) and copies the files a port needs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+specta = ["dep:specta"]
+
+[dependencies]
+portside-core.workspace = true
+portside-api.workspace = true
+portside-steam.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+rusqlite.workspace = true
+specta = { workspace = true, optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

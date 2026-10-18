@@ -52,14 +52,7 @@ pub fn find_proton() -> Option<Proton> {
 /// in `compatibilitytools.d`.
 fn protons_in(steam_dir: &Path) -> Vec<Proton> {
     let mut folders = vec![steam_dir.join("compatibilitytools.d")];
-    let mut libraries = vec![steam_dir.to_path_buf()];
-    if let Ok(text) = std::fs::read_to_string(steam_dir.join("steamapps/libraryfolders.vdf")) {
-        for lib in library_paths(&text) {
-            if !libraries.contains(&lib) {
-                libraries.push(lib);
-            }
-        }
-    }
+    let libraries = crate::apps::libraries(steam_dir);
     folders.extend(libraries.iter().map(|l| l.join("steamapps/common")));
     let mut found = Vec::new();
     for folder in folders {
@@ -81,17 +74,6 @@ fn protons_in(steam_dir: &Path) -> Vec<Proton> {
         }
     }
     found
-}
-
-/// The `"path"` of each library in Steam's text `libraryfolders.vdf`.
-fn library_paths(text: &str) -> Vec<PathBuf> {
-    text.lines()
-        .filter_map(|line| {
-            let mut quoted = line.split('"').skip(1).step_by(2);
-            (quoted.next()? == "path").then(|| quoted.next())?
-        })
-        .map(|p| PathBuf::from(p.replace("\\\\", "\\")))
-        .collect()
 }
 
 /// How much a Proton is preferred, higher first: Valve's numbered releases by version, then
@@ -153,29 +135,6 @@ mod tests {
             Some("GE-Proton9-20".into())
         );
         assert_eq!(pick(&[]), None);
-    }
-
-    #[test]
-    fn reads_library_folders() {
-        let text = r#""libraryfolders"
-{
-	"0"
-	{
-		"path"		"/home/deck/.local/share/Steam"
-		"label"		""
-	}
-	"1"
-	{
-		"path"		"/run/media/deck/Card"
-	}
-}"#;
-        assert_eq!(
-            library_paths(text),
-            vec![
-                PathBuf::from("/home/deck/.local/share/Steam"),
-                PathBuf::from("/run/media/deck/Card")
-            ]
-        );
     }
 
     #[test]

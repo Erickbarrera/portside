@@ -157,6 +157,77 @@ pub fn steam_dirs() -> Vec<PathBuf> {
     found
 }
 
+/// Where game stores keep their records of installed games on this computer
+/// (docs/specs/manifest-format.md, "game_files"). Each list holds the usual places for this
+/// OS; ones that don't exist are skipped by whoever reads them.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct StorePlaces {
+    /// Steam folders, as [`steam_dirs`].
+    pub steam_dirs: Vec<PathBuf>,
+    /// GOG Galaxy's database, `galaxy-2.0.db`.
+    pub gog_galaxy_dbs: Vec<PathBuf>,
+    /// Folders GOG installs games into, one game per folder.
+    pub gog_folders: Vec<PathBuf>,
+    /// Heroic Games Launcher's settings folder (GOG and Epic).
+    pub heroic_dirs: Vec<PathBuf>,
+    /// The Epic Games Launcher's `Manifests` folder.
+    pub epic_manifest_dirs: Vec<PathBuf>,
+    /// Legendary's `installed.json` (Epic on Linux without Heroic).
+    pub legendary_files: Vec<PathBuf>,
+}
+
+/// The usual store places on this computer.
+pub fn store_places() -> StorePlaces {
+    let Some(base) = BaseDirs::new() else {
+        return StorePlaces::default();
+    };
+    let home = base.home_dir();
+    let config = base.config_dir();
+    let program_data = std::env::var_os("ProgramData").map(PathBuf::from);
+    let mut places = StorePlaces {
+        steam_dirs: steam_dirs(),
+        heroic_dirs: vec![config.join("heroic")],
+        legendary_files: vec![config.join("legendary/installed.json")],
+        ..StorePlaces::default()
+    };
+    if cfg!(target_os = "windows") {
+        if let Some(pd) = &program_data {
+            places
+                .gog_galaxy_dbs
+                .push(pd.join("GOG.com/Galaxy/storage/galaxy-2.0.db"));
+            places
+                .epic_manifest_dirs
+                .push(pd.join("Epic/EpicGamesLauncher/Data/Manifests"));
+        }
+        places.gog_folders.push(PathBuf::from("C:\\GOG Games"));
+        if let Some(pf) = std::env::var_os("ProgramFiles(x86)") {
+            places
+                .gog_folders
+                .push(PathBuf::from(pf).join("GOG Galaxy/Games"));
+        }
+    } else if cfg!(target_os = "macos") {
+        places.gog_galaxy_dbs.push(PathBuf::from(
+            "/Users/Shared/GOG.com/Galaxy/Storage/galaxy-2.0.db",
+        ));
+        places.epic_manifest_dirs.push(
+            base.data_dir()
+                .join("Epic/EpicGamesLauncher/Data/Manifests"),
+        );
+    } else if cfg!(target_os = "linux") {
+        places.gog_folders.push(home.join("GOG Games"));
+        places
+            .heroic_dirs
+            .push(home.join(".var/app/com.heroicgameslauncher.hgl/config/heroic"));
+    }
+    let heroic_legendary: Vec<PathBuf> = places
+        .heroic_dirs
+        .iter()
+        .map(|d| d.join("legendaryConfig/legendary/installed.json"))
+        .collect();
+    places.legendary_files.extend(heroic_legendary);
+    places
+}
+
 /// True on a Steam Deck (Valve's own hardware). Installing to the SD card is offered only
 /// there (docs/platforms.md, "Steam Deck"). `PORTSIDE_SD_CARD` pretends to be one.
 pub fn is_steam_deck() -> bool {

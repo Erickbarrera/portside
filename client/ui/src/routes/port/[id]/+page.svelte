@@ -4,6 +4,7 @@
   import CloudSaves from "$lib/components/CloudSaves.svelte";
   import Cover from "$lib/components/Cover.svelte";
   import ErrorNotice from "$lib/components/ErrorNotice.svelte";
+  import GameFiles from "$lib/components/GameFiles.svelte";
   import InstallPanel from "$lib/components/InstallPanel.svelte";
   import InviteFriend from "$lib/components/InviteFriend.svelte";
   import StatusBadge from "$lib/components/StatusBadge.svelte";
@@ -79,6 +80,10 @@
 
   {#if showInstall}
     <InstallPanel portId={port.id} {os} />
+  {/if}
+
+  {#if port.id in installs.installed}
+    <GameFiles portId={port.id} />
   {/if}
 
   {#if port.id in installs.installed}

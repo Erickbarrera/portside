@@ -28,11 +28,20 @@ const PROGRESS_EVERY: Duration = Duration::from_millis(250);
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 #[serde(tag = "state", rename_all = "snake_case")]
 pub enum InstallState {
-    Downloading { done: u64, total: Option<u64> },
+    Downloading {
+        done: u64,
+        total: Option<u64>,
+    },
     Verifying,
     Unpacking,
-    Installed { install: Box<Installed> },
-    Failed { error: CommandError },
+    /// Copying files from the player's own copy of the game (game_files.rs).
+    CopyingGameFiles,
+    Installed {
+        install: Box<Installed>,
+    },
+    Failed {
+        error: CommandError,
+    },
     Cancelled,
     Uninstalled,
 }
@@ -134,7 +143,7 @@ impl Installs {
     }
 }
 
-fn emit(app: &AppHandle, port_id: &str, state: InstallState) {
+pub(crate) fn emit(app: &AppHandle, port_id: &str, state: InstallState) {
     let event = InstallChanged {
         port_id: port_id.to_owned(),
         state: state.clone(),
@@ -214,6 +223,9 @@ pub async fn start(
             .install(&plan, to.as_deref(), accept_unsigned, &cancel, &report)
             .await;
         let port_id = plan.summary.port_id.clone();
+        if let Ok(install) = &outcome {
+            crate::game_files::after_install(&app, install).await;
+        }
         let installs = &app.state::<AppState>().installs;
         lock(&installs.jobs).remove(&port_id);
         lock(&installs.plans).remove(&port_id);

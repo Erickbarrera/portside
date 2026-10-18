@@ -95,6 +95,38 @@ export const commands = {
 	playStats: () => typedError<PlayStats[], CommandError>(__TAURI_INVOKE("play_stats")),
 	/**  Shows the output of a game's last run in Finder, Explorer or the file manager. */
 	gameRevealLog: (portId: string) => typedError<null, CommandError>(__TAURI_INVOKE("game_reveal_log", { portId })),
+	/**
+	 *  Whether a port needs files from the player's copy of the game, whether the installed
+	 *  version has them, and copies of the game found on this computer. None when it needs none.
+	 */
+	gameFilesStatus: (portId: string) => typedError<{
+	/**  The game as stores sell it. */
+	label: string,
+	/**  What the port needs, as the manifest lists it. */
+	files: string[],
+	/**  The installed version has them in place. */
+	ready: boolean,
+	/**  Where they were last copied from. */
+	source: Found | null,
+	/**  Copies of the game that stores installed on this computer. */
+	found: Found[],
+} | null, CommandError>(__TAURI_INVOKE("game_files_status", { portId })),
+	/**
+	 *  Copies the files from `dir` into place for the installed version: a copy
+	 *  `game_files_status` found (with its `store`), or a folder the player chose (`folder`).
+	 */
+	gameFilesCopy: (portId: string, store: Store, dir: string) => typedError<{
+	/**  The game as stores sell it. */
+	label: string,
+	/**  What the port needs, as the manifest lists it. */
+	files: string[],
+	/**  The installed version has them in place. */
+	ready: boolean,
+	/**  Where they were last copied from. */
+	source: Found | null,
+	/**  Copies of the game that stores installed on this computer. */
+	found: Found[],
+} | null, CommandError>(__TAURI_INVOKE("game_files_copy", { portId, store, dir })),
 	/**  The signed-in account, if any. */
 	authStatus: () => __TAURI_INVOKE<{
 	did: string,
@@ -527,7 +559,9 @@ export type ErrorCode =
 /**  The game only has a Windows build, and Proton isn't installed in Steam to run it. */
 "E_NO_PROTON" | 
 /**  Portside couldn't update itself (the update's signature didn't match, installing failed). */
-"E_APP_UPDATE";
+"E_APP_UPDATE" | 
+/**  A folder doesn't hold the game files a port needs, or copying them failed. */
+"E_GAME_FILES";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {
@@ -537,10 +571,70 @@ export type FolderSuggestion = {
 	has_saves: boolean,
 };
 
+/**  A copy of the game on this computer. */
+export type Found = {
+	store: Store,
+	/**  The folder holding the files the port needs (inside the store's game folder). */
+	dir: string,
+};
+
 /**  Sent when a game starts, is asked to stop, or exits. */
 export type GameChanged = {
 	port_id: string,
 	state: GameState,
+};
+
+/**  Files from the player's own copy of the game (manifest-format.md, "game_files"). */
+export type GameFiles = GameFiles_Serialize | GameFiles_Deserialize;
+
+export type GameFilesDest = GameFilesDest_Serialize | GameFilesDest_Deserialize;
+
+export type GameFilesDest_Deserialize = {
+	windows?: string | null,
+	macos?: string | null,
+	linux?: string | null,
+};
+
+export type GameFilesDest_Serialize = {
+	windows?: string | null,
+	macos?: string | null,
+	linux?: string | null,
+};
+
+/**  A port's game files on this computer. */
+export type GameFilesStatus = {
+	/**  The game as stores sell it. */
+	label: string,
+	/**  What the port needs, as the manifest lists it. */
+	files: string[],
+	/**  The installed version has them in place. */
+	ready: boolean,
+	/**  Where they were last copied from. */
+	source: Found | null,
+	/**  Copies of the game that stores installed on this computer. */
+	found: Found[],
+};
+
+/**  Files from the player's own copy of the game (manifest-format.md, "game_files"). */
+export type GameFiles_Deserialize = {
+	/**  The game as stores sell it. */
+	label: string,
+	stores?: GameStores_Deserialize | null,
+	/**  Paths inside the game's folder; one ending in `/` is a folder. */
+	files: string[],
+	/**  Where they go per OS; `{install}/` where not given. */
+	dest?: GameFilesDest_Deserialize | null,
+};
+
+/**  Files from the player's own copy of the game (manifest-format.md, "game_files"). */
+export type GameFiles_Serialize = {
+	/**  The game as stores sell it. */
+	label: string,
+	stores?: GameStores_Serialize | null,
+	/**  Paths inside the game's folder; one ending in `/` is a folder. */
+	files: string[],
+	/**  Where they go per OS; `{install}/` where not given. */
+	dest?: GameFilesDest_Serialize | null,
 };
 
 /**  A game's cloud saves, for the game page. */
@@ -570,6 +664,20 @@ export type GameState =
 /**  It ended. `code` is None when it was ended by a signal. */
 { state: "exited"; code: number | null; stopped: boolean; stats: PlayStats };
 
+export type GameStores = GameStores_Serialize | GameStores_Deserialize;
+
+export type GameStores_Deserialize = {
+	steam?: number[] | null,
+	gog?: string[] | null,
+	epic?: string[] | null,
+};
+
+export type GameStores_Serialize = {
+	steam?: number[] | null,
+	gog?: string[] | null,
+	epic?: string[] | null,
+};
+
 /**  Sent for each controller action, including repeats while a direction is held. */
 export type GamepadInput = {
 	action: PadAction,
@@ -596,10 +704,14 @@ export type InstallChanged_Serialize = {
 export type InstallState = InstallState_Serialize | InstallState_Deserialize;
 
 /**  Where one install has got to. */
-export type InstallState_Deserialize = ({ state: "downloading"; done: number; total: number | null }) & { error?: never; install?: never } | ({ state: "verifying" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "unpacking" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "installed"; install: Installed_Deserialize }) & { done?: never; error?: never; total?: never } | ({ state: "failed"; error: CommandError }) & { done?: never; install?: never; total?: never } | ({ state: "cancelled" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "uninstalled" }) & { done?: never; error?: never; install?: never; total?: never };
+export type InstallState_Deserialize = ({ state: "downloading"; done: number; total: number | null }) & { error?: never; install?: never } | ({ state: "verifying" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "unpacking" }) & { done?: never; error?: never; install?: never; total?: never } | 
+/**  Copying files from the player's own copy of the game (game_files.rs). */
+({ state: "copying_game_files" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "installed"; install: Installed_Deserialize }) & { done?: never; error?: never; total?: never } | ({ state: "failed"; error: CommandError }) & { done?: never; install?: never; total?: never } | ({ state: "cancelled" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "uninstalled" }) & { done?: never; error?: never; install?: never; total?: never };
 
 /**  Where one install has got to. */
-export type InstallState_Serialize = ({ state: "downloading"; done: number; total: number | null }) & { error?: never; install?: never } | ({ state: "verifying" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "unpacking" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "installed"; install: Installed_Serialize }) & { done?: never; error?: never; total?: never } | ({ state: "failed"; error: CommandError }) & { done?: never; install?: never; total?: never } | ({ state: "cancelled" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "uninstalled" }) & { done?: never; error?: never; install?: never; total?: never };
+export type InstallState_Serialize = ({ state: "downloading"; done: number; total: number | null }) & { error?: never; install?: never } | ({ state: "verifying" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "unpacking" }) & { done?: never; error?: never; install?: never; total?: never } | 
+/**  Copying files from the player's own copy of the game (game_files.rs). */
+({ state: "copying_game_files" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "installed"; install: Installed_Serialize }) & { done?: never; error?: never; total?: never } | ({ state: "failed"; error: CommandError }) & { done?: never; install?: never; total?: never } | ({ state: "cancelled" }) & { done?: never; error?: never; install?: never; total?: never } | ({ state: "uninstalled" }) & { done?: never; error?: never; install?: never; total?: never };
 
 /**  One installed version of a port. */
 export type Installed = Installed_Serialize | Installed_Deserialize;
@@ -789,6 +901,7 @@ export type Manifest_Deserialize = {
 	source: ManifestSource_Deserialize,
 	builds: ManifestBuild_Deserialize[],
 	assets_required?: AssetRequirement_Deserialize[] | null,
+	game_files?: GameFiles_Deserialize | null,
 	saves?: ManifestSaves_Deserialize | null,
 	multiplayer?: Multiplayer | null,
 	online?: Online_Deserialize | null,
@@ -809,6 +922,7 @@ export type Manifest_Serialize = {
 	source: ManifestSource_Serialize,
 	builds: ManifestBuild_Serialize[],
 	assets_required?: AssetRequirement_Serialize[] | null,
+	game_files?: GameFiles_Serialize | null,
 	saves?: ManifestSaves_Serialize | null,
 	multiplayer?: Multiplayer | null,
 	online?: Online_Serialize | null,
@@ -1135,6 +1249,11 @@ export type Storage = {
 };
 
 export type StorageKind = "internal" | "sd_card";
+
+/**  Where a copy of the game came from. */
+export type Store = "steam" | "gog" | "epic" | 
+/**  A folder the player chose. */
+"folder";
 
 /**  A record's address and version, as replies and likes need it. */
 export type StrongRef = {

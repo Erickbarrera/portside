@@ -22,6 +22,7 @@ import type {
 } from "../ipc";
 import { appUpdateCommand } from "./app-update";
 import { portDetail, ports } from "./fixtures";
+import { gameFilesCommand, mockGameFilesAfterInstall } from "./game-files";
 import { mockAfterExit, mockBeforeLaunch, savesCommand } from "./saves";
 import { socialCommand } from "./social";
 import { steamCommand } from "./steam";
@@ -135,6 +136,7 @@ if (params.has("mock-installed")) {
   ports.forEach((port, i) => {
     try {
       installed.set(port.id, installedEntry(port.id, Date.now() / 1000 - (i + 1) * 86400));
+      mockGameFilesAfterInstall(port.id);
       // Every other game has been played, the later ones more recently.
       if (i % 2 === 1) {
         played.set(port.id, {
@@ -167,6 +169,11 @@ function fakeInstall(id: string, to: StorageKind | null) {
       const install = installedEntry(id, undefined, library);
       installed.set(id, install);
       state = { state: "installed", install };
+      if (mockGameFilesAfterInstall(id)) {
+        send(id, { state: "copying_game_files" });
+        setTimeout(() => send(id, { state: "installed", install }), 900);
+        return;
+      }
     } else {
       running.set(id, { state, timer });
     }
@@ -296,6 +303,8 @@ export function installMockIpc() {
           if (social !== undefined) return social;
           const saved = savesCommand(cmd, a);
           if (saved !== undefined) return saved;
+          const gameFiles = gameFilesCommand(cmd, a, (id) => installed.has(id));
+          if (gameFiles !== undefined) return gameFiles;
           const steam = steamCommand(cmd, a);
           if (steam !== undefined) return steam;
           const update = appUpdateCommand(cmd);

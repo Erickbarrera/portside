@@ -159,6 +159,29 @@ impl Library {
         Ok(n)
     }
 
+    /// Remembers where `port_id`'s game files were copied from: a store name and a folder.
+    pub fn set_game_files_source(&self, port_id: &str, store: &str, dir: &str) -> Result<()> {
+        self.conn().execute(
+            "INSERT INTO game_files (port_id, store, dir) VALUES (?1, ?2, ?3)
+             ON CONFLICT (port_id) DO UPDATE SET store = excluded.store, dir = excluded.dir",
+            params![port_id, store, dir],
+        )?;
+        Ok(())
+    }
+
+    /// Where `port_id`'s game files were last copied from, as `(store, folder)`.
+    pub fn game_files_source(&self, port_id: &str) -> Result<Option<(String, String)>> {
+        let row = self
+            .conn()
+            .query_row(
+                "SELECT store, dir FROM game_files WHERE port_id = ?1",
+                [port_id],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .optional()?;
+        Ok(row)
+    }
+
     /// Records that `port_id` started running; returns the session to [`Library::touch_session`].
     pub fn start_session(&self, port_id: &str, version: &str, at: u64) -> Result<i64> {
         let conn = self.conn();
@@ -240,6 +263,13 @@ mod tests {
         assert_eq!(sm64.sessions, 2);
 
         let all = lib.play_stats()?;
+        assert_eq!(lib.game_files_source("sm64")?, None);
+        lib.set_game_files_source("sm64", "steam", "/a")?;
+        lib.set_game_files_source("sm64", "folder", "/b")?;
+        assert_eq!(
+            lib.game_files_source("sm64")?,
+            Some(("folder".into(), "/b".into()))
+        );
         assert_eq!(all.len(), 2);
         assert_eq!(all[1].port_id, "soh");
         assert_eq!(all[1].total_secs, 0);

@@ -1,10 +1,11 @@
-//! Finds Proton for Windows-only ports (`proton.rs`), and adds installed ports to Steam as
-//! non-Steam games (client/docs/platforms.md, "Add to
+//! Finds Proton for Windows-only ports (`proton.rs`) and games Steam installed (`apps.rs`),
+//! and adds installed ports to Steam as non-Steam games (client/docs/platforms.md, "Add to
 //! Steam"), on every OS Steam runs on. Each shortcut starts Portside with `--play <port>`,
 //! so updates (which move the game to a new folder) never break it and cloud saves still
 //! sync. Steam reads `shortcuts.vdf` when it starts and may write over it while running, so
 //! the file is only changed while Steam is closed.
 
+pub mod apps;
 mod art;
 mod proton;
 pub mod vdf;

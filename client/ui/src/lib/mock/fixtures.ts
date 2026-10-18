@@ -132,6 +132,16 @@ export function portDetail(id: string): PortDetail_Serialize | null {
             asset: `${summary.id}-${s.os}-*.zip`,
             archive: "zip",
           })),
+          // The engine remake runs on the data files of the player's own copy of the game.
+          ...(summary.type === "engine-remake"
+            ? {
+                game_files: {
+                  label: "Example RPG",
+                  stores: { steam: [1000], gog: ["2000"] },
+                  files: ["data.pak", "music/"],
+                },
+              }
+            : {}),
         }
       : null,
     manifest_rev: hasBuilds ? "synthetic" : null,
