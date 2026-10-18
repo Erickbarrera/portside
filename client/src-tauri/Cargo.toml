@@ -24,6 +24,7 @@ portside-atproto.workspace = true
 portside-social = { workspace = true, features = ["specta"] }
 portside-sync = { workspace = true, features = ["specta"] }
 portside-steam.workspace = true
+portside-assets = { workspace = true, features = ["specta"] }
 reqwest.workspace = true
 keyring = { version = "3.6", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
 tokio.workspace = true

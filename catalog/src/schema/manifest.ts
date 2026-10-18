@@ -114,6 +114,47 @@ export const ManifestSavesSchema = Type.Object(
   { additionalProperties: false },
 );
 
+/** Files from the player's own copy of the game (manifest-format.md, "game_files"). */
+export const GameFilesSchema = Type.Object(
+  {
+    label: Str({ minLength: 1, maxLength: 200 }),
+    stores: Type.Optional(
+      Type.Object(
+        {
+          steam: Type.Optional(
+            Type.Array(Type.Integer({ minimum: 1 }), { minItems: 1, maxItems: 8 }),
+          ),
+          gog: Type.Optional(
+            Type.Array(Str({ pattern: "^[0-9]+$", maxLength: 20 }), { minItems: 1, maxItems: 8 }),
+          ),
+          itch: Type.Optional(
+            Type.Array(Type.Integer({ minimum: 1 }), { minItems: 1, maxItems: 8 }),
+          ),
+          epic: Type.Optional(
+            Type.Array(Str({ pattern: "^[A-Za-z0-9_.-]+$", maxLength: 100 }), {
+              minItems: 1,
+              maxItems: 8,
+            }),
+          ),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+    files: Type.Array(Str({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 32 }),
+    dest: Type.Optional(
+      Type.Object(
+        {
+          windows: Type.Optional(Str()),
+          macos: Type.Optional(Str()),
+          linux: Type.Optional(Str()),
+        },
+        { additionalProperties: false },
+      ),
+    ),
+  },
+  { additionalProperties: false },
+);
+
 export const ManifestSchema = Type.Object(
   {
     schema: Type.Literal(1),
@@ -158,6 +199,7 @@ export const ManifestSchema = Type.Object(
     ),
     builds: Type.Array(ManifestBuildSchema, { minItems: 1, maxItems: 32 }),
     assets_required: Type.Optional(Type.Array(AssetRequirementSchema)),
+    game_files: Type.Optional(GameFilesSchema),
     saves: Type.Optional(ManifestSavesSchema),
     multiplayer: Type.Optional(MultiplayerSchema),
     online: Type.Optional(
@@ -324,6 +366,40 @@ function urlListIssues(manifest: Manifest, reviewed: string[]): ManifestIssue[] 
   return issues;
 }
 
+function gameFilesIssues(manifest: Manifest): ManifestIssue[] {
+  const g = manifest.game_files;
+  if (!g) return [];
+  const issues: ManifestIssue[] = [];
+  g.files.forEach((f, i) => {
+    const parts = f.replace(/\/$/, "").split("/");
+    if (
+      f.startsWith("/") ||
+      /[\\*]/.test(f) ||
+      /^[A-Za-z]:/.test(f) ||
+      parts.some((p) => p === "" || p === "." || p === "..")
+    ) {
+      issues.push({
+        path: `/game_files/files/${i}`,
+        message: "must be a relative path inside the game's folder",
+      });
+    }
+  });
+  for (const [os, dest] of Object.entries(g.dest ?? {})) {
+    if (!dest.startsWith("{") || dest.split(/[\\/]/).includes("..")) {
+      issues.push({
+        path: `/game_files/dest/${os}`,
+        message: "must start with a placeholder and stay inside it",
+      });
+    }
+  }
+  for (const [store, ids] of Object.entries(g.stores ?? {})) {
+    if (new Set(ids.map(String)).size !== ids.length) {
+      issues.push({ path: `/game_files/stores/${store}`, message: "lists an id twice" });
+    }
+  }
+  return issues;
+}
+
 /** Archive kinds that hold files, so a `nested` archive can be inside them. */
 const CONTAINERS: string[] = ["zip", "tar.gz", "tar.xz", "7z"];
 
@@ -380,6 +456,7 @@ export function validateManifest(
     errors.push({ path: "/source/tag_pattern", message: "required when channel is tag_pattern" });
   }
   errors.push(...urlListIssues(manifest, opts.urlListHosts ?? URL_LIST_HOSTS));
+  errors.push(...gameFilesIssues(manifest));
   for (const [i, a] of (manifest.assets_required ?? []).entries()) {
     a.accept.forEach((acc, j) => {
       if (!acc.sha1 && !acc.sha256) {

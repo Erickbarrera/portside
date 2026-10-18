@@ -27,7 +27,13 @@ background and reports `install-changed` events.
    target (`exe` or `app_bundle`) exists; `chmod_x`; clear `com.apple.quarantine` on an
    unsigned bundle the user agreed to. Then move it to `{library}/{id}/{version}/`, write
    `{library}/{id}/current`, and record it in `{app_data}/library.db`.
-8. If `assets_required`: import wizard [TBD: step after launch]; launch stays blocked until
+8. If `game_files` (manifest-format.md): copy the files the port needs from the player's own
+   copy of the game, `src-tauri/src/game_files.rs` with `portside-assets` (install state
+   `copying_game_files`). From the folder used last time (`game_files` in `library.db`), else
+   the first copy found through Steam, GOG (Galaxy, Heroic, GOG's usual folders) or Epic
+   (Epic Games Launcher, Heroic, Legendary) or the itch app (`butler.db`). None found: the game page says so and offers
+   "Choose folder"; launch isn't blocked. Nothing is downloaded, and no paths are logged.
+9. If `assets_required`: import wizard [TBD: step after launch]; launch stays blocked until
    satisfied.
 
 Archives: `zip`, `tar.gz`, `tar.xz`, `7z`, `dmg` (macOS: `hdiutil` + `ditto`), `appimage` and

@@ -3611,6 +3611,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "portside-assets"
+version = "0.3.0"
+dependencies = [
+ "portside-api",
+ "portside-core",
+ "portside-steam",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "specta",
+ "tempfile",
+ "thiserror 2.0.21",
+]
+
+[[package]]
 name = "portside-atproto"
 version = "0.3.0"
 dependencies = [
@@ -3662,6 +3677,7 @@ dependencies = [
  "gilrs",
  "keyring",
  "portside-api",
+ "portside-assets",
  "portside-atproto",
  "portside-catalog",
  "portside-core",

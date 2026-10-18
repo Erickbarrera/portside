@@ -99,6 +99,8 @@
         return "Checking the download…";
       case "unpacking":
         return "Unpacking…";
+      case "copying_game_files":
+        return "Copying your game files…";
       default:
         return "Working…";
     }

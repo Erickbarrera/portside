@@ -18,7 +18,8 @@ Read the root `CLAUDE.md` first, then this file, then `docs/README.md`.
 Built so far: `Cargo.toml`, `rust-toolchain.toml`, `crates/portside-core`,
 `crates/portside-api` (catalog endpoints only), `crates/portside-catalog`,
 `crates/portside-installer`, `crates/portside-launcher`, `crates/portside-atproto`,
-`crates/portside-social`, `crates/portside-sync`, `crates/portside-steam`, `src-tauri`, `ui`.
+`crates/portside-social`, `crates/portside-sync`, `crates/portside-steam`,
+`crates/portside-assets` (game files from Steam, GOG, Epic and itch installs so far), `src-tauri`, `ui`.
 The rest is planned. `rust-version` in `Cargo.toml` must match `rust-toolchain.toml`.
 ```
 client/
@@ -28,7 +29,7 @@ client/
     portside-core/           # domain types, config, paths, errors
     portside-catalog/        # local SQLite cache, ETag sync of the static catalog
     portside-installer/      # release resolution, download (resume), verify, unpack
-    portside-assets/         # asset import wizard backend, hashing, normalize (byteswap)
+    portside-assets/         # game files from store installs (Steam, GOG, Epic, itch); later: import wizard, hashing, byteswap
     portside-launcher/       # launch command, spawn, wait, stop (play time lives in library.db)
     portside-sync/           # cloud saves: plain-file vault in a synced folder (ADR-0023)
     portside-atproto/        # OAuth client (DPoP/PKCE/PAR), session, authenticated XRPC
@@ -62,7 +63,8 @@ never depend on Tauri; they must be testable without a window.
   keyboard); `?mock-proton` installs Windows builds as if through Proton (`=none`: Proton
   missing). `PORTSIDE_PROTON=<folder>` picks which Proton the real app uses. `PORTSIDE_SD_CARD=<folder>` makes the real app
   treat a folder as the Deck's SD card; `?mock-update` starts with a newer Portside found
-  (Update and restart pretends to download, then reloads)
+  (Update and restart pretends to download, then reloads); the engine remake fixture needs
+  game files and finds them in Steam (`?mock-game-files=none` finds none, `=both` also GOG)
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")
 - `cargo test --workspace` · `cargo clippy --workspace --all-targets -- -D warnings` ·

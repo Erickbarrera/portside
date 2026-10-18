@@ -133,6 +133,9 @@ pub enum ErrorCode {
     /// Portside couldn't update itself (the update's signature didn't match, installing failed).
     #[serde(rename = "E_APP_UPDATE")]
     AppUpdate,
+    /// A folder doesn't hold the game files a port needs, or copying them failed.
+    #[serde(rename = "E_GAME_FILES")]
+    GameFiles,
 }
 
 /// What a failed command returns to the UI.

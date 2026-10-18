@@ -4,6 +4,7 @@ mod app_update;
 mod catalog_sync;
 mod commands;
 mod error;
+mod game_files;
 mod gamepad;
 mod games;
 mod installs;
@@ -49,6 +50,8 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             commands::game::games_running,
             commands::game::play_stats,
             commands::game::game_reveal_log,
+            commands::game_files::game_files_status,
+            commands::game_files::game_files_copy,
             commands::social::auth_status,
             commands::social::auth_sign_in,
             commands::social::auth_cancel,

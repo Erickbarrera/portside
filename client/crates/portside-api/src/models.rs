@@ -148,6 +148,8 @@ model! {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub assets_required: Option<Vec<AssetRequirement>>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub game_files: Option<GameFiles>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
         pub saves: Option<ManifestSaves>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub multiplayer: Option<Multiplayer>,
@@ -287,6 +289,46 @@ model! {
         #[serde(default, skip_serializing_if = "Option::is_none", with = "nullable")]
         #[cfg_attr(feature = "specta", specta(type = Option<Option<String>>))]
         pub run: Option<Option<String>>,
+    }
+}
+
+model! {
+    /// Files from the player's own copy of the game (manifest-format.md, "game_files").
+    pub struct GameFiles {
+        /// The game as stores sell it.
+        pub label: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub stores: Option<GameStores>,
+        /// Paths inside the game's folder; one ending in `/` is a folder.
+        pub files: Vec<String>,
+        /// Where they go per OS; `{install}/` where not given.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub dest: Option<GameFilesDest>,
+    }
+}
+
+model! {
+    pub struct GameStores {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub steam: Option<Vec<u32>>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub gog: Option<Vec<String>>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub epic: Option<Vec<String>>,
+        /// itch.io game ids.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub itch: Option<Vec<u64>>,
+    }
+}
+
+model! {
+    pub struct GameFilesDest {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub windows: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub macos: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub linux: Option<String>,
     }
 }
 
