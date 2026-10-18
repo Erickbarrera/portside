@@ -1,8 +1,17 @@
-# Generated from the release files of 0.51 and install-checked on 2026-10-16.
+# Release files checked by hand against 0.51 on 2026-10-18 (generated from 0.51 and
+# install-checked on 2026-10-16). One x86_64 AppImage, which upstream also builds for the
+# Steam Deck. It opens bbport's own launcher, where the player picks their game folder;
+# its data, settings and saves live in ~/.local/share/bbport.
 schema: 1
 id: deadinside28-bloodborne-pc
 game_key: bloodbornebbport
+display_name: "Bloodborne (bbport)"
 status: playable
+status_notes: >-
+  Linux and Steam Deck only, Vulkan 1.3 GPU. Needs your own decrypted PS4 dump of
+  Bloodborne updated to 1.09 (the `CUSA03173` or `CUSA00900` folder, with the update copied
+  over the base game). Pick that folder in bbport's launcher on first start. On the Steam
+  Deck choose the 1280×720 output. Experimental: no full play-through verified upstream.
 source:
   type: github_releases
   repo: deadinside28/bloodborne_pc
@@ -13,5 +22,14 @@ builds:
     asset: "Bloodborne-bbport-x86_64.AppImage"
     archive: appimage
     launch: { exe: "Bloodborne-bbport-x86_64.AppImage" }
+saves:
+  # bbport's runtime writes PS4 save data under <data>/user/savedata/<user>/<title id>/
+  # (src/runtime_savedata.c); the AppImage's data folder is ~/.local/share/bbport. A save
+  # folder chosen in bbport's launcher is not followed.
+  root:
+    linux: "{xdg_data}/bbport/user/savedata/"
+  include: ["**/*"]
+  portable: true
 changelog:
   - "2026-10-16: initial (Linux)"
+  - "2026-10-18: checked by hand; notes on the game files and the Steam Deck, save folder"
