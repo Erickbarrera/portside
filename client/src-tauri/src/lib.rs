@@ -1,5 +1,6 @@
 //! Portside desktop app: wires the feature crates to the webview through typed commands.
 
+mod app_update;
 mod catalog_sync;
 mod commands;
 mod error;
@@ -26,6 +27,9 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
     Builder::<tauri::Wry>::new()
         .commands(collect_commands![
             commands::app::app_info,
+            commands::app::app_update_status,
+            commands::app::app_update_check,
+            commands::app::app_update_install,
             commands::catalog::catalog_search,
             commands::catalog::port_get,
             commands::catalog::catalog_summaries,
@@ -84,6 +88,7 @@ pub fn specta_builder() -> Builder<tauri::Wry> {
             commands::steam::steam_keyboard,
         ])
         .events(collect_events![
+            app_update::AppUpdateChanged,
             catalog_sync::CatalogSynced,
             installs::InstallChanged,
             games::GameChanged,
@@ -118,11 +123,14 @@ pub fn run() {
     let result = tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .manage(state)
         .manage(steam::PlayRequest::from_args(std::env::args().skip(1)))
         .invoke_handler(builder.invoke_handler())
         .setup(move |app| {
             builder.mount_events(app);
+            tauri::Manager::manage(app, app_update::AppUpdater::new(app.handle()));
+            app_update::spawn_checks(app.handle().clone());
             catalog_sync::spawn_refresh(app.handle().clone());
             social::spawn_restore(app.handle().clone());
             social::spawn_chat_poller(app.handle().clone());

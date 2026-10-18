@@ -7,6 +7,12 @@ import * as __TAURI_EVENT from "@tauri-apps/api/event";
 export const commands = {
 	/**  Version, platform and catalog address, for the UI and Settings. */
 	appInfo: () => __TAURI_INVOKE<AppInfo>("app_info"),
+	/**  Whether Portside can update itself and what the last check found. */
+	appUpdateStatus: () => __TAURI_INVOKE<AppUpdateStatus>("app_update_status"),
+	/**  Checks GitHub for a newer Portside now. */
+	appUpdateCheck: () => __TAURI_INVOKE<AppUpdateStatus>("app_update_check"),
+	/**  Downloads and installs the update found by the last check, then restarts Portside. */
+	appUpdateInstall: () => typedError<null, CommandError>(__TAURI_INVOKE("app_update_install")),
 	/**
 	 *  Searches the catalog saved on this device (works offline). Before the first sync it
 	 *  downloads the catalog.
@@ -182,6 +188,7 @@ export const commands = {
 
 /** Events */
 export const events = {
+	appUpdateChanged: makeEvent<AppUpdateChanged>("app-update-changed"),
 	authChanged: makeEvent<AuthChanged>("auth-changed"),
 	catalogSynced: makeEvent<CatalogSynced>("catalog-synced"),
 	chatChanged: makeEvent<ChatChanged>("chat-changed"),
@@ -213,6 +220,28 @@ export type AppInfo = {
 	big_screen: boolean,
 	/**  A Steam Deck: text fields open Steam's keyboard when a controller selects them. */
 	steam_deck: boolean,
+};
+
+/**  Sent whenever the status changes. */
+export type AppUpdateChanged = {
+	status: AppUpdateStatus,
+};
+
+/**  Whether this copy can update itself, and what the last check found. */
+export type AppUpdateStatus = {
+	/**
+	 *  Set when this copy can't update itself, saying why (a development build, a build
+	 *  without the update key). Nothing else here is used then.
+	 */
+	off_reason: string | null,
+	checking: boolean,
+	/**  Unix seconds of the last check that reached GitHub. */
+	last_checked_at: number | null,
+	available: AvailableUpdate | null,
+	/**  Set while an update downloads and installs; Portside restarts when it's done. */
+	progress: UpdateProgress | null,
+	/**  Set when the last check or install failed. */
+	last_error: CommandError | null,
 };
 
 /**  CPU architecture a build targets. */
@@ -274,6 +303,13 @@ export type AssetRequirement_Serialize = {
 /**  Sent when someone signs in or out, or the sign-in expires. */
 export type AuthChanged = {
 	account: Account | null,
+};
+
+/**  A newer Portside that can be installed. */
+export type AvailableUpdate = {
+	version: string,
+	/**  "What's new", from the release notes. */
+	notes: string | null,
 };
 
 export type BoardPage = {
@@ -489,7 +525,9 @@ export type ErrorCode =
 /**  The game is on storage that isn't there: the Steam Deck's SD card was taken out. */
 "E_STORAGE_MISSING" | 
 /**  The game only has a Windows build, and Proton isn't installed in Steam to run it. */
-"E_NO_PROTON";
+"E_NO_PROTON" | 
+/**  Portside couldn't update itself (the update's signature didn't match, installing failed). */
+"E_APP_UPDATE";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {
@@ -1144,6 +1182,14 @@ export type ThreadView = {
 	site_board: SiteBoard | null,
 	/**  Bluesky address of the first post, for "Open in Bluesky". */
 	web_url: string,
+};
+
+/**  How far the download of an update has got. */
+export type UpdateProgress = {
+	/**  Bytes downloaded (f64: TypeScript numbers). */
+	downloaded: number | null,
+	/**  Size of the download, when the server says. */
+	total: number | null,
 };
 
 /**  Where an install's checksum came from. */

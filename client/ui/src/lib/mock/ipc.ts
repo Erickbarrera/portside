@@ -20,6 +20,7 @@ import type {
   Storage,
   StorageKind,
 } from "../ipc";
+import { appUpdateCommand } from "./app-update";
 import { portDetail, ports } from "./fixtures";
 import { mockAfterExit, mockBeforeLaunch, savesCommand } from "./saves";
 import { socialCommand } from "./social";
@@ -297,6 +298,8 @@ export function installMockIpc() {
           if (saved !== undefined) return saved;
           const steam = steamCommand(cmd, a);
           if (steam !== undefined) return steam;
+          const update = appUpdateCommand(cmd);
+          if (update !== undefined) return update;
           throw { code: "E_API_STATUS", message: `Mock IPC has no command ${cmd}` };
         }
       }

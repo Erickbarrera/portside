@@ -7,9 +7,11 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { auth } from "$lib/account.svelte";
+  import { appUpdate } from "$lib/app-update.svelte";
   import { chat, personName } from "$lib/chat.svelte";
   import { games } from "$lib/games.svelte";
   import { commands } from "$lib/ipc";
+  import AppUpdate from "$lib/components/AppUpdate.svelte";
   import Avatar from "$lib/components/Avatar.svelte";
   import InstalledList from "$lib/components/InstalledList.svelte";
   import OnScreenKeyboard from "$lib/components/OnScreenKeyboard.svelte";
@@ -37,6 +39,10 @@
 
   $effect(() => {
     void auth.start();
+  });
+  // A newer Portside: a banner on every screen until closed (Settings keeps offering it).
+  $effect(() => {
+    void appUpdate.start();
   });
   // Started from a Steam shortcut (`--play <port>`): open the game's page and start it.
   // Portside quits when it ends; a failure stays on the page.
@@ -95,6 +101,7 @@
     </div>
   </nav>
   <main id="content">
+    <AppUpdate banner />
     {@render children()}
   </main>
 </div>

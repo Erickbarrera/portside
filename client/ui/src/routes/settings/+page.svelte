@@ -1,7 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { auth } from "$lib/account.svelte";
+  import { appUpdate } from "$lib/app-update.svelte";
   import { catalog } from "$lib/catalog.svelte";
+  import AppUpdate from "$lib/components/AppUpdate.svelte";
   import SavesSetup from "$lib/components/SavesSetup.svelte";
   import { type CouchSetting, couch } from "$lib/couch.svelte";
   import { archLabel, formatAgo, formatNumber, osLabel } from "$lib/labels";
@@ -11,7 +13,9 @@
 
   onMount(() => {
     void catalog.start();
+    void appUpdate.start();
   });
+  const update = $derived(appUpdate.status);
 </script>
 
 <svelte:head><title>Settings · Portside</title></svelte:head>
@@ -81,6 +85,40 @@
     To use a different copy of the catalog, start Portside with <code>PORTSIDE_CATALOG_URL</code> set
     to its address.
   </p>
+</section>
+
+<section aria-labelledby="updates-h">
+  <h2 id="updates-h">Updates</h2>
+  {#if update?.off_reason}
+    <p class="muted">{update.off_reason}</p>
+  {:else if update}
+    <p class="muted">
+      Portside checks for a new version when it starts and every few hours, and asks before
+      installing it.
+    </p>
+    <AppUpdate />
+    {#if !update.available}
+      <dl>
+        <dt>Last check</dt>
+        <dd>
+          {#if update.last_error}
+            {update.last_error.message}
+          {:else if update.last_checked_at}
+            Up to date · {formatAgo(update.last_checked_at)}
+          {:else}
+            Not yet
+          {/if}
+        </dd>
+      </dl>
+      <button
+        class="btn btn-secondary"
+        disabled={update.checking}
+        onclick={() => appUpdate.check()}
+      >
+        {update.checking ? "Checking…" : "Check for updates"}
+      </button>
+    {/if}
+  {/if}
 </section>
 
 <section aria-labelledby="catalog-h">

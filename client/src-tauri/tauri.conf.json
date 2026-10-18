@@ -38,5 +38,12 @@
     "macOS": {
       "signingIdentity": "-"
     }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "",
+      "requireSignedVersion": true,
+      "windows": { "installMode": "passive" }
+    }
   }
 }

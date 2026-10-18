@@ -61,7 +61,8 @@ never depend on Tauri; they must be testable without a window.
   an SD card in (installs ask where to go); `?mock-deck` is a Steam Deck (A on a text field asks for Steam's
   keyboard); `?mock-proton` installs Windows builds as if through Proton (`=none`: Proton
   missing). `PORTSIDE_PROTON=<folder>` picks which Proton the real app uses. `PORTSIDE_SD_CARD=<folder>` makes the real app
-  treat a folder as the Deck's SD card
+  treat a folder as the Deck's SD card; `?mock-update` starts with a newer Portside found
+  (Update and restart pretends to download, then reloads)
 - `pnpm tauri build --debug --no-bundle` — local build with the UI bundled
 - Releases: push a `client-vX.Y.Z` tag (see docs/build-release.md, "Publishing a release")
 - `cargo test --workspace` · `cargo clippy --workspace --all-targets -- -D warnings` ·
