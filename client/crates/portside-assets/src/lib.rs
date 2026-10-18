@@ -1,6 +1,6 @@
 //! The player's own copy of a game, for ports that run on its data files
-//! (docs/specs/manifest-format.md, "game_files"). Finds copies that Steam, GOG or Epic
-//! installed (`stores.rs`), and copies the files a port needs into place (`files.rs`).
+//! (docs/specs/manifest-format.md, "game_files"). Finds copies that Steam, GOG, Epic or the
+//! itch app installed (`stores.rs`), and copies the files a port needs into place (`files.rs`).
 //! Nothing here downloads anything, and no paths or file names are logged.
 
 mod files;
@@ -29,6 +29,7 @@ pub enum Store {
     Steam,
     Gog,
     Epic,
+    Itch,
     /// A folder the player chose.
     Folder,
 }
@@ -39,14 +40,21 @@ impl Store {
             Store::Steam => "steam",
             Store::Gog => "gog",
             Store::Epic => "epic",
+            Store::Itch => "itch",
             Store::Folder => "folder",
         }
     }
 
     pub fn parse(s: &str) -> Option<Store> {
-        [Store::Steam, Store::Gog, Store::Epic, Store::Folder]
-            .into_iter()
-            .find(|st| st.as_str() == s)
+        [
+            Store::Steam,
+            Store::Gog,
+            Store::Epic,
+            Store::Itch,
+            Store::Folder,
+        ]
+        .into_iter()
+        .find(|st| st.as_str() == s)
     }
 }
 

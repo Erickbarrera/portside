@@ -174,6 +174,8 @@ pub struct StorePlaces {
     pub epic_manifest_dirs: Vec<PathBuf>,
     /// Legendary's `installed.json` (Epic on Linux without Heroic).
     pub legendary_files: Vec<PathBuf>,
+    /// The itch app's database, `db/butler.db`.
+    pub itch_dbs: Vec<PathBuf>,
 }
 
 /// The usual store places on this computer.
@@ -188,6 +190,7 @@ pub fn store_places() -> StorePlaces {
         steam_dirs: steam_dirs(),
         heroic_dirs: vec![config.join("heroic")],
         legendary_files: vec![config.join("legendary/installed.json")],
+        itch_dbs: vec![config.join("itch/db/butler.db")],
         ..StorePlaces::default()
     };
     if cfg!(target_os = "windows") {
@@ -218,6 +221,9 @@ pub fn store_places() -> StorePlaces {
         places
             .heroic_dirs
             .push(home.join(".var/app/com.heroicgameslauncher.hgl/config/heroic"));
+        places
+            .itch_dbs
+            .push(home.join(".var/app/io.itch.itch/config/itch/db/butler.db"));
     }
     let heroic_legendary: Vec<PathBuf> = places
         .heroic_dirs

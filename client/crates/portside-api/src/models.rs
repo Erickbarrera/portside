@@ -315,6 +315,9 @@ model! {
         pub gog: Option<Vec<String>>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub epic: Option<Vec<String>>,
+        /// itch.io game ids.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub itch: Option<Vec<u64>>,
     }
 }
 

@@ -127,6 +127,9 @@ export const GameFilesSchema = Type.Object(
           gog: Type.Optional(
             Type.Array(Str({ pattern: "^[0-9]+$", maxLength: 20 }), { minItems: 1, maxItems: 8 }),
           ),
+          itch: Type.Optional(
+            Type.Array(Type.Integer({ minimum: 1 }), { minItems: 1, maxItems: 8 }),
+          ),
           epic: Type.Optional(
             Type.Array(Str({ pattern: "^[A-Za-z0-9_.-]+$", maxLength: 100 }), {
               minItems: 1,

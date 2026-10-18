@@ -670,12 +670,16 @@ export type GameStores_Deserialize = {
 	steam?: number[] | null,
 	gog?: string[] | null,
 	epic?: string[] | null,
+	/**  itch.io game ids. */
+	itch?: number[] | null,
 };
 
 export type GameStores_Serialize = {
 	steam?: number[] | null,
 	gog?: string[] | null,
 	epic?: string[] | null,
+	/**  itch.io game ids. */
+	itch?: number[] | null,
 };
 
 /**  Sent for each controller action, including repeats while a direction is held. */
@@ -1251,7 +1255,7 @@ export type Storage = {
 export type StorageKind = "internal" | "sd_card";
 
 /**  Where a copy of the game came from. */
-export type Store = "steam" | "gog" | "epic" | 
+export type Store = "steam" | "gog" | "epic" | "itch" | 
 /**  A folder the player chose. */
 "folder";
 

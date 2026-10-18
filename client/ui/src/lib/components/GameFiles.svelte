@@ -15,6 +15,7 @@
     steam: "Steam",
     gog: "GOG",
     epic: "the Epic Games Store",
+    itch: "the itch app",
     folder: "a folder you chose",
   };
 
@@ -69,8 +70,8 @@
     {:else}
       <p>
         This game needs the files from your own copy of {status.label}
-        (<span class="mono">{status.files.join(", ")}</span>). Portside didn't find it in Steam, GOG or
-        the Epic Games Store on this computer. Install it there, or choose the folder it's in.
+        (<span class="mono">{status.files.join(", ")}</span>). Portside didn't find it in Steam, GOG,
+        the Epic Games Store or the itch app on this computer. Install it there, or choose the folder it's in.
       </p>
     {/if}
     {#if !busy}

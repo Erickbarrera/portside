@@ -31,7 +31,7 @@ background and reports `install-changed` events.
    copy of the game, `src-tauri/src/game_files.rs` with `portside-assets` (install state
    `copying_game_files`). From the folder used last time (`game_files` in `library.db`), else
    the first copy found through Steam, GOG (Galaxy, Heroic, GOG's usual folders) or Epic
-   (Epic Games Launcher, Heroic, Legendary). None found: the game page says so and offers
+   (Epic Games Launcher, Heroic, Legendary) or the itch app (`butler.db`). None found: the game page says so and offers
    "Choose folder"; launch isn't blocked. Nothing is downloaded, and no paths are logged.
 9. If `assets_required`: import wizard [TBD: step after launch]; launch stays blocked until
    satisfied.

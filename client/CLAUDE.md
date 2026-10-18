@@ -19,7 +19,7 @@ Built so far: `Cargo.toml`, `rust-toolchain.toml`, `crates/portside-core`,
 `crates/portside-api` (catalog endpoints only), `crates/portside-catalog`,
 `crates/portside-installer`, `crates/portside-launcher`, `crates/portside-atproto`,
 `crates/portside-social`, `crates/portside-sync`, `crates/portside-steam`,
-`crates/portside-assets` (game files from Steam, GOG and Epic installs so far), `src-tauri`, `ui`.
+`crates/portside-assets` (game files from Steam, GOG, Epic and itch installs so far), `src-tauri`, `ui`.
 The rest is planned. `rust-version` in `Cargo.toml` must match `rust-toolchain.toml`.
 ```
 client/
@@ -29,7 +29,7 @@ client/
     portside-core/           # domain types, config, paths, errors
     portside-catalog/        # local SQLite cache, ETag sync of the static catalog
     portside-installer/      # release resolution, download (resume), verify, unpack
-    portside-assets/         # game files from store installs (Steam, GOG, Epic); later: import wizard, hashing, byteswap
+    portside-assets/         # game files from store installs (Steam, GOG, Epic, itch); later: import wizard, hashing, byteswap
     portside-launcher/       # launch command, spawn, wait, stop (play time lives in library.db)
     portside-sync/           # cloud saves: plain-file vault in a synced folder (ADR-0023)
     portside-atproto/        # OAuth client (DPoP/PKCE/PAR), session, authenticated XRPC

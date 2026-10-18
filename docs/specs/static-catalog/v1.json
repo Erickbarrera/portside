@@ -1154,6 +1154,15 @@
                                         "type": "string"
                                       }
                                     },
+                                    "itch": {
+                                      "minItems": 1,
+                                      "maxItems": 8,
+                                      "type": "array",
+                                      "items": {
+                                        "minimum": 1,
+                                        "type": "integer"
+                                      }
+                                    },
                                     "epic": {
                                       "minItems": 1,
                                       "maxItems": 8,

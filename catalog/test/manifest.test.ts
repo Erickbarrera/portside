@@ -200,7 +200,7 @@ describe("validateManifest", () => {
       ...valid(),
       game_files: {
         label: "Example Game",
-        stores: { steam: [1000], gog: ["2000"], epic: ["ExampleApp"] },
+        stores: { steam: [1000], gog: ["2000"], epic: ["ExampleApp"], itch: [3000] },
         files: ["data.pak", "music/"],
         dest: { macos: "{install}/Example.app/Contents/Resources/" },
         ...gameFiles,

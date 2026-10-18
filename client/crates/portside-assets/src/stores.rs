@@ -11,7 +11,7 @@ use crate::files::data_root;
 use crate::{Found, Store};
 
 /// Every copy of the game in `places` that holds the files the port needs: Steam first, then
-/// GOG, then Epic, in the order the manifest lists the ids. One folder appears once.
+/// GOG, Epic and itch.io, in the order the manifest lists the ids. One folder appears once.
 pub fn find(spec: &GameFiles, places: &StorePlaces) -> Vec<Found> {
     let Some(stores) = &spec.stores else {
         return Vec::new();
@@ -27,6 +27,11 @@ pub fn find(spec: &GameFiles, places: &StorePlaces) -> Vec<Found> {
     }
     for name in stores.epic.iter().flatten() {
         candidates.extend(epic(name, places).into_iter().map(|d| (Store::Epic, d)));
+    }
+    for &game in stores.itch.iter().flatten() {
+        for db in &places.itch_dbs {
+            candidates.extend(itch(db, game).into_iter().map(|d| (Store::Itch, d)));
+        }
     }
     let mut found: Vec<Found> = Vec::new();
     for (store, dir) in candidates {
@@ -139,6 +144,48 @@ fn epic(name: &str, places: &StorePlaces) -> Vec<PathBuf> {
     dirs
 }
 
+/// Install folders of itch.io game `game` in the itch app's database, opened read-only: a
+/// cave's own folder, or its install location joined with its folder name.
+fn itch(db: &Path, game: u64) -> Vec<PathBuf> {
+    if !db.is_file() {
+        return Vec::new();
+    }
+    let Ok(game) = i64::try_from(game) else {
+        return Vec::new();
+    };
+    let Ok(conn) = Connection::open_with_flags(
+        db,
+        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+    ) else {
+        return Vec::new();
+    };
+    let Ok(mut stmt) = conn.prepare(
+        "SELECT c.custom_install_folder, l.path, c.install_folder_name
+         FROM caves c LEFT JOIN install_locations l ON l.id = c.install_location_id
+         WHERE c.game_id = ?1",
+    ) else {
+        return Vec::new();
+    };
+    let Ok(rows) = stmt.query_map([game], |r| {
+        Ok((
+            r.get::<_, Option<String>>(0)?,
+            r.get::<_, Option<String>>(1)?,
+            r.get::<_, Option<String>>(2)?,
+        ))
+    }) else {
+        return Vec::new();
+    };
+    rows.flatten()
+        .filter_map(|(custom, location, name)| match (custom, location, name) {
+            (Some(custom), _, _) if !custom.is_empty() => Some(PathBuf::from(custom)),
+            (_, Some(location), Some(name)) if !name.is_empty() => {
+                Some(Path::new(&location).join(name))
+            }
+            _ => None,
+        })
+        .collect()
+}
+
 fn read_json(file: &Path) -> Option<serde_json::Value> {
     serde_json::from_slice(&std::fs::read(file).ok()?).ok()
 }
@@ -148,7 +195,7 @@ mod tests {
     use super::*;
     use portside_api::models::GameStores;
 
-    fn spec(steam: &[u32], gog: &[&str], epic: &[&str]) -> GameFiles {
+    fn spec(steam: &[u32], gog: &[&str], epic: &[&str], itch: &[u64]) -> GameFiles {
         let list = |v: &[&str]| Some(v.iter().map(|s| s.to_string()).collect());
         GameFiles {
             label: "Example Game".into(),
@@ -156,6 +203,7 @@ mod tests {
                 steam: Some(steam.to_vec()),
                 gog: list(gog),
                 epic: list(epic),
+                itch: Some(itch.to_vec()),
             }),
             files: vec!["data.pak".into()],
             dest: None,
@@ -231,6 +279,34 @@ mod tests {
             serde_json::json!({ "Other": { "install_path": legendary_game } }).to_string(),
         )?;
 
+        // The itch app: one game in an install location, one in a folder of its own.
+        let itch_db = r.join("butler.db");
+        let itch_location = r.join("itch-games");
+        game(&itch_location.join("example-game"))?;
+        let itch_custom = r.join("elsewhere/example");
+        game(&itch_custom)?;
+        {
+            let conn = Connection::open(&itch_db)?;
+            conn.execute_batch(
+                "CREATE TABLE install_locations (id TEXT PRIMARY KEY, path TEXT);
+                 CREATE TABLE caves (id TEXT PRIMARY KEY, game_id INTEGER,
+                   install_location_id TEXT, install_folder_name TEXT,
+                   custom_install_folder TEXT);",
+            )?;
+            conn.execute(
+                "INSERT INTO install_locations VALUES ('loc', ?1)",
+                [itch_location.to_string_lossy()],
+            )?;
+            conn.execute(
+                "INSERT INTO caves VALUES ('a', 30, 'loc', 'example-game', '')",
+                [],
+            )?;
+            conn.execute(
+                "INSERT INTO caves VALUES ('b', 31, '', '', ?1)",
+                [itch_custom.to_string_lossy()],
+            )?;
+        }
+
         let places = StorePlaces {
             steam_dirs: vec![steam.clone()],
             gog_galaxy_dbs: vec![db],
@@ -238,9 +314,15 @@ mod tests {
             heroic_dirs: vec![heroic],
             epic_manifest_dirs: vec![manifests],
             legendary_files: vec![legendary],
+            itch_dbs: vec![itch_db],
         };
         let found = find(
-            &spec(&[10, 11], &["20", "21", "22"], &["Example", "Other"]),
+            &spec(
+                &[10, 11],
+                &["20", "21", "22"],
+                &["Example", "Other"],
+                &[30, 31, 32],
+            ),
             &places,
         );
         let got: Vec<(Store, PathBuf)> = found.into_iter().map(|f| (f.store, f.dir)).collect();
@@ -253,13 +335,15 @@ mod tests {
                 (Store::Gog, gog_folder.join("Example")),
                 (Store::Epic, epic_game),
                 (Store::Epic, legendary_game),
+                (Store::Itch, itch_location.join("example-game")),
+                (Store::Itch, itch_custom),
             ]
         );
 
         // Ids the manifest doesn't list aren't looked at; a copy without the files is skipped.
-        assert!(find(&spec(&[], &["99"], &[]), &places).is_empty());
+        assert!(find(&spec(&[], &["99"], &[], &[]), &places).is_empty());
         std::fs::remove_file(steam.join("steamapps/common/Example Game/data.pak"))?;
-        assert!(find(&spec(&[10], &[], &[]), &places).is_empty());
+        assert!(find(&spec(&[10], &[], &[], &[]), &places).is_empty());
         Ok(())
     }
 }

@@ -76,6 +76,7 @@ game_files:                        # optional: files from the player's own copy 
     steam: [123456]                # Steam app ids
     gog: ["1234567890"]            # GOG product ids
     epic: ["ExampleAppName"]       # Epic app names (the launcher's AppName)
+    itch: [123456]                 # itch.io game ids (the "id" in the game page's data.json)
   files: ["data.pak", "music/"]    # needed, relative to the game's folder; "/" = a folder
   dest:                            # optional, per OS; "{install}/" where not given
     macos: "{install}/Example.app/Contents/Resources/"
@@ -161,6 +162,9 @@ installed or from a folder the player picks. Console dumps and ROMs stay with
     folders.
   - Epic: the Epic Games Launcher's `Manifests/*.item` files, and Heroic's or Legendary's
     `installed.json`.
+  - itch.io: the itch app's `db/butler.db` (`caves` and `install_locations`, opened
+    read-only), in its settings folder (`%APPDATA%\itch`, `~/Library/Application Support/itch`,
+    `~/.config/itch` or the Flatpak's).
 - `files` are paths inside the game's folder, with `/` between parts. One ending in `/` is a
   folder, copied with everything in it. Names match without regard to case, and are copied
   with the spelling the game's copy uses. The files may sit up to four folders down (a macOS
@@ -236,5 +240,5 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
   `hosts`; build `url`, `sha256`, `size`. Clients before this refuse `url_list` ports
   ("unsupported source").
 - 2026-10-18 — `game_files`: copy a port's data files from the player's own copy of the game
-  installed by Steam, GOG or Epic (or a folder they pick). Clients before this ignore it, so
-  those ports keep asking for their files themselves.
+  installed by Steam, GOG, Epic or the itch app (or a folder they pick). Clients before this
+  ignore it, so those ports keep asking for their files themselves.

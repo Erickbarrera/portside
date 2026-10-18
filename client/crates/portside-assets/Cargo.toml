@@ -1,6 +1,6 @@
 [package]
 name = "portside-assets"
-description = "Finds the player's own copy of a game (Steam, GOG, Epic) and copies the files a port needs"
+description = "Finds the player's own copy of a game (Steam, GOG, Epic, itch) and copies the files a port needs"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
