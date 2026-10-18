@@ -3,7 +3,7 @@ resolver = "3"
 members = ["crates/*", "src-tauri"]
 
 [workspace.package]
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 # Keep in step with rust-toolchain.toml; gives a clear error on an older rustc.
 rust-version = "1.97"

@@ -3,19 +3,15 @@
 
 ## What's new
 
-Steam Deck and controller support, on every system:
+- **Portside updates itself:** from this version on, Portside checks for a new version when
+  it starts and every few hours, and offers to update and restart (Settings → Updates).
+  Coming from 0.2.0 or older? Download this version by hand once.
+- **Play time on every device:** with cloud saves on, play time adds up across your
+  computers, and the Library sorts by recently played.
+- **A much bigger catalog:** Portside now reads the catalog from its new home, with hundreds
+  more ports.
 
-- **Controllers:** move around the whole app with a gamepad (or the arrow keys).
-- **Add to Steam:** put an installed game in Steam's library, with artwork, so you can start
-  it from Game Mode or Big Picture.
-- **Couch mode:** a bigger, full-screen layout with an on-screen keyboard, on by itself in
-  Steam's Game Mode and Big Picture (Settings → Couch mode).
-- **Steam Deck:** install games to the SD card, and text fields open Steam's own keyboard.
-- **Proton:** on Linux and the Steam Deck, ports that only have a Windows build install and
-  run through Proton, if Steam has it installed.
-
-Also new: installed games in the sidebar, ports downloaded from their own site, and 7z
-archives. Portside is in alpha: expect rough edges and please report bugs as issues.
+Portside is in alpha: expect rough edges and please report bugs as issues.
 
 ## Downloads
 
