@@ -1118,6 +1118,84 @@
                                 }
                               }
                             },
+                            "game_files": {
+                              "additionalProperties": false,
+                              "type": "object",
+                              "required": [
+                                "label",
+                                "files"
+                              ],
+                              "properties": {
+                                "label": {
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "type": "string"
+                                },
+                                "stores": {
+                                  "additionalProperties": false,
+                                  "type": "object",
+                                  "properties": {
+                                    "steam": {
+                                      "minItems": 1,
+                                      "maxItems": 8,
+                                      "type": "array",
+                                      "items": {
+                                        "minimum": 1,
+                                        "type": "integer"
+                                      }
+                                    },
+                                    "gog": {
+                                      "minItems": 1,
+                                      "maxItems": 8,
+                                      "type": "array",
+                                      "items": {
+                                        "maxLength": 20,
+                                        "pattern": "^[0-9]+$",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "epic": {
+                                      "minItems": 1,
+                                      "maxItems": 8,
+                                      "type": "array",
+                                      "items": {
+                                        "maxLength": 100,
+                                        "pattern": "^[A-Za-z0-9_.-]+$",
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
+                                "files": {
+                                  "minItems": 1,
+                                  "maxItems": 32,
+                                  "type": "array",
+                                  "items": {
+                                    "maxLength": 300,
+                                    "minLength": 1,
+                                    "type": "string"
+                                  }
+                                },
+                                "dest": {
+                                  "additionalProperties": false,
+                                  "type": "object",
+                                  "properties": {
+                                    "windows": {
+                                      "maxLength": 1000,
+                                      "type": "string"
+                                    },
+                                    "macos": {
+                                      "maxLength": 1000,
+                                      "type": "string"
+                                    },
+                                    "linux": {
+                                      "maxLength": 1000,
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
                             "saves": {
                               "additionalProperties": false,
                               "type": "object",

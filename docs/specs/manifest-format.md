@@ -70,6 +70,15 @@ assets_required:                   # optional
       mode: copy                   # copy | extract_with_port (run port's own extractor) | pick_folder
       dest: "{install}/"
       run: null                    # for extract_with_port: command template
+game_files:                        # optional: files from the player's own copy of the game
+  label: "Ocarina of Time"         # the game as stores sell it: "Uses your copy of …"
+  stores:                          # optional: where Portside looks for an installed copy
+    steam: [123456]                # Steam app ids
+    gog: ["1234567890"]            # GOG product ids
+    epic: ["ExampleAppName"]       # Epic app names (the launcher's AppName)
+  files: ["data.pak", "music/"]    # needed, relative to the game's folder; "/" = a folder
+  dest:                            # optional, per OS; "{install}/" where not given
+    macos: "{install}/Example.app/Contents/Resources/"
 saves:                             # optional; omit = sync unsupported
   root:
     windows: "{install}/Save/"
@@ -135,6 +144,34 @@ A new version is a manifest change. `url`, `sha256` and `size` are only allowed 
   `strip_root` and the launch paths apply to the inner archive. The outer `archive` must be
   `zip`, `tar.gz`, `tar.xz` or `7z`; `nested.archive` can't be `apk`.
 
+### `game_files`: the player's own copy of the game
+For ports that run on the data files of a game the player bought on a store (an engine
+remake that reads the original `.dat` files, for example). It never downloads game files:
+Portside only copies files that are already on the player's computer, from a copy a store
+installed or from a folder the player picks. Console dumps and ROMs stay with
+`assets_required`.
+
+- `stores` lists the store ids of the game. Portside reads each store's own record of what
+  is installed, on Windows, macOS and Linux (Steam Deck included):
+  - Steam: `steamapps/libraryfolders.vdf` in each Steam folder, then
+    `steamapps/appmanifest_<id>.acf` in each library (fully installed only), giving
+    `steamapps/common/<installdir>`.
+  - GOG: GOG Galaxy's database (`InstalledBaseProducts`), Heroic's
+    `gog_store/installed.json`, and a `goggame-<id>.info` file in the usual GOG game
+    folders.
+  - Epic: the Epic Games Launcher's `Manifests/*.item` files, and Heroic's or Legendary's
+    `installed.json`.
+- `files` are paths inside the game's folder, with `/` between parts. One ending in `/` is a
+  folder, copied with everything in it. Names match without regard to case, and are copied
+  with the spelling the game's copy uses. The files may sit up to four folders down (a macOS
+  app bundle, a `data` folder): Portside uses the shallowest folder that holds all of them.
+- `dest` says where the files go on each OS, with the placeholders below; `{install}/` where
+  it isn't given. A Windows build run through Proton uses `windows`, inside its prefix.
+- When the game is installed (and again after each update, into the new folder) Portside
+  copies the files from the copy it used last time, else from the first copy it finds.
+  When there is none, the game page says so and offers "Choose folder". The game still
+  launches without them; most ports then ask for their files themselves.
+
 ## Path placeholders
 | Placeholder | Windows | macOS | Linux | Android |
 |---|---|---|---|---|
@@ -174,6 +211,8 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
   (`[TBD]` placeholders fail on purpose).
 - No URLs to asset/ROM hosts: any URL ending in a ROM, disc or BIOS image extension is an
   error; host denylist [TBD].
+- `game_files`: `files` are relative paths with no `..`, `\`, `*` or leading `/`; each
+  `dest` starts with a placeholder and has no `..`; no store id twice.
 - `redistribution: true` passes with a warning (needs maintainer permission).
 - JSON Schema: `catalog/schemas/manifest.v1.json` (`pnpm schema:gen` in `catalog/`).
 
@@ -196,3 +235,6 @@ Implemented by `validateManifest` in `catalog/src/schema/manifest.ts` unless mar
 - 2026-10-16 — `url_list` source (ADR-0024): `source.version`, `released`, `release_url`,
   `hosts`; build `url`, `sha256`, `size`. Clients before this refuse `url_list` ports
   ("unsupported source").
+- 2026-10-18 — `game_files`: copy a port's data files from the player's own copy of the game
+  installed by Steam, GOG or Epic (or a folder they pick). Clients before this ignore it, so
+  those ports keep asking for their files themselves.

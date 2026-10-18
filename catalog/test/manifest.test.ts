@@ -195,6 +195,56 @@ describe("validateManifest", () => {
     });
   });
 
+  describe("game_files", () => {
+    const withGameFiles = (gameFiles: Record<string, unknown>) => ({
+      ...valid(),
+      game_files: {
+        label: "Example Game",
+        stores: { steam: [1000], gog: ["2000"], epic: ["ExampleApp"] },
+        files: ["data.pak", "music/"],
+        dest: { macos: "{install}/Example.app/Contents/Resources/" },
+        ...gameFiles,
+      },
+    });
+
+    it("accepts store ids, files and a destination", () => {
+      expect(validateManifest(withGameFiles({}))).toMatchObject({ ok: true });
+    });
+
+    it("keeps files inside the game's folder", () => {
+      const r = validateManifest(
+        withGameFiles({ files: ["../secret", "/etc/x", "a\\b", "*.dat", "C:/x", "ok/file"] }),
+      );
+      expect(r.ok).toBe(false);
+      if (!r.ok) {
+        expect(r.errors.map((e) => e.path)).toEqual(
+          [0, 1, 2, 3, 4].map((i) => `/game_files/files/${i}`),
+        );
+      }
+    });
+
+    it("needs a placeholder at the start of each destination", () => {
+      const r = validateManifest(
+        withGameFiles({ dest: { windows: "C:/Games/", linux: "{install}/../x/" } }),
+      );
+      expect(r.ok).toBe(false);
+      if (!r.ok) {
+        expect(r.errors.map((e) => e.path)).toEqual([
+          "/game_files/dest/windows",
+          "/game_files/dest/linux",
+        ]);
+      }
+    });
+
+    it("rejects a store id listed twice and unknown stores", () => {
+      expect(validateManifest(withGameFiles({ stores: { steam: [1000, 1000] } }))).toMatchObject({
+        ok: false,
+        errors: [{ path: "/game_files/stores/steam" }],
+      });
+      expect(validateManifest(withGameFiles({ stores: { itch: ["x"] } })).ok).toBe(false);
+    });
+  });
+
   it("rejects unknown fields", () => {
     expect(validateManifest({ ...valid(), rom_url: "x" }).ok).toBe(false);
   });
