@@ -35,6 +35,27 @@ jobs:
       - name: Generated IPC bindings are committed
         run: git diff --exit-code ui/src/lib/ipc/bindings.ts
 
+  # The Android build compiles (android.rs and the desktop-only code it leaves out). The APK
+  # itself is built by client-release.
+  android:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install
+      - run: rustup target add aarch64-linux-android
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: client
+          key: android
+      # The runner image has the Android NDK; its clang builds the C parts (SQLite, xz).
+      - name: Clippy for Android
+        run: |
+          bin="$ANDROID_NDK_LATEST_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          export CC_aarch64_linux_android="$bin/aarch64-linux-android24-clang"
+          export CXX_aarch64_linux_android="$bin/aarch64-linux-android24-clang++"
+          export AR_aarch64_linux_android="$bin/llvm-ar"
+          cargo clippy --target aarch64-linux-android -p portside-desktop -- -D warnings
+
   # Disk images and quarantine handling only exist on macOS; Windows paths and process
   # handling differ too.
   installer:

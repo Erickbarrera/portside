@@ -1,6 +1,8 @@
-//! Domain types shared by every Portside crate. No Tauri, no I/O beyond path lookup.
+//! Domain types shared by every Portside crate. No Tauri, no I/O beyond path lookup (and
+//! making the HTTP client the other crates use).
 
 pub mod error;
+pub mod http;
 pub mod paths;
 pub mod platform;
 pub mod types;

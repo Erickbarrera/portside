@@ -46,7 +46,10 @@ Every port needs files from the player's own copy of the game unless it is a ful
 4. An archive inside the asset (a `.dmg`, `.zip` or `.tar.gz` inside a `.zip`) goes in
    `nested`. Leave out builds Portside can't install (installers, Flatpak bundles, `.deb` or
    `.rpm` packages), 32-bit Linux builds, and DOS programs.
-5. Run the checks in `catalog/`: `pnpm validate` (every file here), then
+5. Android: only an APK the project publishes itself (`archive: apk`), with
+   `android_package` set to the app's `applicationId` from its Gradle file. One APK with
+   every ABI is `universal`; per-ABI files are `arm64` and `x86_64` builds.
+6. Run the checks in `catalog/`: `pnpm validate` (every file here), then
    `pnpm build --out dist` to build a catalog with it and see warnings about asset globs that
    match no file in the latest release (needs network; set `GITHUB_TOKEN` if you hit the
    GitHub rate limit). The published catalog picks the change up when it merges.

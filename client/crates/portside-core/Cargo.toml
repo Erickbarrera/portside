@@ -15,7 +15,12 @@ specta = ["dep:specta"]
 serde.workspace = true
 thiserror.workspace = true
 directories.workspace = true
+reqwest.workspace = true
 specta = { workspace = true, optional = true }
+
+# Certificate roots for HTTPS on Android (src/http.rs).
+[target.'cfg(target_os = "android")'.dependencies]
+webpki-root-certs = "1"
 
 [dev-dependencies]
 serde_json.workspace = true

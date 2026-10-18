@@ -861,6 +861,43 @@ async fn saves_an_appimage_under_its_launch_name() -> TestResult {
     Ok(())
 }
 
+const ANDROID: Platform = Platform {
+    os: Os::Android,
+    arch: Arch::Arm64,
+};
+
+#[tokio::test]
+async fn keeps_an_apk_as_downloaded() -> TestResult {
+    let env = Env::new().await?;
+    env.release(&[
+        ("example-android.apk", b"synthetic apk", true),
+        ("Example-1.0-Win64.zip", &example_zip()?, true),
+    ])
+    .await;
+    let builds = json!([
+        {
+            "os": "android", "arch": "universal", "asset": "example-android.apk",
+            "archive": "apk", "android_package": "org.example.game"
+        },
+        {
+            "os": "windows", "arch": "x86_64", "asset": "Example-*-Win64.zip",
+            "archive": "zip", "launch": { "exe": "example.exe" }
+        }
+    ]);
+    let installer = env.installer(ANDROID)?;
+    let plan = installer.plan(&port(builds, json!([]))?).await?;
+    assert_eq!(plan.summary.os, Os::Android);
+    assert_eq!(plan.summary.fit, BuildFit::Universal);
+    let installed = run(&installer, &plan, false).await?;
+    let file = Path::new(&installed.dir).join("example-android.apk");
+    assert_eq!(std::fs::read(&file)?, b"synthetic apk");
+    assert_eq!(
+        installed.build.android_package.as_deref(),
+        Some("org.example.game")
+    );
+    Ok(())
+}
+
 /// Builds a real disk image with `hdiutil`, so this only runs on macOS.
 #[cfg(target_os = "macos")]
 #[tokio::test]

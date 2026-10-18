@@ -210,9 +210,22 @@ pub async fn start(
             };
             emit(&app, &plan.summary.port_id, state);
         };
+        #[cfg(target_os = "android")]
+        let before = installer
+            .library()
+            .current(&plan.summary.port_id)
+            .ok()
+            .flatten();
         let outcome = installer
             .install(&plan, to.as_deref(), accept_unsigned, &cancel, &report)
-            .await;
+            .await
+            .map_err(CommandError::from);
+        // Android installs an APK itself, once the player confirms.
+        #[cfg(target_os = "android")]
+        let outcome = match outcome {
+            Ok(install) => crate::android::finish_install(&app, install, before).await,
+            Err(e) => Err(e),
+        };
         let port_id = plan.summary.port_id.clone();
         let installs = &app.state::<AppState>().installs;
         lock(&installs.jobs).remove(&port_id);
@@ -221,8 +234,8 @@ pub async fn start(
             Ok(install) => InstallState::Installed {
                 install: Box::new(install),
             },
-            Err(portside_installer::InstallError::Cancelled) => InstallState::Cancelled,
-            Err(e) => InstallState::Failed { error: e.into() },
+            Err(e) if e.code == ErrorCode::Cancelled => InstallState::Cancelled,
+            Err(error) => InstallState::Failed { error },
         };
         emit(&app, &port_id, state);
     });

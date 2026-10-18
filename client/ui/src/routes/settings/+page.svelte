@@ -36,7 +36,11 @@
       </dd>
     </dl>
     <p class="muted">
-      Your sign-in is kept in this computer's keychain. Signing out removes it from this device.
+      {#if data.app.os === "android"}
+        Portside doesn't keep your sign-in on Android yet, so you sign in again after it restarts.
+      {:else}
+        Your sign-in is kept in this computer's keychain. Signing out removes it from this device.
+      {/if}
     </p>
     <button
       class="btn btn-secondary"
@@ -51,7 +55,14 @@
   {/if}
 </section>
 
-<SavesSetup />
+{#if data.app.os === "android"}
+  <section aria-labelledby="saves-h">
+    <h2 id="saves-h">Cloud saves</h2>
+    <p class="muted">Cloud saves don't work on Android yet.</p>
+  </section>
+{:else}
+  <SavesSetup />
+{/if}
 
 <section aria-labelledby="couch-h">
   <h2 id="couch-h">Couch mode</h2>
@@ -81,10 +92,12 @@
     <dt>Catalog</dt>
     <dd class="mono">{data.app.catalog_url}</dd>
   </dl>
-  <p class="muted">
-    To use a different copy of the catalog, start Portside with <code>PORTSIDE_CATALOG_URL</code> set
-    to its address.
-  </p>
+  {#if data.app.os !== "android"}
+    <p class="muted">
+      To use a different copy of the catalog, start Portside with <code>PORTSIDE_CATALOG_URL</code> set
+      to its address.
+    </p>
+  {/if}
 </section>
 
 <section aria-labelledby="updates-h">

@@ -80,7 +80,7 @@ pub struct Downloader {
 impl Downloader {
     pub fn new(policy: HostPolicy, user_agent: &str) -> Result<Downloader> {
         let redirects = policy.clone();
-        let http = reqwest::Client::builder()
+        let http = portside_core::http::client_builder()
             .user_agent(user_agent)
             // Byte ranges must refer to the file as stored, not a decompressed copy.
             .no_gzip()

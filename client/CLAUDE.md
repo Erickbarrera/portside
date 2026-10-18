@@ -1,6 +1,7 @@
 # Portside client — instructions for Claude Code
 
-Cross-platform launcher: Windows, macOS, Linux (incl. Steam Deck), Android.
+Cross-platform launcher: Windows, macOS, Linux (incl. Steam Deck), Android (APK ports only,
+docs/platforms.md).
 Read the root `CLAUDE.md` first, then this file, then `docs/README.md`.
 
 ## Stack (ADR-0002)
@@ -36,8 +37,8 @@ client/
     portside-steam/          # Add to Steam (shortcuts.vdf, grid artwork), finding Proton (docs/platforms.md)
     portside-api/            # typed client for the static catalog (docs/specs/static-catalog.md)
   src-tauri/                 # Tauri app: commands, events, plugins, capabilities, updater
+    gen/android/             # Android Studio project (generated, committed) + AppsPlugin.kt
   ui/                        # Svelte app
-  android/                   # Kotlin Tauri plugins (APK install, SAF) — generated + custom
   docs/
 ```
 Crates depend downward only: `src-tauri → feature crates → portside-core`. Feature crates
@@ -70,9 +71,15 @@ never depend on Tauri; they must be testable without a window.
 - `cargo test -p portside-desktop` also regenerates `ui/src/lib/ipc/bindings.ts` (commit it)
 - `pnpm --filter @portside/ui test` (Vitest) · `pnpm --filter @portside/ui check`
   (svelte-check) · `pnpm lint` (Biome, TS/JSON only)
-- `pnpm tauri android dev` — Android (later; needs SDK/NDK, see docs/build-release.md)
+- `pnpm tauri android dev` / `pnpm tauri android build --apk` — Android (needs SDK, NDK,
+  Java 21; docs/build-release.md, "Android"). Code only for Android sits behind
+  `#[cfg(target_os = "android")]` (`src-tauri/src/android.rs`); check it compiles with
+  `cargo clippy --target aarch64-linux-android -p portside-desktop` (CI job `android`).
+  `?mock-os=android` previews the UI as on Android.
 
 ## Rules
+- HTTP clients come from `portside_core::http::client_builder()` (certificate roots on
+  Android).
 - Rust: `thiserror` for library errors, `anyhow` only in src-tauri. No `unwrap()` outside
   tests. Async = tokio. HTTP = reqwest (rustls). SQLite = rusqlite (bundled) with
   `refinery` migrations in `crates/<crate>/migrations/` (ADR-0012).

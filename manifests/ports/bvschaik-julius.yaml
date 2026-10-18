@@ -1,5 +1,6 @@
 # Release files checked against v1.8.0 on 2026-10-15.
 # julius.app is ad-hoc signed, not Developer ID.
+# Android APK checked against v1.8.0 on 2026-10-18 (package from android/julius/build.gradle).
 schema: 1
 id: bvschaik-julius
 game_key: caesariii
@@ -26,6 +27,12 @@ builds:
     asset: "julius-*-linux.AppImage"
     archive: appimage
     launch: { exe: "julius.AppImage" }
+  - os: android
+    arch: universal
+    asset: "julius-*-android.apk"
+    archive: apk
+    android_package: "com.github.bvschaik.julius"
 multiplayer: none
 changelog:
   - "2026-10-15: initial (Windows, macOS and Linux)"
+  - "2026-10-18: Android (APK)"

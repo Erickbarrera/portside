@@ -1,6 +1,6 @@
 name: client-release
 
-# Builds the desktop app for macOS, Windows and Linux.
+# Builds the app for macOS, Windows, Linux and Android.
 # - Tag `client-vX.Y.Z` (matching the app version): attaches the builds to a draft GitHub
 #   release, then publishes it once every build succeeded. 0.x versions are published as
 #   pre-releases (alpha). See client/docs/build-release.md.
@@ -196,13 +196,112 @@ jobs:
             client/target/**/release/bundle/deb/*.deb
             client/target/**/release/bundle/rpm/*.rpm
 
+  # One APK for arm64 phones and x86_64 (emulators, Chromebooks), signed with the release key
+  # when it is set up (client/docs/build-release.md, "Android").
+  android:
+    name: build (Android)
+    needs: release
+    if: ${{ !cancelled() && (needs.release.result == 'success' || needs.release.result == 'skipped') }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: client
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: rustup toolchain install
+      - run: rustup target add aarch64-linux-android x86_64-linux-android
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: client
+          key: android
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: client/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Default catalog address
+        if: vars.PORTSIDE_DEFAULT_CATALOG_URL != ''
+        env:
+          URL: ${{ vars.PORTSIDE_DEFAULT_CATALOG_URL }}
+        run: echo "PORTSIDE_DEFAULT_CATALOG_URL=$URL" >> "$GITHUB_ENV"
+      # The runner image has the Android SDK and NDK.
+      - name: Build the APK
+        run: |
+          export NDK_HOME="$ANDROID_NDK_LATEST_HOME"
+          pnpm tauri android build --apk --target aarch64 --target x86_64 --ci
+      - name: Sign the APK
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          version="$(jq -r .version src-tauri/tauri.conf.json)"
+          unsigned="$(ls src-tauri/gen/android/app/build/outputs/apk/universal/release/*-unsigned.apk)"
+          tools="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)"
+          mkdir -p dist
+          aligned="dist/aligned.apk"
+          "$tools/zipalign" -f -p 4 "$unsigned" "$aligned"
+          if [ -n "$KEYSTORE" ]; then
+            echo "$KEYSTORE" | base64 -d > "$RUNNER_TEMP/release.jks"
+            alias="${KEY_ALIAS:-portside}"
+          else
+            # Installs, but a later release signed with another throwaway key can't update it:
+            # players would have to uninstall first. Set up the release key before shipping.
+            echo "::warning::No ANDROID_KEYSTORE secret: signing with a throwaway key. Players can't update this APK in place to a later release."
+            KEYSTORE_PASSWORD="throwaway"
+            alias="portside"
+            keytool -genkeypair -keystore "$RUNNER_TEMP/release.jks" -alias "$alias" \
+              -keyalg RSA -keysize 4096 -validity 10000 -dname "CN=Portside (unofficial build)" \
+              -storepass "$KEYSTORE_PASSWORD" -keypass "$KEYSTORE_PASSWORD"
+          fi
+          "$tools/apksigner" sign --ks "$RUNNER_TEMP/release.jks" --ks-key-alias "$alias" \
+            --ks-pass env:KEYSTORE_PASSWORD --key-pass env:KEYSTORE_PASSWORD \
+            --out "dist/Portside_${version}_android.apk" "$aligned"
+          rm -f "$aligned" "$RUNNER_TEMP/release.jks"
+          "$tools/apksigner" verify --print-certs "dist/Portside_${version}_android.apk"
+      - name: Attach to the release
+        if: needs.release.result == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ needs.release.outputs.id }}
+        run: |
+          apk="$(ls dist/*.apk)"
+          # By id: the draft has no tag yet, so `gh release upload <tag>` can't find it.
+          gh api "repos/$GITHUB_REPOSITORY/releases/$ID/assets" --paginate \
+            --jq ".[] | select(.name == \"$(basename "$apk")\") | .id" |
+            xargs -r -I{} gh api -X DELETE "repos/$GITHUB_REPOSITORY/releases/assets/{}"
+          curl -fsS -X POST -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Content-Type: application/vnd.android.package-archive" \
+            --data-binary "@$apk" \
+            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$ID/assets?name=$(basename "$apk")" \
+            > /dev/null
+      - name: Keep the build as a workflow artifact
+        if: needs.release.result == 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: portside-Android
+          if-no-files-found: error
+          retention-days: 7
+          path: client/dist/*.apk
+
   publish:
     name: publish release
-    needs: [release, build]
+    needs: [release, build, android]
     # Only when every platform built: a failed build leaves the draft for a re-run. The status
     # check is spelled out: without it the implicit success() skipped this job after the
     # build job's own !cancelled() condition.
-    if: ${{ !cancelled() && needs.release.result == 'success' && needs.build.result == 'success' }}
+    if: ${{ !cancelled() && needs.release.result == 'success' && needs.build.result == 'success' && needs.android.result == 'success' }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write

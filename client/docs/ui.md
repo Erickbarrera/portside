@@ -38,8 +38,12 @@ Routes: `/library`, `/discover`, `/community`, `/port/:id`, `/port/:id/board`,
 `/thread/:uri` (the at:// URI encoded as one segment), `/downloads`, `/saves`,
 `/saves/:port`, `/friends`, `/chat/:conversation`, `/settings`, `/signin`.
 
-## Android
-Bottom nav: Library · Discover · Saves · Profile. Same routes, responsive layouts.
+## Android and narrow windows (2026-10-18)
+Below 720px wide the sidebar becomes a tab bar along the bottom (Library · Discover ·
+Community · Friends · Settings), without the installed list; the page keeps clear of
+Android's status and navigation bars (`viewport-fit=cover` + safe-area insets). On Android
+the install panel has no "Show files", Uninstall hands over to Android's own screen, and
+Cloud saves are hidden (platforms.md). Preview with `?mock-os=android` at phone width.
 
 ## Controller (every OS, 2026-10-16)
 Any controller works on Windows, macOS and Linux. Rust reads them with gilrs

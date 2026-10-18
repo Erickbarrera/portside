@@ -133,6 +133,15 @@ pub enum ErrorCode {
     /// Portside couldn't update itself (the update's signature didn't match, installing failed).
     #[serde(rename = "E_APP_UPDATE")]
     AppUpdate,
+    /// Android hasn't let Portside install apps yet; the player allows it in Settings.
+    #[serde(rename = "E_INSTALL_PERMISSION")]
+    InstallPermission,
+    /// Android couldn't install, start or remove a game's APK.
+    #[serde(rename = "E_ANDROID_INSTALL")]
+    AndroidInstall,
+    /// Not available on this system yet (cloud saves on Android).
+    #[serde(rename = "E_UNSUPPORTED")]
+    Unsupported,
 }
 
 /// What a failed command returns to the UI.

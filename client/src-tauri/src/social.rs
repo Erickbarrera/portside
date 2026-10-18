@@ -73,7 +73,7 @@ fn lock<T>(m: &Mutex<T>) -> MutexGuard<'_, T> {
 impl Social {
     /// `site` is the Portside website, where invite links point.
     pub fn new(user_agent: &str, site: &str) -> anyhow::Result<Social> {
-        let http = reqwest::Client::builder()
+        let http = portside_core::http::client_builder()
             .user_agent(user_agent)
             .connect_timeout(Duration::from_secs(10))
             .timeout(Duration::from_secs(30))

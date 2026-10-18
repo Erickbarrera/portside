@@ -4,7 +4,6 @@ use tauri_plugin_opener::OpenerExt;
 
 use crate::error::{CommandError, ErrorCode};
 use crate::games::{self, GameChanged};
-use crate::saves;
 use crate::state::AppState;
 
 /// Starts the installed version of a game; `game-changed` events follow it until it exits.
@@ -19,10 +18,19 @@ pub async fn game_launch(
     skip_save_sync: bool,
 ) -> Result<(), CommandError> {
     app.state::<AppState>().games.check_not_running(&port_id)?;
-    if !skip_save_sync {
-        saves::before_launch(&app, &port_id).await?;
+    // Android runs the game as its own app; there are no cloud saves to sync there yet.
+    #[cfg(target_os = "android")]
+    {
+        let _ = skip_save_sync;
+        crate::android::launch(&app, &port_id).await
     }
-    games::launch(&app, port_id)
+    #[cfg(not(target_os = "android"))]
+    {
+        if !skip_save_sync {
+            crate::saves::before_launch(&app, &port_id).await?;
+        }
+        games::launch(&app, port_id)
+    }
 }
 
 /// Asks a running game to quit, and ends it if it doesn't within a few seconds.

@@ -256,7 +256,7 @@ async fn download_picture(url: &str) -> Option<Vec<u8>> {
     if !url.starts_with("https://") {
         return None;
     }
-    let client = reqwest::Client::builder()
+    let client = portside_core::http::client_builder()
         .user_agent(concat!("portside-desktop/", env!("CARGO_PKG_VERSION")))
         .timeout(Duration::from_secs(20))
         .build()

@@ -4,6 +4,7 @@ use std::path::PathBuf;
 
 use portside_sync::DeviceRecord;
 use tauri::AppHandle;
+#[cfg(not(target_os = "android"))]
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_opener::OpenerExt;
 
@@ -11,6 +12,12 @@ use crate::error::{CommandError, ErrorCode};
 use crate::saves::{self, GameSaves, SavesStatus};
 
 fn folder(path: &str) -> Result<PathBuf, CommandError> {
+    if cfg!(target_os = "android") {
+        return Err(CommandError {
+            code: ErrorCode::Unsupported,
+            message: "Cloud saves don't work on Android yet.".to_owned(),
+        });
+    }
     let path = PathBuf::from(path.trim());
     if !path.is_absolute() || !path.is_dir() {
         return Err(CommandError {
@@ -28,10 +35,24 @@ pub async fn saves_status(app: AppHandle) -> Result<SavesStatus, CommandError> {
     saves::blocking(&app, |s| Ok(s.status())).await
 }
 
-/// Opens the system folder picker. None when the player cancels.
+/// Opens the system folder picker. None when the player cancels, and on Android, which has
+/// no folder picker here (cloud saves there need the Storage Access Framework, not built yet).
 #[tauri::command]
 #[specta::specta]
 pub async fn saves_pick_folder(app: AppHandle, title: String) -> Option<String> {
+    #[cfg(target_os = "android")]
+    {
+        let _ = (app, title);
+        None
+    }
+    #[cfg(not(target_os = "android"))]
+    {
+        pick_folder(app, title).await
+    }
+}
+
+#[cfg(not(target_os = "android"))]
+async fn pick_folder(app: AppHandle, title: String) -> Option<String> {
     let (tx, rx) = tokio::sync::oneshot::channel();
     app.dialog()
         .file()

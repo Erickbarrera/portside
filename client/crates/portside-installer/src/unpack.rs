@@ -15,7 +15,7 @@ use crate::error::{InstallError, IoContext, Result};
 const JUNK: &[&str] = &["__MACOSX", ".DS_Store"];
 
 /// Unpacks `file` into `out`, which must not exist yet. `save_as` names the result when
-/// `kind` is `none` or `appimage` (the file is used as is). Returns the folder holding the
+/// `kind` is `none`, `appimage` or `apk` (the file is used as is; Android installs the APK). Returns the folder holding the
 /// app: `out` itself, or with `strip_root` its single top-level folder.
 pub fn unpack(
     kind: ArchiveKind,
@@ -31,15 +31,12 @@ pub fn unpack(
         ArchiveKind::TarXz => untar(liblzma::read::XzDecoder::new(open(file)?), out)?,
         ArchiveKind::Dmg => undmg(file, out)?,
         ArchiveKind::SevenZ => un7z(file, out)?,
-        ArchiveKind::None | ArchiveKind::AppImage => {
+        ArchiveKind::None | ArchiveKind::AppImage | ArchiveKind::Apk => {
             let dest = prepare(out, &safe_relative(save_as)?)?;
             fs::copy(file, &dest).at(&dest)?;
             if kind == ArchiveKind::AppImage {
                 make_executable(&dest)?;
             }
-        }
-        ArchiveKind::Apk => {
-            return Err(InstallError::UnsupportedArchive(kind.as_str().to_owned()));
         }
     }
     for junk in JUNK {

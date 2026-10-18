@@ -23,7 +23,9 @@ calls) and `portside-social` (friends, chat, invites, boards); Tauri side in
   refresh token a minute before it runs out, or when the host rejects the token. A dead
   refresh token signs out (`auth-changed` with no account, `E_SIGNED_OUT`).
 - Sign out revokes the tokens (best effort) and deletes the keychain entry.
-- Android: Custom Tab + app link instead of the loopback listener (later).
+- Android: the keyring crate has no Android store, so the sign-in lasts until Portside
+  restarts [TBD: Android Keystore]. Sign-in uses the same loopback listener, untested on a
+  phone; Custom Tab + app link later.
 
 ## Friends, chat, invites (ADR-0021)
 - Friends = mutual follows. Add friend follows; Unfollow deletes the follow. "Follows you"

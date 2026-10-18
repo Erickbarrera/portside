@@ -40,8 +40,10 @@ pub struct AppState {
 }
 
 impl AppState {
-    /// Reads `PORTSIDE_CATALOG_URL` and `PORTSIDE_DATA_DIR` (both optional).
-    pub fn from_env() -> anyhow::Result<AppState> {
+    /// Reads `PORTSIDE_CATALOG_URL` and `PORTSIDE_DATA_DIR` (both optional). Without
+    /// `PORTSIDE_DATA_DIR`, files go in `data_dir` when given (Android: the app's private
+    /// folder, from Tauri), else the standard per-user folder.
+    pub fn from_env(data_dir: Option<PathBuf>) -> anyhow::Result<AppState> {
         let base = std::env::var("PORTSIDE_CATALOG_URL")
             .ok()
             .filter(|v| !v.trim().is_empty())
@@ -50,9 +52,12 @@ impl AppState {
         let api = portside_api::Client::new(base.trim(), &user_agent)
             .with_context(|| format!("PORTSIDE_CATALOG_URL={base} is not usable"))?;
 
-        let paths = match std::env::var_os("PORTSIDE_DATA_DIR") {
-            Some(dir) => AppPaths::under(PathBuf::from(dir)),
-            None => AppPaths::discover().context("finding the app data folder")?,
+        let paths = match std::env::var_os("PORTSIDE_DATA_DIR").map(PathBuf::from) {
+            Some(dir) => AppPaths::under(dir),
+            None => match data_dir {
+                Some(dir) => AppPaths::under(dir),
+                None => AppPaths::discover().context("finding the app data folder")?,
+            },
         };
         // One copy per catalog address, so pointing the app elsewhere never mixes catalogs.
         let file = paths

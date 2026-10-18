@@ -46,7 +46,10 @@ export const commands = {
 	installCancel: (portId: string) => __TAURI_INVOKE<boolean>("install_cancel", { portId }),
 	/**  Installs running now. */
 	installsActive: () => __TAURI_INVOKE<InstallChanged_Serialize[]>("installs_active"),
-	/**  Everything installed, by title. */
+	/**
+	 *  Everything installed, by title. On Android, games the player removed in Android's
+	 *  settings are forgotten first.
+	 */
 	libraryList: () => typedError<Installed_Serialize[], CommandError>(__TAURI_INVOKE("library_list")),
 	/**  The installed version of one port, if any. */
 	libraryGet: (portId: string) => typedError<{
@@ -73,7 +76,10 @@ export const commands = {
 	/**  How to launch it, kept so the library works offline. */
 	build: ManifestBuild_Serialize,
 } | null, CommandError>(__TAURI_INVOKE("library_get", { portId })),
-	/**  Deletes a port's installed files. Saves stored outside the install folder stay. */
+	/**
+	 *  Deletes a port's installed files. Saves stored outside the install folder stay. On
+	 *  Android, Android asks the player to confirm removing the game first.
+	 */
 	uninstall: (portId: string) => typedError<null, CommandError>(__TAURI_INVOKE("uninstall", { portId })),
 	/**  Shows the install folder in Finder, Explorer or the file manager. */
 	installReveal: (portId: string) => typedError<null, CommandError>(__TAURI_INVOKE("install_reveal", { portId })),
@@ -146,7 +152,10 @@ export const commands = {
 	boardReply: (root: StrongRef, parent: StrongRef, tags: string[], text: string) => typedError<StrongRef, CommandError>(__TAURI_INVOKE("board_reply", { root, parent, tags, text })),
 	/**  Whether cloud saves are on, where, and synced folders found on this computer. */
 	savesStatus: () => typedError<SavesStatus, CommandError>(__TAURI_INVOKE("saves_status")),
-	/**  Opens the system folder picker. None when the player cancels. */
+	/**
+	 *  Opens the system folder picker. None when the player cancels, and on Android, which has
+	 *  no folder picker here (cloud saves there need the Storage Access Framework, not built yet).
+	 */
 	savesPickFolder: (title: string) => __TAURI_INVOKE<string | null>("saves_pick_folder", { title }),
 	/**  Turns cloud saves on with the Portside saves in `path`, or new ones if it has none. */
 	savesUseFolder: (path: string) => typedError<SavesStatus, CommandError>(__TAURI_INVOKE("saves_use_folder", { path })),
@@ -527,7 +536,13 @@ export type ErrorCode =
 /**  The game only has a Windows build, and Proton isn't installed in Steam to run it. */
 "E_NO_PROTON" | 
 /**  Portside couldn't update itself (the update's signature didn't match, installing failed). */
-"E_APP_UPDATE";
+"E_APP_UPDATE" | 
+/**  Android hasn't let Portside install apps yet; the player allows it in Settings. */
+"E_INSTALL_PERMISSION" | 
+/**  Android couldn't install, start or remove a game's APK. */
+"E_ANDROID_INSTALL" | 
+/**  Not available on this system yet (cloud saves on Android). */
+"E_UNSUPPORTED";
 
 /**  A folder offered for the vault. */
 export type FolderSuggestion = {
