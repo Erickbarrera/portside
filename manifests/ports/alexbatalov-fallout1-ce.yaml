@@ -3,7 +3,7 @@ schema: 1
 id: alexbatalov-fallout1-ce
 game_key: falloutfalloutcommunityedition
 status: playable
-status_notes: "Needs the data files (master.dat, critter.dat, data folder) from your own copy of Fallout."
+status_notes: "Needs the data files (master.dat, critter.dat, data folder) from your own copy of Fallout. Portside copies them from Steam when Fallout is installed there."
 source:
   type: github_releases
   repo: alexbatalov/fallout1-ce
@@ -24,7 +24,18 @@ builds:
     asset: "fallout-ce-linux-x64.tar.gz"
     archive: tar.gz
     launch: { exe: "fallout-ce", chmod_x: true }
+game_files:
+  label: "Fallout"
+  stores:
+    steam: [38400]
+  # Copied with the spelling the store's copy uses; [TBD: check fallout-ce finds upper-case
+  # names on Linux].
+  files: ["master.dat", "critter.dat", "data/"]
+  dest:
+    # The macOS app reads its data from the bundle's Resources folder (upstream README).
+    macos: "{install}/Fallout Community Edition.app/Contents/Resources/"
 multiplayer: none
 changelog:
   - "2026-10-13: initial (macOS and Windows)"
   - "2026-10-15: Linux"
+  - "2026-10-18: game files from Steam"

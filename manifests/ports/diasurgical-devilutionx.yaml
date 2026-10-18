@@ -3,7 +3,7 @@ schema: 1
 id: diasurgical-devilutionx
 game_key: diablo
 status: playable
-status_notes: "Needs DIABDAT.MPQ from your own copy of Diablo."
+status_notes: "Needs DIABDAT.MPQ from your own copy of Diablo. Portside copies it from GOG when Diablo is installed there."
 source:
   type: github_releases
   repo: diasurgical/DevilutionX
@@ -30,6 +30,16 @@ builds:
     asset: "devilutionx-linux-aarch64.tar.xz"
     archive: tar.xz
     launch: { exe: "devilutionx", chmod_x: true }
+game_files:
+  label: "Diablo"
+  stores:
+    gog: ["1412601690"]
+  files: ["DIABDAT.MPQ"]
+  # DevilutionX's data folder (the same as its saves), so it is found from the AppImage too.
+  dest:
+    windows: "{appdata}/diasurgical/devilution/"
+    macos: "{app_support}/diasurgical/devilution/"
+    linux: "{xdg_data}/diasurgical/devilution/"
 saves:
   # DevilutionX's documented save folders; [TBD: confirm on a real install].
   root:
@@ -43,3 +53,4 @@ changelog:
   - "2026-10-13: initial (macOS and Windows)"
   - "2026-10-14: save folders for cloud saves"
   - "2026-10-15: Linux (x86_64 AppImage, arm64)"
+  - "2026-10-18: game files from GOG"
